@@ -6,7 +6,7 @@
 #    By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/10 17:16:54 by rel-isma          #+#    #+#              #
-#    Updated: 2023/06/10 19:04:39 by rel-isma         ###   ########.fr        #
+#    Updated: 2023/06/11 19:06:55 by rel-isma         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,13 +20,13 @@ OBJECTS = $(SOURCES:%.c=obj/%.o)
 
 LIBFT_PATH = ./libft
 LIBFT_NAME = ft
-LIBFT = $(LIBFT_PATH)/libft.a
+
 
 NAME = minishell
 
-all: $(LIBFT) $(NAME)
+all: libft $(NAME)
 
-$(LIBFT):
+libft:
 	make -C $(LIBFT_PATH)
 
 obj/%.o: src/%.c src/minishell.h | obj
@@ -35,7 +35,7 @@ obj/%.o: src/%.c src/minishell.h | obj
 obj:
 	mkdir obj
 
-$(NAME): $(OBJECTS) $(LIBFT)
+$(NAME): $(OBJECTS)
 	$(CC) $(LIBS) -L$(LIBFT_PATH) -l$(LIBFT_NAME) $(OBJECTS) -o $(NAME)
 
 clean:
@@ -52,4 +52,4 @@ fclean: clean
 
 re: fclean all
 
-#.PHONY: all obj clean fclean re
+.PHONY: all clean fclean re libft
