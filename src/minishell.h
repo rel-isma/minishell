@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:18:02 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/06/11 19:52:36 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/06/12 16:02:46 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,24 +20,46 @@
 
 typedef enum s_tokenstatus
 {
-    GENERAL = 1,
-    IN_D_C,
-	IN_C,
-	IN_DOLAR,
-}	 t_tokenstatus;
+	GENERAL = 1,
+	IN_QUOTE,
+    IN_DQUOTE,
+}	 t_status;
 
 typedef enum s_tokentype
 {
     WORD = 1,
-    PIPE,
-	REDIRECTION,
-}	t_tokentype;
+	WHITE_SPACE,
+	NEW_LINE,
+	QOUTE,
+	DOUBLE_QUOTE,
+	ENV,
+	PIPE_LINE,
+	REDIR_IN,
+	REDIR_OUT,
+	HERE_DOC,
+	DREDIR_OUT,
+}	t_type;
 
 typedef struct s_lexer
 {
-	int				type;
+	t_type			type;
+	t_status		status;
 	char			*value;
 	struct s_lexer	*next;
 }       			t_lexer;
 
+
+void 		*ft_lexer(char *line);
+t_lexer		*ft_lexernew(char *content, t_status status, t_type type);
+void		ft_lexeradd_back(t_lexer **lst, t_lexer *new);
+
 #endif
+
+/*
+    TODO:
+    >> <<
+    | > < 
+    " '
+    $
+    ... -> word
+*/

@@ -6,15 +6,15 @@
 #    By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/10 17:16:54 by rel-isma          #+#    #+#              #
-#    Updated: 2023/06/11 19:06:55 by rel-isma         ###   ########.fr        #
+#    Updated: 2023/06/12 15:35:14 by rel-isma         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
-LIBS = -L/usr/local/opt/readline/lib -lreadline
+CFLAGS = -Wall -Wextra -Werror 
+LIBS = -lreadline #-L/Users/$(USER)/.brew/opt/readline/lib -I/Users/$(USER)/.brew/opt/readline/include
 
-SOURCES = main.c
+SOURCES = src/main.c src/lexer/lexer.c src/lexer/lexer_needs.c
 
 OBJECTS = $(SOURCES:%.c=obj/%.o)
 
@@ -29,11 +29,13 @@ all: libft $(NAME)
 libft:
 	make -C $(LIBFT_PATH)
 
-obj/%.o: src/%.c src/minishell.h | obj
+obj/%.o: %.c src/minishell.h | obj
 	$(CC) $(CFLAGS) -c $< -o $@
 
 obj:
 	mkdir obj
+	mkdir obj/src
+	mkdir obj/src/lexer
 
 $(NAME): $(OBJECTS)
 	$(CC) $(LIBS) -L$(LIBFT_PATH) -l$(LIBFT_NAME) $(OBJECTS) -o $(NAME)
