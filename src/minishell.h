@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:18:02 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/06/12 16:02:46 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/06/12 22:09:40 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "../libft/libft.h"
 # include <readline/readline.h>
+# include <readline/history.h>
 # include <stdio.h>
 # include <unistd.h>
 
