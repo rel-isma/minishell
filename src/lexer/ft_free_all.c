@@ -1,42 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_free_all.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/10 17:16:01 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/06/13 06:04:47 by rel-isma         ###   ########.fr       */
+/*   Created: 2023/06/13 06:09:19 by rel-isma          #+#    #+#             */
+/*   Updated: 2023/06/13 06:09:37 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-void	fu(void)
+void	ft_free_list(t_lexer *list)
 {
-	system("leaks minishell");
-}
+	int		i;
+	t_lexer	*tmp;
 
-int	main(int ac, char *av[], char **env)
-{
-	char	*line;
-
-	atexit(fu);
-	(void) av;
-	(void) env;
-	if (ac != 1)
-		printf("rak dkhlti ktr mn arg\n");
-	while (1)
+	i = 0;
+	while (list)
 	{
-		line = readline("minishell$ ");
-		if (!line)
-			return (0);
-		add_history(line);
-		if (!ft_lexer(line))
-		{
-			return (0);
-		}
-		free(line);
+		tmp = list->next;
+		free(list->value);
+		free(list);
+		list = tmp;
 	}
-	return (0);
 }
