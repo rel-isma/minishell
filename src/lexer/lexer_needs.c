@@ -6,11 +6,22 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 14:44:06 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/06/13 19:32:19 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/06/13 23:12:48 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	ft_line_env(char *str)
+{
+	int	len;
+
+	len = 1;
+	while ((str[len] >= 'a' && str[len] <= 'z')
+		|| (str[len] >= '0' && str[len] <= '9') || str[len] == '_')
+		len++;
+	return (len);
+}
 
 int	ft_line_word(char *str)
 {

@@ -1,37 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_syntax_errors.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/10 17:16:01 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/06/13 20:59:38 by rel-isma         ###   ########.fr       */
+/*   Created: 2023/06/13 23:15:02 by rel-isma          #+#    #+#             */
+/*   Updated: 2023/06/14 00:04:39 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-void	fu(void)
+void    ft_syntax_errors(t_lexer *token_lst)
 {
-	system("leaks minishell");
-}
+   t_lexer *current;
 
-int	main(int ac, char *av[], char **env)
-{
-	char	*line;
-	// atexit(fu);
-	(void) av;
-	(void) env;
-	if (ac != 1)
-		printf("rak dkhlti ktr mn arg\n");
-	while (1)
-	{
-		line = readline("minishell$ ");
-		if (!line)
-			return (0);
-		add_history(line);
-		ft_lexer(line);
-	}
-	return (0);
+   current = token_lst;
+   while (current)
+   {
+        
+        current = current->next;   
+   }  
 }
