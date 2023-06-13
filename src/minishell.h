@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:18:02 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/06/13 06:10:18 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/06/13 20:42:01 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,18 @@ typedef struct s_lexer
 	struct s_lexer	*next;
 }	t_lexer;
 
+///////////////////////// functions lexer /////////////////////////////////////
+
 char	*ft_lexer(char *line);
 t_lexer	*ft_lexernew(char *content, t_status status, t_type type);
 void	ft_lexeradd_back(t_lexer **lst, t_lexer *new);
 void	handle_redirection(t_lexer **tokenlist,
 			char *line, int *i, t_status *s);
 void	handle_special_characters(t_lexer **tokenlist,
+			char *line, int *i, t_status *s);
+void	special_variables_1(t_lexer **tokenlist,
+			char *line, int *i, t_status *s);
+void	special_variables_2(t_lexer **tokenlist,
 			char *line, int *i, t_status *s);
 void	handle_double_quote(t_lexer **tokenlist,
 			char *line, int *i, t_status *s);
@@ -67,5 +73,7 @@ void	handle_word(t_lexer **tokenlist,
 int		ft_line_word(char *str);
 int		ft_line_word(char *str);
 void	ft_free_list(t_lexer *list);
+
+ /////////////////////////////////////////////////////////////////////////
 
 #endif

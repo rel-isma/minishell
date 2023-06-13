@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:16:01 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/06/13 06:04:47 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/06/13 06:39:24 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	main(int ac, char *av[], char **env)
 {
 	char	*line;
 
-	atexit(fu);
+	// atexit(fu);
 	(void) av;
 	(void) env;
 	if (ac != 1)
@@ -32,11 +32,7 @@ int	main(int ac, char *av[], char **env)
 		if (!line)
 			return (0);
 		add_history(line);
-		if (!ft_lexer(line))
-		{
-			return (0);
-		}
-		free(line);
+		ft_lexer(line);
 	}
 	return (0);
 }

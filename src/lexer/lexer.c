@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 14:44:37 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/06/13 06:09:54 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/06/13 20:39:46 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*ft_lexer(char *line)
 	tokenlist = NULL;
 	while (line[i] != '\0')
 	{
-		if ((line[i] == ' ' || line[i] == '\"'
+		if ((line[i] == ' ' || line[i] == '\"' || line[i] == 36
 				|| line[i] == '\'' || line[i] == '>'
 				|| line[i] == '<' || line[i] == '|'))
 		{
@@ -32,6 +32,8 @@ char	*ft_lexer(char *line)
 			handle_special_characters(&tokenlist, line, &i, &s);
 			handle_double_quote(&tokenlist, line, &i, &s);
 			handle_quote(&tokenlist, line, &i, &s);
+			special_variables_1(&tokenlist, line, &i, &s);
+			special_variables_2(&tokenlist, line, &i, &s);
 			handle_env(&tokenlist, line, &i, &s);
 		}
 		else
