@@ -6,13 +6,13 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 23:15:02 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/06/16 16:28:55 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/06/16 16:36:37 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_check_syntax(t_lexer *lst)
+int	ft_check_syntax_qoute(t_lexer *lst)
 {
 	int d;
 	t_lexer *cur;
@@ -50,7 +50,7 @@ void	ft_syntax_errors(t_lexer *token_lst)
 	t_lexer *current;
 
 	current = token_lst;
-	if (ft_check_syntax(current))
+	if (ft_check_syntax_qoute(current))
 		return ;
 	
 }
