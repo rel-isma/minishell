@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 14:44:37 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/06/13 20:39:46 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/06/13 23:42:34 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char	*ft_lexer(char *line)
 {
 	t_lexer		*tokenlist;
-	t_lexer		*tmp;
+	//t_lexer		*tmp;
 	t_status	s;
 	int			i;
 
@@ -39,13 +39,14 @@ char	*ft_lexer(char *line)
 		else
 			handle_word(&tokenlist, line, &i, &s);
 	}
-	tmp = tokenlist;
-	while (tmp)
-	{
-		printf("Content =   |%s|,     state = %d,     type = %d\n",
-			tmp->value, tmp->status, tmp->type);
-		tmp = tmp->next;
-	}
+//	 tmp = tokenlist;
+//	 while (tmp)
+//	 {
+//	 	printf("Content =   |%s|,     state = %d,     type = %d\n",
+//	 		tmp->value, tmp->status, tmp->type);
+//	 	tmp = tmp->next;
+//	 }
+	ft_syntax_errors(tokenlist);
 	ft_free_list(tokenlist);
 	free(line);
 	return (NULL);

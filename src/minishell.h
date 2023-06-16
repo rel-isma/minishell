@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:18:02 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/06/13 20:42:01 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/06/13 23:43:49 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ typedef enum s_tokentype
 {
 	WORD = 1,
 	WHITE_SPACE,
-	NEW_LINE,
 	QOUTE,
 	DOUBLE_QUOTE,
 	ENV,
@@ -72,8 +71,10 @@ void	handle_word(t_lexer **tokenlist,
 			char *line, int *i, t_status *s);
 int		ft_line_word(char *str);
 int		ft_line_word(char *str);
+int		ft_line_env(char *str);
 void	ft_free_list(t_lexer *list);
 
- /////////////////////////////////////////////////////////////////////////
+/////////////////////////// functions syntax_errors   /////////////////////////////
 
+void	ft_syntax_errors(t_lexer *token_lst);
 #endif
