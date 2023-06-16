@@ -15,7 +15,7 @@
 char	*ft_lexer(char *line)
 {
 	t_lexer		*tokenlist;
-	//t_lexer		*tmp;
+//	t_lexer		*tmp;
 	t_status	s;
 	int			i;
 
