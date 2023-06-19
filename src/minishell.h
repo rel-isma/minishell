@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:18:02 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/06/13 23:43:49 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/06/18 23:38:10 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 # define MINISHELL_H
 
 # include "../libft/libft.h"
-# include <readline/readline.h>
 # include <readline/history.h>
+# include <readline/readline.h>
 # include <stdio.h>
 # include <unistd.h>
 
@@ -24,7 +24,7 @@ typedef enum s_tokenstatus
 	GENERAL = 1,
 	IN_QUOTE,
 	IN_DQUOTE,
-}	t_status;
+}					t_status;
 
 typedef enum s_tokentype
 {
@@ -38,7 +38,14 @@ typedef enum s_tokentype
 	REDIR_OUT,
 	HERE_DOC,
 	DREDIR_OUT,
-}	t_type;
+}					t_type;
+
+typedef struct s_expand
+{
+	char			*key;
+	char			*value;
+	struct s_expand	*next;
+}					t_expand;
 
 typedef struct s_lexer
 {
@@ -46,35 +53,48 @@ typedef struct s_lexer
 	t_status		status;
 	char			*value;
 	struct s_lexer	*next;
-}	t_lexer;
+}					t_lexer;
 
 ///////////////////////// functions lexer /////////////////////////////////////
 
-char	*ft_lexer(char *line);
-t_lexer	*ft_lexernew(char *content, t_status status, t_type type);
-void	ft_lexeradd_back(t_lexer **lst, t_lexer *new);
-void	handle_redirection(t_lexer **tokenlist,
-			char *line, int *i, t_status *s);
-void	handle_special_characters(t_lexer **tokenlist,
-			char *line, int *i, t_status *s);
-void	special_variables_1(t_lexer **tokenlist,
-			char *line, int *i, t_status *s);
-void	special_variables_2(t_lexer **tokenlist,
-			char *line, int *i, t_status *s);
-void	handle_double_quote(t_lexer **tokenlist,
-			char *line, int *i, t_status *s);
-void	handle_quote(t_lexer **tokenlist,
-			char *line, int *i, t_status *s);
-void	handle_env(t_lexer **tokenlist,
-			char *line, int *i, t_status *s);
-void	handle_word(t_lexer **tokenlist,
-			char *line, int *i, t_status *s);
-int		ft_line_word(char *str);
-int		ft_line_word(char *str);
-int		ft_line_env(char *str);
-void	ft_free_list(t_lexer *list);
+t_lexer				*ft_lexer(char *line);
+t_lexer				*ft_lexernew(char *content, t_status status, t_type type);
+void				ft_lexeradd_back(t_lexer **lst, t_lexer *new);
+void				handle_redirection(t_lexer **tokenlist, char *line, int *i,
+						t_status *s);
+void				handle_special_characters(t_lexer **tokenlist, char *line,
+						int *i, t_status *s);
+void				special_variables_1(t_lexer **tokenlist, char *line, int *i,
+						t_status *s);
+void				special_variables_2(t_lexer **tokenlist, char *line, int *i,
+						t_status *s);
+void				handle_double_quote(t_lexer **tokenlist, char *line, int *i,
+						t_status *s);
+void				handle_quote(t_lexer **tokenlist, char *line, int *i,
+						t_status *s);
+void				handle_env(t_lexer **tokenlist, char *line, int *i,
+						t_status *s);
+void				handle_word(t_lexer **tokenlist, char *line, int *i,
+						t_status *s);
+int					ft_line_word(char *str);
+int					ft_line_word(char *str);
+int					ft_line_env(char *str);
+void				ft_free_list(t_lexer *list);
 
-/////////////////////////// functions syntax_errors   /////////////////////////////
+//////functions syntax_errors ////////////////////////
 
-void	ft_syntax_errors(t_lexer *token_lst);
+void				ft_syntax_errors(t_lexer *token_lst);
+int					ft_check_syntax_qoute(t_lexer *lst);
+int					ft_check_stx_redir_out(t_lexer *cur);
+int					ft_check_stx_redir_in(t_lexer *cur);
+int					ft_check_stx_apend(t_lexer *cur);
+int					ft_check_stx_heredoc(t_lexer *cur);
+int					ft_check_syntax_pipe(t_lexer *cur);
+
+//////functions expander ////////////////////////
+
+t_expand	*ft_lexernew_expnd(char *key_v, char *val);
+void		ft_lexeradd_back_expnd(t_expand **lst, t_expand *new);
+int			ft_expander(t_lexer *lst, char **env);
+
 #endif

@@ -6,7 +6,7 @@
 #    By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/10 17:16:54 by rel-isma          #+#    #+#              #
-#    Updated: 2023/06/16 16:40:42 by rel-isma         ###   ########.fr        #
+#    Updated: 2023/06/18 22:42:51 by rel-isma         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,9 @@ CFLAGS = -g -Wall -Wextra -Werror
 LIBS = -lreadline -L/Users/rel-isma/.brew/opt/readline/lib -I/Users/rel-isma/.brew/opt/readline/include
 
 SOURCES = src/main.c src/lexer/lexer.c src/lexer/lexer_needs.c  src/lexer/lexer_needs2.c \
-          src/lexer/ft_free_all.c  src/lexer/lexer_needs_3.c src/syntax_errors/ft_syntax_errors.c
+          src/lexer/ft_free_all.c  src/lexer/lexer_needs_3.c src/syntax_errors/ft_syntax_errors.c src/syntax_errors/ft_check_stx_pipe.c \
+		  src/syntax_errors/ft_check_stx_qoute.c src/syntax_errors/ft_check_stx_redir.c \
+		  src/expander/ft_expander.c
 
 OBJECTS = $(SOURCES:%.c=obj/%.o)
 
@@ -35,7 +37,7 @@ obj/%.o: %.c src/minishell.h | obj
 	@sleep 0.5
 
 obj:
-	@mkdir -p obj/src/lexer obj/src/syntax_errors
+	@mkdir  -p obj/src/lexer obj/src/syntax_errors obj/src/expander
 
 $(NAME): $(OBJECTS)
 	@printf "\033[0;32mLinking...\033[0m\n"
