@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:18:02 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/06/18 23:38:10 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/06/19 16:59:04 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <stdio.h>
+# include <string.h>
 # include <unistd.h>
 
 typedef enum s_tokenstatus
@@ -93,8 +94,12 @@ int					ft_check_syntax_pipe(t_lexer *cur);
 
 //////functions expander ////////////////////////
 
-t_expand	*ft_lexernew_expnd(char *key_v, char *val);
-void		ft_lexeradd_back_expnd(t_expand **lst, t_expand *new);
-int			ft_expander(t_lexer *lst, char **env);
+t_expand			*ft_lexernew_expnd(char *key_v, char *val);
+void				ft_lexeradd_back_expnd(t_expand **lst, t_expand *new);
+t_expand			*ft_expander(t_lexer *lst, char **env);
+void				ft_free_list_exp(t_expand *list);
+int					ft_strlen_env_aftr(char *env);
+int					ft_strlen_env_befor(char *env);
+void				ft_free_list_exp(t_expand *list);
 
 #endif

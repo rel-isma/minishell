@@ -6,94 +6,29 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 21:43:50 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/06/18 23:36:55 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/06/19 20:20:26 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#define ft_strcmp strcmp
 
-t_expand 	*ft_lexernew_expnd(char *key_v, char *val)
+t_expand	*ft_init_expander(char **env)
 {
-	t_expand	*node;
-
-	node = (t_expand *)malloc(sizeof(t_expand));
-	if (!node)
-		return (NULL);
-	node->key = ft_strdup(key_v);
-	node->value = ft_strdup(val);
-	node->next = NULL;
-	return (node);
-}
-
-void	ft_lexeradd_back_expnd(t_expand **lst, t_expand *new)
-{
-	t_expand	*last;
-
-	if (!new)
-		return ;
-	if (!*lst)
-	{
-		*lst = new;
-		return ;
-	}
-	last = *lst;
-	while (last->next != NULL)
-		last = last->next;
-	last->next = new;
-	new->next = NULL;
-}
-
-int	ft_strlen_env_aftr(char *env)
-{
-	int len;
-
-	len = 0;
-	while (env[len] != '=')
-	{
-		len++;
-	}
-	return len;
-}
-
-int	ft_strlen_env_befor(char *env)
-{
-	int len;
-	int	j;
-
-	len = 0;
-	j = 0;
-	while (env[j])
-	{
-		if (env[j] == '=')
-		{
-			while (env[j])
-			{
-				len++;
-				j++;
-			}
-		}
-		j++;
-	}
-	return len;
-}
-
-void    ft_init_expander(char **env)
-{
-    t_expand *expd;
-    // t_expand *tmp;
-	char	*key;
-	char	*vl;
-    int     i;
-    int len1;
-    int len2;
+	t_expand	*expd;
+	char		*key;
+	char		*vl;
+	int			i;
+	int			len1;
+	int			len2;
 
 	expd = NULL;
-    i = 0;
+	i = 0;
 	/////////////////////////////////////////////////////////
-	// if env empty add 
+	// if env empty add
 	/////////////////////////////////////////////////////////
-    while (env[i])
-    {
+	while (env[i])
+	{
 		len1 = ft_strlen_env_aftr(env[i]);
 		key = ft_substr(env[i], 0, len1);
 		len2 = ft_strlen_env_befor(env[i]);
@@ -101,19 +36,53 @@ void    ft_init_expander(char **env)
 		ft_lexeradd_back_expnd(&expd, ft_lexernew_expnd(key, vl));
 		free(key);
 		free(vl);
-        i++;
-    }
-	// tmp = expd;
-	// while (tmp)
-	// {
-	// 	printf("key = [%s]   vl = [%s]\n", tmp->key, tmp->value);
-	// 	tmp = tmp->next;
-	// }
+		i++;
+	}
+	return (expd);
 }
 
-int ft_expander(t_lexer *lst, char **env)
+void	ft_expander_env(t_lexer *lst, t_expand *expnd)
 {
-	(void)lst;
-	ft_init_expander(env);
-	return 0;
+	t_lexer		*tmp;
+	t_expand	*cur;
+	char		*str;
+
+	tmp = lst;
+	cur = expnd;
+	while (tmp)
+	{
+		str = ft_strdup(tmp->value);
+		cur = expnd;
+		while (cur)
+		{
+			if (tmp->type == ENV && tmp->status != IN_QUOTE
+				&& ft_strcmp(cur->key, (tmp->value + 1)) == 0)
+			{
+				free(tmp->value);
+				tmp->value = ft_strdup(cur->value);
+				break ;
+			}
+			cur = cur->next;
+		}
+		if (tmp->type == ENV && tmp->status != IN_QUOTE
+				&& ft_strcmp(tmp->value, str) == 0)
+		{
+			if (ft_strcmp(tmp->value, "$") == 0)
+				tmp->value = ft_strdup("$");
+			else
+				tmp->value = ft_strdup("");
+			free(str);
+		}
+		tmp = tmp->next;
+	}
+}
+
+
+t_expand	*ft_expander(t_lexer *lst, char **env)
+{
+	t_expand	*exp;
+
+	exp = ft_init_expander(env);
+	ft_expander_env(lst, exp);
+	return (exp);
 }

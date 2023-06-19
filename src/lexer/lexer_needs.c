@@ -17,8 +17,8 @@ int	ft_line_env(char *str)
 	int	len;
 
 	len = 1;
-	while ((str[len] >= 'a' && str[len] <= 'z')
-		|| (str[len] >= '0' && str[len] <= '9') || str[len] == '_')
+	while (str[len] && (ft_isalpha(str[len])
+		|| ft_isdigit(str[len]) || str[len] == '_'))
 		len++;
 	return (len);
 }
