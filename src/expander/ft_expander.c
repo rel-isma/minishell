@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 21:43:50 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/06/19 20:20:26 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/06/19 22:21:26 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,23 @@ void	ft_expander_env(t_lexer *lst, t_expand *expnd)
 	char		*str;
 
 	tmp = lst;
-	cur = expnd;
 	while (tmp)
 	{
-		str = ft_strdup(tmp->value);
 		cur = expnd;
+		str = ft_strdup(tmp->value);
+		if (tmp->type == HERE_DOC)
+		{
+			tmp = tmp->next;
+			if (tmp && tmp->type == WHITE_SPACE)
+				tmp = tmp->next;
+			while (tmp && tmp->type != WHITE_SPACE
+				&& (tmp->type == WORD || tmp->type == DOUBLE_QUOTE
+				|| tmp->type == QOUTE || tmp->type == ENV))
+				tmp = tmp->next;
+		}
 		while (cur)
 		{
-			if (tmp->type == ENV && tmp->status != IN_QUOTE
+			if (tmp && tmp->type == ENV && tmp->status != IN_QUOTE
 				&& ft_strcmp(cur->key, (tmp->value + 1)) == 0)
 			{
 				free(tmp->value);
@@ -64,16 +73,17 @@ void	ft_expander_env(t_lexer *lst, t_expand *expnd)
 			}
 			cur = cur->next;
 		}
-		if (tmp->type == ENV && tmp->status != IN_QUOTE
+		if (tmp && tmp->type == ENV && tmp->status != IN_QUOTE
 				&& ft_strcmp(tmp->value, str) == 0)
 		{
 			if (ft_strcmp(tmp->value, "$") == 0)
 				tmp->value = ft_strdup("$");
 			else
-				tmp->value = ft_strdup("");
+				tmp->value = ft_strdup("void");
 			free(str);
 		}
-		tmp = tmp->next;
+		if (tmp)
+			tmp = tmp->next;
 	}
 }
 
