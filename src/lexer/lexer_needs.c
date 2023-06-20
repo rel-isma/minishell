@@ -17,8 +17,8 @@ int	ft_line_env(char *str)
 	int	len;
 
 	len = 1;
-	while (str[len] && (ft_isalpha(str[len])
-		|| ft_isdigit(str[len]) || str[len] == '_'))
+	while (str[len] && (ft_isalpha(str[len]) || ft_isdigit(str[len])
+			|| str[len] == '_'))
 		len++;
 	return (len);
 }
@@ -28,9 +28,8 @@ int	ft_line_word(char *str)
 	int	len;
 
 	len = 1;
-	while (str[len] && str[len] != ' ' && str[len] != '\"'
-		&& str[len] != '\'' && str[len] != '>'
-		&& str[len] != '<' && str[len] != '|'
+	while (str[len] && str[len] != ' ' && str[len] != '\"' && str[len] != '\''
+		&& str[len] != '>' && str[len] != '<' && str[len] != '|'
 		&& str[len] != 36)
 	{
 		len++;
