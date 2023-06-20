@@ -6,7 +6,7 @@
 #    By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/10 17:16:54 by rel-isma          #+#    #+#              #
-#    Updated: 2023/06/19 19:51:38 by rel-isma         ###   ########.fr        #
+#    Updated: 2023/06/20 21:05:07 by rel-isma         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ SOURCES = src/main.c src/lexer/lexer.c src/lexer/lexer_needs.c  src/lexer/lexer_
 
 OBJECTS = $(SOURCES:%.c=obj/%.o)
 
-LIBFT_PATH = ./libft
+LIBFT_PATH = ./libfc
 LIBFT_NAME = ft
 
 NAME = minishell
