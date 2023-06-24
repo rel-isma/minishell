@@ -6,7 +6,7 @@
 #    By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/10 17:16:54 by rel-isma          #+#    #+#              #
-#    Updated: 2023/06/19 19:51:38 by rel-isma         ###   ########.fr        #
+#    Updated: 2023/06/24 00:04:27 by rel-isma         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,11 +17,11 @@ LIBS = -lreadline -L/Users/rel-isma/.brew/opt/readline/lib -I/Users/rel-isma/.br
 SOURCES = src/main.c src/lexer/lexer.c src/lexer/lexer_needs.c  src/lexer/lexer_needs2.c \
           src/lexer/ft_free_all.c  src/lexer/lexer_needs_3.c src/syntax_errors/ft_syntax_errors.c src/syntax_errors/ft_check_stx_pipe.c \
 		  src/syntax_errors/ft_check_stx_qoute.c src/syntax_errors/ft_check_stx_redir.c \
-		  src/expander/ft_expander.c src/expander/ft_needs_exp.c
+		  src/expander/ft_expander.c src/expander/ft_needs_exp.c src/expander/ft_needs_exp2.c
 
 OBJECTS = $(SOURCES:%.c=obj/%.o)
 
-LIBFT_PATH = ./libft
+LIBFT_PATH = ./libfc
 LIBFT_NAME = ft
 
 NAME = minishell
@@ -62,10 +62,6 @@ fclean: clean
 
 re: fclean all
 
-push:
-	git add .
-	git commit -m "minishell"
-	git push
 
 .PHONY: all clean fclean re libft
 

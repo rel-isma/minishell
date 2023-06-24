@@ -6,14 +6,14 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:18:02 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/06/19 16:59:04 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/06/21 00:08:29 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "../libft/libft.h"
+# include "../libfc/libft.h"
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <stdio.h>
@@ -101,5 +101,9 @@ void				ft_free_list_exp(t_expand *list);
 int					ft_strlen_env_aftr(char *env);
 int					ft_strlen_env_befor(char *env);
 void				ft_free_list_exp(t_expand *list);
+int					ft_strcmp(const char *s1, const char *s2);
+void				ft_expand_valid(t_expand *cur, t_lexer *tmp);
+void				ft_expand_no_valid(t_lexer *tmp, char *str);
+void				ft_check_after_here_doc(t_lexer **tmp);
 
 #endif

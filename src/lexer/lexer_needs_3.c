@@ -12,10 +12,15 @@
 
 #include "../minishell.h"
 
-void	special_variables_1(t_lexer **tokenlist,
-	char *line, int *i, t_status *s)
+void	special_variables_1(t_lexer **tokenlist, char *line, int *i,
+		t_status *s)
 {
-	if (line[*i] == '$' && line[*i + 1] == '0')
+	if (line[*i] == '$' && line[*i + 1] == '$')
+	{
+		ft_lexeradd_back(tokenlist, ft_lexernew("$$", *s, ENV));
+		(*i) += 2;
+	}
+	else if (line[*i] == '$' && line[*i + 1] == '0')
 	{
 		ft_lexeradd_back(tokenlist, ft_lexernew("$0", *s, ENV));
 		(*i) += 2;
@@ -30,11 +35,6 @@ void	special_variables_1(t_lexer **tokenlist,
 		ft_lexeradd_back(tokenlist, ft_lexernew("$#", *s, ENV));
 		(*i) += 2;
 	}
-	else if (line[*i] == '$' && line[*i + 1] == '@')
-	{
-		ft_lexeradd_back(tokenlist, ft_lexernew("$@", *s, ENV));
-		(*i) += 2;
-	}
 	else if (line[*i] == '$' && line[*i + 1] == '?')
 	{
 		ft_lexeradd_back(tokenlist, ft_lexernew("$?", *s, ENV));
@@ -42,17 +42,17 @@ void	special_variables_1(t_lexer **tokenlist,
 	}
 }
 
-void	special_variables_2(t_lexer **tokenlist,
-	char *line, int *i, t_status *s)
+void	special_variables_2(t_lexer **tokenlist, char *line, int *i,
+		t_status *s)
 {
 	if (line[*i] == '$' && line[*i + 1] == '!')
 	{
 		ft_lexeradd_back(tokenlist, ft_lexernew("$!", *s, ENV));
 		(*i) += 2;
 	}
-	else if (line[*i] == '$' && line[*i + 1] == '$')
+	else if (line[*i] == '$' && line[*i + 1] == '@')
 	{
-		ft_lexeradd_back(tokenlist, ft_lexernew("$$", *s, ENV));
+		ft_lexeradd_back(tokenlist, ft_lexernew("$@", *s, ENV));
 		(*i) += 2;
 	}
 	else if (line[*i] == '$' && line[*i + 1] == '-')

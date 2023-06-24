@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:16:01 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/06/19 19:52:31 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/06/21 11:04:13 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,15 @@ int	main(int ac, char *av[], char **env)
 {
 	char		*line;
 	t_lexer		*cur;
-	t_lexer		*tmp;
-	t_expand	*pp;
+    t_expand	*pp;
 
-	// atexit(fu);
+	//atexit(fu);
 	(void)av;
 	if (ac != 1)
-		printf("rak dkhlti ktr mn arg\n");
+	{
+		printf("Error : just like this please \n\t 👉👉 ./minishell 👈👈\n");
+		return (0);
+	}
 	while (1)
 	{
 		line = readline("minishell$ ");
@@ -36,8 +38,8 @@ int	main(int ac, char *av[], char **env)
 		add_history(line);
 		cur = ft_lexer(line);
 		ft_syntax_errors(cur);
-		pp = ft_expander(cur, env);
-		tmp = cur;
+        pp = ft_expander(cur, env);
+		t_lexer		*tmp = cur;
 		while (tmp)
 		{
 			printf("Content =   |%s|,     state = %d,     type = %d\n",
