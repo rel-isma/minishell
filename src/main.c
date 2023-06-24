@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:16:01 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/06/21 00:30:32 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/06/21 11:04:13 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,13 @@ int	main(int ac, char *av[], char **env)
 		cur = ft_lexer(line);
 		ft_syntax_errors(cur);
         pp = ft_expander(cur, env);
-		// t_lexer		*tmp = cur;
-		// while (tmp)
-		// {
-		// 	printf("Content =   |%s|,     state = %d,     type = %d\n",
-		// 		tmp->value, tmp->status, tmp->type);
-		// 	tmp = tmp->next;
-		// }
+		t_lexer		*tmp = cur;
+		while (tmp)
+		{
+			printf("Content =   |%s|,     state = %d,     type = %d\n",
+				tmp->value, tmp->status, tmp->type);
+			tmp = tmp->next;
+		}
 		ft_free_list(cur);
 		ft_free_list_exp(pp);
 	}

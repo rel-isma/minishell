@@ -6,7 +6,7 @@
 #    By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/10 17:16:54 by rel-isma          #+#    #+#              #
-#    Updated: 2023/06/21 00:08:52 by rel-isma         ###   ########.fr        #
+#    Updated: 2023/06/24 00:04:27 by rel-isma         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,10 +62,6 @@ fclean: clean
 
 re: fclean all
 
-push:
-	git add .
-	git commit -m "minishell"
-	git push
 
 .PHONY: all clean fclean re libft
 
