@@ -31,6 +31,7 @@ t_expand	*ft_init_expander(char **env)
 	{
 		len1 = ft_strlen_env_aftr(env[i]);
 		key = ft_substr(env[i], 0, len1);
+
 		len2 = ft_strlen_env_befor(env[i]);
 		vl = ft_substr(env[i], len1 + 1, len2);
 		ft_lexeradd_back_expnd(&expd, ft_lexernew_expnd(key, vl));
