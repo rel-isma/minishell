@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:18:02 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/06/21 00:08:29 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/11 16:47:05 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,5 +105,9 @@ int					ft_strcmp(const char *s1, const char *s2);
 void				ft_expand_valid(t_expand *cur, t_lexer *tmp);
 void				ft_expand_no_valid(t_lexer *tmp, char *str);
 void				ft_check_after_here_doc(t_lexer **tmp);
+
+/////////// functions parser ////////////////
+
+void	ft_join_argms(t_lexer *lst);
 
 #endif

@@ -31,7 +31,9 @@ void	ft_syntax_errors(t_lexer *token_lst)
 
 	current = token_lst;
 	if (ft_check_syntax_qoute(current))
+	{
 		return ;
+	}
 	current = token_lst;
 	if (ft_check_syntax_redir(current))
 		return ;
