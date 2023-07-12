@@ -109,5 +109,6 @@ void				ft_check_after_here_doc(t_lexer **tmp);
 /////////// functions parser ////////////////
 
 void	ft_join_argms(t_lexer **lst);
+void	ft_join_cmd(t_lexer **lst);
 
 #endif

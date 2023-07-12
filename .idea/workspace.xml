@@ -21,8 +21,6 @@
   <component name="ChangeListManager">
     <list default="true" id="47697dc6-8a91-4782-a0f2-6dac3a729f72" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/minishell.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/minishell.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/parser/ft_join_argms.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/ft_join_argms.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -141,7 +139,8 @@
       <workItem from="1689098224621" duration="3564000" />
       <workItem from="1689142574891" duration="5660000" />
       <workItem from="1689151481264" duration="16000" />
-      <workItem from="1689151507236" duration="1813000" />
+      <workItem from="1689151507236" duration="4895000" />
+      <workItem from="1689159920356" duration="891000" />
     </task>
     <servers />
   </component>
