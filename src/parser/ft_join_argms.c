@@ -12,16 +12,56 @@
 
 #include "../minishell.h"
 
-void	ft_join_argms(t_lexer *lst)
+void ft_delete_double_quote(t_lexer **lst)
 {
-	t_lexer	*cur;
+	t_lexer	*cur = *lst;
+	t_lexer *next = NULL;
+	t_lexer *prev = NULL;
 
-
-	/* t_lexer		*tmp = lst;
-	while (tmp)
+	while (cur)
 	{
-		printf("Content =   |%s|,     state = %d,     type = %d\n",
-			   tmp->value, tmp->status, tmp->type);
-		tmp = tmp->next;
-	} */
+		if(cur->type == DOUBLE_QUOTE)
+		{
+			next = cur->next;
+			if (prev)
+				prev->next = next;
+			else
+				*lst = next;
+			free(cur->value);
+			free(cur);
+		}
+		else
+			prev = cur;
+		cur = cur->next;
+	}
+}
+
+void ft_delete_quote(t_lexer **lst)
+{
+	t_lexer	*cur = *lst;
+	t_lexer *next = NULL;
+	t_lexer *prev = NULL;
+
+	while (cur)
+	{
+		if(cur->type == QOUTE)
+		{
+			next = cur->next;
+			if (prev)
+				prev->next = next;
+			else
+				*lst = next;
+			free(cur->value);
+			free(cur);
+		}
+		else
+			prev = cur;
+		cur = cur->next;
+	}
+}
+
+void ft_join_argms(t_lexer **lst)
+{
+	ft_delete_double_quote(lst);
+	ft_delete_quote(lst);
 }

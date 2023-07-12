@@ -39,7 +39,14 @@ int	main(int ac, char *av[], char **env)
 		cur = ft_lexer(line);
 		ft_syntax_errors(cur);
 		pp = ft_expander(cur, env);
-		ft_join_argms(cur);
+		ft_join_argms(&cur);
+		t_lexer		*tmp = cur;
+		while (tmp)
+		{
+			printf("Content =   |%s|,     state = %d,     type = %d\n",
+		 		tmp->value, tmp->status, tmp->type);
+			tmp = tmp->next;
+		}
 		ft_free_list(cur);
 		ft_free_list_exp(pp);
 	}
