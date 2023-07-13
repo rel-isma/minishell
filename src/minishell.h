@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:18:02 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/11 16:47:05 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/13 15:07:59 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,14 @@ typedef struct s_lexer
 	char			*value;
 	struct s_lexer	*next;
 }					t_lexer;
+
+typedef struct s_parser
+{
+    t_type			type;
+    t_status		status;
+    char			*value;
+    struct s_parser	*next;
+}					t_parser;
 
 ///////////////////////// functions lexer /////////////////////////////////////
 
@@ -108,7 +116,7 @@ void				ft_check_after_here_doc(t_lexer **tmp);
 
 /////////// functions parser ////////////////
 
-void	ft_join_argms(t_lexer **lst);
-void	ft_join_cmd(t_lexer **lst);
+t_parser	*ft_join_cmd(t_lexer **lst);
+t_parser	*ft_join_argms(t_lexer **lst);
 
 #endif

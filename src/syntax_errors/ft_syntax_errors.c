@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 23:15:02 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/06/18 14:19:48 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/13 21:01:03 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,7 @@ void	ft_syntax_errors(t_lexer *token_lst)
 
 	current = token_lst;
 	if (ft_check_syntax_qoute(current))
-	{
 		return ;
-	}
 	current = token_lst;
 	if (ft_check_syntax_redir(current))
 		return ;

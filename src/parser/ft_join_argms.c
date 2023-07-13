@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 16:41:16 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/11 17:09:47 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/13 15:31:26 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,24 +60,68 @@ void ft_delete_quote(t_lexer **lst)
 	}
 }
 
-void	ft_join_cmd(t_lexer **lst)
+t_parser	*ft_parsernew(char *content)
 {
-	t_lexer	*cur = *lst;
+	t_parser	*node;
+
+	node = (t_parser *)malloc(sizeof(t_parser));
+	if (!node)
+		return (NULL);
+	node->value = ft_strdup(content);
+	node->next = NULL;
+	return (node);
+}
+
+void	ft_parseradd_back(t_parser **lst, t_parser *new)
+{
+	t_parser	*last;
+
+	if (!new)
+		return ;
+	if (!*lst)
+	{
+		*lst = new;
+		return ;
+	}
+	last = *lst;
+	while (last->next != NULL)
+		last = last->next;
+	last->next = new;
+	new->next = NULL;
+}
+t_parser    *ft_join_cmd(t_lexer **lst)
+{
+	t_lexer *cur = *lst;
+	t_parser *new;
+	char *str = ft_strdup("");
+	char *tmp;
 
 	while (cur)
 	{
-		if (cur->type != WHITE_SPACE)
+		while (cur && cur->type != WHITE_SPACE)
 		{
-			printf("%s", cur->value);
+			tmp = str;
+			str = ft_strjoin(str, cur->value);
+			free(tmp);
+			cur = cur->next;
 		}
-		cur = cur->next;
+		ft_parseradd_back(&new, ft_parsernew(str));
+		if (cur && cur->type == WHITE_SPACE)
+		{
+			free(str);
+			str = ft_strdup("");
+			ft_parseradd_back(&new, ft_parsernew(" "));
+			cur = cur->next;
+		}
 	}
-	printf("\n");
+	return (new);
 }
 
-void ft_join_argms(t_lexer **lst)
+t_parser	*ft_join_argms(t_lexer **lst)
 {
+	t_parser *tok_new;
 	ft_delete_double_quote(lst);
 	ft_delete_quote(lst);
-	ft_join_cmd(lst);
+	tok_new = ft_join_cmd(lst);
+	return (tok_new);
 }

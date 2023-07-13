@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 04:24:23 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/06/13 22:20:57 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/13 21:39:14 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,13 @@ void	handle_double_quote(t_lexer **tokenlist, char *line, int *i,
 {
 	if (line[*i] == '\"')
 	{
-		if (*s == GENERAL)
+		if(line[*i] == '\"' && line[*i + 1] == '\"')
+		{
+			ft_lexeradd_back(tokenlist, ft_lexernew("", GENERAL,
+					WORD));
+			(*i) += 1;
+		}
+		else if (*s == GENERAL)
 		{
 			*s = IN_DQUOTE;
 			ft_lexeradd_back(tokenlist, ft_lexernew("\"", GENERAL,

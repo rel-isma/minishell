@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 00:06:27 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/06/21 11:25:32 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/13 19:25:54 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	ft_expand_no_valid(t_lexer *tmp, char *str)
 
 void	ft_check_after_here_doc(t_lexer **tmp)
 {
-	if ((*tmp)->type == HERE_DOC)
+	if ((*tmp)->type == HERE_DOC && (*tmp)->status != IN_DQUOTE)
 	{
 		*tmp = (*tmp)->next;
 		if (*tmp && (*tmp)->type == WHITE_SPACE)
