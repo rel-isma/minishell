@@ -6,21 +6,24 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 16:41:16 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/13 15:31:26 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/14 20:53:03 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void ft_delete_double_quote(t_lexer **lst)
+void	ft_delete_double_quote(t_lexer **lst)
 {
-	t_lexer	*cur = *lst;
-	t_lexer *next = NULL;
-	t_lexer *prev = NULL;
+	t_lexer	*cur;
+	t_lexer	*next;
+	t_lexer	*prev;
 
+	cur = *lst;
+	next = NULL;
+	prev = NULL;
 	while (cur)
 	{
-		if(cur->type == DOUBLE_QUOTE && cur->status == WORD)
+		if (cur->type == DOUBLE_QUOTE && cur->status == WORD)
 		{
 			next = cur->next;
 			if (prev)
@@ -36,15 +39,18 @@ void ft_delete_double_quote(t_lexer **lst)
 	}
 }
 
-void ft_delete_quote(t_lexer **lst)
+void	ft_delete_quote(t_lexer **lst)
 {
-	t_lexer	*cur = *lst;
-	t_lexer *next = NULL;
-	t_lexer *prev = NULL;
+	t_lexer	*cur;
+	t_lexer	*next;
+	t_lexer	*prev;
 
+	cur = *lst;
+	next = NULL;
+	prev = NULL;
 	while (cur)
 	{
-		if(cur->type == QOUTE && cur->status == WORD)
+		if (cur->type == QOUTE && cur->status == WORD)
 		{
 			next = cur->next;
 			if (prev)
@@ -89,37 +95,60 @@ void	ft_parseradd_back(t_parser **lst, t_parser *new)
 	last->next = new;
 	new->next = NULL;
 }
-t_parser    *ft_join_cmd(t_lexer **lst)
-{
-	t_lexer *cur = *lst;
-	t_parser *new;
-	char *str = ft_strdup("");
-	char *tmp;
 
+int	check_no_word(t_lexer *lst)
+{
+	if ((lst->type == WHITE_SPACE && (lst->status == IN_DQUOTE
+				|| lst->status == IN_QUOTE)) || (lst->type == PIPE_LINE && (lst->status == IN_DQUOTE
+				|| lst->status == IN_QUOTE)) || (lst->type == HERE_DOC && (lst->status == IN_DQUOTE
+				|| lst->status == IN_QUOTE)) || (lst->type == DREDIR_OUT && (lst->status == IN_DQUOTE
+				|| lst->status == IN_QUOTE)) || (lst->type == REDIR_IN && (lst->status == IN_DQUOTE
+				|| lst->status == IN_QUOTE)) || (lst->type == REDIR_OUT && (lst->status == IN_DQUOTE
+				|| lst->status == IN_QUOTE)) || ((lst->type != WHITE_SPACE) && lst->type != PIPE_LINE
+			&& lst->type != REDIR_IN && lst->type != REDIR_OUT
+			&& lst->type != HERE_DOC && lst->type != DREDIR_OUT))
+	{
+		return (1);
+	}
+	else
+		return (0);
+}
+t_parser	*ft_join_cmd(t_lexer **lst)
+{
+	t_lexer		*cur;
+	t_parser	*new;
+	char		*str;
+	char		*tmp;
+
+	cur = *lst;
+	str = ft_strdup("");
+	new = NULL;
 	while (cur)
 	{
-		while (cur && cur->type != WHITE_SPACE)
+		while (cur && check_no_word(cur))
 		{
 			tmp = str;
 			str = ft_strjoin(str, cur->value);
 			free(tmp);
 			cur = cur->next;
 		}
-		ft_parseradd_back(&new, ft_parsernew(str));
-		if (cur && cur->type == WHITE_SPACE)
+		if (cur && (!check_no_word(cur)))
 		{
 			free(str);
 			str = ft_strdup("");
-			ft_parseradd_back(&new, ft_parsernew(" "));
+			ft_parseradd_back(&new, ft_parsernew(cur->value));
 			cur = cur->next;
 		}
+		else
+			ft_parseradd_back(&new, ft_parsernew(str));
 	}
 	return (new);
 }
 
 t_parser	*ft_join_argms(t_lexer **lst)
 {
-	t_parser *tok_new;
+	t_parser	*tok_new;
+
 	ft_delete_double_quote(lst);
 	ft_delete_quote(lst);
 	tok_new = ft_join_cmd(lst);

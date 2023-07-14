@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:16:01 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/13 21:41:13 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/14 20:57:25 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,13 @@ int	main(int ac, char *av[], char **env)
 		// t_lexer *ll = cur;
 		while (tm)
 		{
-			printf("Content  =   |%s|\n", tm->value);
+			printf("Content  =   [%s]\n", tm->value);
 			tm = tm->next;
 		}
+		// printf("\n\n");
 		// while (ll)
 		// {
-		// 	printf("Content  =   |%s|  s== |%d|   t == |%d| \n", ll->value , ll->status, ll->type);
+		// 	printf("Content  =   |%s|  s == |%d|   t == |%d| \n", ll->value , ll->status, ll->type);
 		// 	ll = ll->next;
 		// }
 		ft_free_list(cur);
