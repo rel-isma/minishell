@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 16:41:16 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/14 20:53:03 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/14 21:39:55 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,12 @@ void	ft_delete_quote(t_lexer **lst)
 	}
 }
 
-t_parser	*ft_parsernew(char *content)
+t_parser	*ft_parsernew(char *content, int flg)
 {
 	t_parser	*node;
 
+	if (!*content && flg)
+		return NULL;
 	node = (t_parser *)malloc(sizeof(t_parser));
 	if (!node)
 		return (NULL);
@@ -119,28 +121,30 @@ t_parser	*ft_join_cmd(t_lexer **lst)
 	t_parser	*new;
 	char		*str;
 	char		*tmp;
+	int flg		= 1;
 
 	cur = *lst;
-	str = ft_strdup("");
 	new = NULL;
+	str = ft_strdup("");
 	while (cur)
 	{
 		while (cur && check_no_word(cur))
 		{
+			if (!*cur->value)
+				flg = 0;
 			tmp = str;
 			str = ft_strjoin(str, cur->value);
 			free(tmp);
 			cur = cur->next;
 		}
+		ft_parseradd_back(&new, ft_parsernew(str, flg));
 		if (cur && (!check_no_word(cur)))
 		{
 			free(str);
 			str = ft_strdup("");
-			ft_parseradd_back(&new, ft_parsernew(cur->value));
+			ft_parseradd_back(&new, ft_parsernew(cur->value, 0));
 			cur = cur->next;
 		}
-		else
-			ft_parseradd_back(&new, ft_parsernew(str));
 	}
 	return (new);
 }

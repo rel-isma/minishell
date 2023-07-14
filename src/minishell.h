@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:18:02 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/14 19:17:39 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/14 21:31:43 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef enum s_tokentype
 	WHITE_SPACE,
 	QOUTE,
 	DOUBLE_QUOTE,
+	VOID,
 	ENV,
 	PIPE_LINE,
 	REDIR_IN,
