@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 16:41:16 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/14 21:39:55 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/15 16:14:08 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	ft_delete_quote(t_lexer **lst)
 	}
 }
 
-t_parser	*ft_parsernew(char *content, int flg)
+t_parser	*ft_parsernew(char *content, int flg, t_type type)
 {
 	t_parser	*node;
 
@@ -75,6 +75,7 @@ t_parser	*ft_parsernew(char *content, int flg)
 	node = (t_parser *)malloc(sizeof(t_parser));
 	if (!node)
 		return (NULL);
+	node->type = type;
 	node->value = ft_strdup(content);
 	node->next = NULL;
 	return (node);
@@ -109,9 +110,7 @@ int	check_no_word(t_lexer *lst)
 				|| lst->status == IN_QUOTE)) || ((lst->type != WHITE_SPACE) && lst->type != PIPE_LINE
 			&& lst->type != REDIR_IN && lst->type != REDIR_OUT
 			&& lst->type != HERE_DOC && lst->type != DREDIR_OUT))
-	{
-		return (1);
-	}
+		return (1); 
 	else
 		return (0);
 }
@@ -122,6 +121,7 @@ t_parser	*ft_join_cmd(t_lexer **lst)
 	char		*str;
 	char		*tmp;
 	int flg		= 1;
+	int	i = 0;
 
 	cur = *lst;
 	new = NULL;
@@ -137,12 +137,13 @@ t_parser	*ft_join_cmd(t_lexer **lst)
 			free(tmp);
 			cur = cur->next;
 		}
-		ft_parseradd_back(&new, ft_parsernew(str, flg));
+		ft_parseradd_back(&new, ft_parsernew(str, flg, 1));
 		if (cur && (!check_no_word(cur)))
 		{
+			i = cur->type;
 			free(str);
 			str = ft_strdup("");
-			ft_parseradd_back(&new, ft_parsernew(cur->value, 0));
+			ft_parseradd_back(&new, ft_parsernew(cur->value, 0, i));
 			cur = cur->next;
 		}
 	}

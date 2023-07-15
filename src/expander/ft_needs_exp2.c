@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 00:06:27 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/13 19:25:54 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/15 16:05:28 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,12 @@ void	ft_expand_no_valid(t_lexer *tmp, char *str)
 	if (tmp && tmp->type == ENV && tmp->status != IN_QUOTE
 		&& ft_strcmp(tmp->value, str) == 0)
 	{
-		if (ft_strcmp(tmp->value, "$") == 0)
+		if (ft_strcmp(tmp->value, "$") == 0 && tmp->status == GENERAL)
+			tmp->value = ft_strdup("");
+		else if (ft_strcmp(tmp->value, "$") == 0)
 			tmp->value = ft_strdup("$");
-		// else if (ft_strcmp(tmp->value, "$$") == 0)
-		// 	tmp->value = ft_strdup("$$");
+		else if (ft_strcmp(tmp->value, "$?") == 0)
+			tmp->value = ft_strdup("$?");
 		else
 			tmp->value = ft_strdup("");
 	}

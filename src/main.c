@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:16:01 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/14 21:24:19 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/15 16:18:16 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	main(int ac, char *av[], char **env)
 		// t_lexer *ll = cur;
 		while (tm)
 		{
-			printf("Content  =   [%s]\n", tm->value);
+			printf("token	=	[%s]	type	=	[%d]\n", tm->value, tm->type);
 			tm = tm->next;
 		}
 		// printf("\n\n");

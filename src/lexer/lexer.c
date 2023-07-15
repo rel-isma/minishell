@@ -6,13 +6,13 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 14:44:37 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/13 16:12:43 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/15 16:47:02 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_lexer	*ft_lexer(char *line)
+t_lexer	ft_lexer(char *line)
 {
 	t_lexer		*tokenlist;
 	t_status	s;
