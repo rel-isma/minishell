@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 04:24:23 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/15 18:43:03 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/16 00:39:39 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ void	handle_special_characters(t_lexer **tokenlist, char *line, int *i,
 	}
 	else if (white_space(line[*i]))
 	{
-		ft_lexeradd_back(tokenlist, ft_lexernew((char[]){line[*i], '\0'}, *s, WHITE_SPACE));
+		ft_lexeradd_back(tokenlist, ft_lexernew((char[]){line[*i], '\0'}, *s,
+				WHITE_SPACE));
 		(*i) += 1;
 		if (*s == GENERAL)
 		{
@@ -61,10 +62,9 @@ void	handle_double_quote(t_lexer **tokenlist, char *line, int *i,
 {
 	if (line[*i] == '\"')
 	{
-		if(line[*i] == '\"' && line[*i + 1] == '\"' && *s == GENERAL)
+		if (line[*i] == '\"' && line[*i + 1] == '\"' && *s == GENERAL)
 		{
-			ft_lexeradd_back(tokenlist, ft_lexernew("", GENERAL,
-					WORD));
+			ft_lexeradd_back(tokenlist, ft_lexernew("", GENERAL, WORD));
 			(*i) += 1;
 		}
 		else if (*s == GENERAL)

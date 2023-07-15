@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:16:01 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/15 18:45:01 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/16 00:17:31 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,9 @@ int	main(int ac, char *av[], char **env)
 	t_lexer		*cur;
 	t_expand	*pp;
 	t_parser	*tmp;
+	t_parser	*tm;
 
-	//atexit(fu);
+	atexit(fu);
 	(void)av;
 	if (ac != 1)
 	{
@@ -41,21 +42,16 @@ int	main(int ac, char *av[], char **env)
 		ft_syntax_errors(cur);
 		pp = ft_expander(cur, env);
 		tmp = ft_join_argms(&cur);
-		t_parser	*tm = tmp;
-		//t_lexer *ll = cur;
+		tm = tmp;
 		while (tm)
 		{
-			printf("token	=	[%s]	type	=	[%d]\n", tm->value, tm->type);
+			printf("token	=	[%s]	type	=	[%d]\n", tm->value,
+									tm->type);
 			tm = tm->next;
 		}
-		// printf("\n\n");
-		// while (ll)
-		// {
-		// 	printf("Content  =   |%s|  s == |%d|   t == |%d| \n", ll->value , ll->status, ll->type);
-		// 	ll = ll->next;
-		// }
 		ft_free_list(cur);
 		ft_free_list_exp(pp);
+		ft_free_list_parser(tmp);
 	}
 	return (0);
 }

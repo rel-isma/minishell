@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:18:02 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/15 17:10:21 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/16 00:21:07 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,19 @@ typedef struct s_lexer
 	struct s_lexer	*next;
 }					t_lexer;
 
+typedef struct s_exp
+{
+	char		*key;
+	char		*vl;
+	int			len1;
+	int			len2;
+}					t_exp;
+
 typedef struct s_parser
 {
-    t_type			type;
-    t_status		status;
-    char			*value;
-    struct s_parser	*next;
+	t_type			type;
+	char			*value;
+	struct s_parser	*next;
 }					t_parser;
 
 ///////////////////////// functions lexer /////////////////////////////////////
@@ -118,7 +125,13 @@ void				ft_check_after_here_doc(t_lexer **tmp);
 
 /////////// functions parser ////////////////
 
-t_parser	*ft_join_cmd(t_lexer **lst);
-t_parser	*ft_join_argms(t_lexer **lst);
+t_parser			*ft_parsernew(char *content, int flg, t_type type);
+void				ft_parseradd_back(t_parser **lst, t_parser *new);
+int					check_no_word(t_lexer *lst);
+t_parser			*ft_join_cmd(t_lexer *cur);
+t_parser			*ft_join_argms(t_lexer **lst);
+void				ft_delete_double_quote(t_lexer **lst);
+void				ft_delete_quote(t_lexer **lst);
+void				ft_free_list_parser(t_parser *list);
 
 #endif

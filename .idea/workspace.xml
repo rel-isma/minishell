@@ -20,10 +20,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="47697dc6-8a91-4782-a0f2-6dac3a729f72" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/minishell" beforeDir="false" afterPath="$PROJECT_DIR$/minishell" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.DS_Store" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/file" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/lexer/lexer.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/lexer/lexer.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/lexer/lexer_needs2.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/lexer/lexer_needs2.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/minishell.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/minishell.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/parser/ft_join_argms.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/ft_join_argms.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -151,6 +156,7 @@
       <workItem from="1689337032644" duration="209000" />
       <workItem from="1689422106608" duration="386000" />
       <workItem from="1689442053476" duration="79000" />
+      <workItem from="1689448449770" duration="4282000" />
     </task>
     <servers />
   </component>

@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 21:43:50 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/13 20:16:38 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/16 00:26:54 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,21 @@
 t_expand	*ft_init_expander(char **env)
 {
 	t_expand	*expd;
-	char		*key;
-	char		*vl;
+	t_exp		exp;
 	int			i;
-	int			len1;
-	int			len2;
 
 	expd = NULL;
 	i = 0;
-	/////////////////////////////////////////////////////////
 	// if env empty add
-	/////////////////////////////////////////////////////////
 	while (env[i])
 	{
-		len1 = ft_strlen_env_aftr(env[i]);
-		key = ft_substr(env[i], 0, len1);
-		len2 = ft_strlen_env_befor(env[i]);
-		vl = ft_substr(env[i], len1 + 1, len2);
-		ft_lexeradd_back_expnd(&expd, ft_lexernew_expnd(key, vl));
-		free(key);
-		free(vl);
+		exp.len1 = ft_strlen_env_aftr(env[i]);
+		exp.key = ft_substr(env[i], 0, exp.len1);
+		exp.len2 = ft_strlen_env_befor(env[i]);
+		exp.vl = ft_substr(env[i], exp.len1 + 1, exp.len2);
+		ft_lexeradd_back_expnd(&expd, ft_lexernew_expnd(exp.key, exp.vl));
+		free(exp.key);
+		free(exp.vl);
 		i++;
 	}
 	return (expd);
