@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 04:24:23 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/14 21:33:40 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/15 17:12:06 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,13 @@ void	handle_special_characters(t_lexer **tokenlist, char *line, int *i,
 		ft_lexeradd_back(tokenlist, ft_lexernew("<", *s, REDIR_IN));
 		(*i) += 1;
 	}
-	else if (line[*i] == ' ')
+	else if (white_space(line[*i]))
 	{
 		ft_lexeradd_back(tokenlist, ft_lexernew(" ", *s, WHITE_SPACE));
 		(*i) += 1;
 		if (*s == GENERAL)
 		{
-			while (line[*i] == ' ')
+			while (white_space(line[*i]))
 				(*i) += 1;
 		}
 	}
@@ -120,3 +120,4 @@ void	handle_env(t_lexer **tokenlist, char *line, int *i, t_status *s)
 		(*i) += len;
 	}
 }
+
