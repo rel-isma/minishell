@@ -20,9 +20,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="47697dc6-8a91-4782-a0f2-6dac3a729f72" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/rel-isma" beforeDir="false" afterPath="$PROJECT_DIR$/rel-isma" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/expander/ft_needs_exp2.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/expander/ft_needs_exp2.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lexer/lexer_needs_3.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/lexer/lexer_needs_3.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/minishell" beforeDir="false" afterPath="$PROJECT_DIR$/minishell" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lexer/lexer.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/lexer/lexer.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lexer/lexer_needs2.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/lexer/lexer_needs2.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -149,6 +150,7 @@
       <workItem from="1689275173637" duration="335000" />
       <workItem from="1689337032644" duration="209000" />
       <workItem from="1689422106608" duration="386000" />
+      <workItem from="1689442053476" duration="79000" />
     </task>
     <servers />
   </component>

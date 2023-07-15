@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 14:44:37 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/15 17:10:03 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/15 18:33:13 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,12 @@
 
 int	white_space(char str)
 {
-	if (str == ' ' && str == '\t' && str == '\n' && str == '\f')
+	if (str == ' ' || str == '\t' || str == '\n' || str == '\f')
 		return (1);
 	else
 		return (0);
 }
+
 t_lexer	*ft_lexer(char *line)
 {
 	t_lexer		*tokenlist;
@@ -30,6 +31,7 @@ t_lexer	*ft_lexer(char *line)
 	tokenlist = NULL;
 	while (line[i] != '\0')
 	{
+		//printf("\n[%c]\n", line[i]);
 		if ((white_space(line[i]) || line[i] == '\"' || line[i] == 36
 				|| line[i] == '\'' || line[i] == '>' || line[i] == '<'
 				|| line[i] == '|'))
@@ -47,4 +49,4 @@ t_lexer	*ft_lexer(char *line)
 	}
 	free(line);
 	return (tokenlist);
-}								
+}
