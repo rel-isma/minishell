@@ -6,7 +6,7 @@
 #    By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/10 17:16:54 by rel-isma          #+#    #+#              #
-#    Updated: 2023/07/15 23:21:21 by rel-isma         ###   ########.fr        #
+#    Updated: 2023/07/16 13:55:40 by rel-isma         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ SOURCES = src/main.c src/lexer/lexer.c src/lexer/lexer_needs.c  src/lexer/lexer_
           src/lexer/ft_free_all.c  src/lexer/lexer_needs_3.c src/syntax_errors/ft_syntax_errors.c src/syntax_errors/ft_check_stx_pipe.c \
 		  src/syntax_errors/ft_check_stx_qoute.c src/syntax_errors/ft_check_stx_redir.c \
 		  src/expander/ft_expander.c src/expander/ft_needs_exp.c src/expander/ft_needs_exp2.c \
-		  src/parser/ft_join_argms.c  src/parser/ft_needs.c src/parser/ft_delele_dqu_qu.c
+		  src/parser/ft_join_argms.c  src/parser/ft_needs.c src/parser/ft_delele_dqu_qu.c src/parser/ft_join_cmd.c
 
 OBJECTS = $(SOURCES:%.c=obj/%.o)
 

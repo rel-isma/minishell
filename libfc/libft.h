@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 15:29:03 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/14 19:21:32 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/16 12:03:16 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include <unistd.h>
 # include <stdlib.h>
-
 
 typedef struct s_list
 {
