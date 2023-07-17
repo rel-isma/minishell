@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 13:23:56 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/17 03:01:49 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/17 09:07:09 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ t_cmd	*ft_cmdnew(char *cmd, char **args, int infile, int oufile)
 	node = (t_cmd *)malloc(sizeof(t_cmd));
 	if (!node)
 		return (NULL);
+	// if (!cmd)
+	// 	return (NULL);
 	node->cmd = ft_strdup(cmd);
 	node->argms = args;
 	node->infile = infile;
@@ -50,6 +52,8 @@ int	ft_len(t_parser *cur)
 	int	len;
 
 	len = 0;
+	if (cur && cur->type == PIPE_LINE)
+		cur = cur->next;
 	while (cur && cur->type != PIPE_LINE)
 	{
 		if (cur && (cur->type == REDIR_IN || cur->type == REDIR_OUT
@@ -62,7 +66,10 @@ int	ft_len(t_parser *cur)
 				cur = cur->next;
 		}
 		else if (cur && cur->type == WORD)
+		{
+			printf("\n==[[%s]]]==\n", cur->value);
 			len++;
+		}
 		if (cur)
 			cur = cur->next;
 	}
@@ -81,6 +88,7 @@ t_cmd	*ft_join_cmd(t_parser *lst)
 	oufile = 1;
 	while (lst)
 	{
+		printf("\n==%d==\n", ft_len(lst));
 		arg = malloc((ft_len(lst) + 1) * sizeof(char *));
 		i = 0;
 		if (!arg)
@@ -105,6 +113,8 @@ t_cmd	*ft_join_cmd(t_parser *lst)
 						lst = lst->next;
 					if (lst && lst->type == WORD)
 					{
+						if (infile != 0)
+							close(infile);
 						infile = open(lst->value, O_RDONLY);
 						if (lst)
 							lst = lst->next;
@@ -112,12 +122,13 @@ t_cmd	*ft_join_cmd(t_parser *lst)
 				}
 				else if (lst->type == REDIR_OUT)
 				{
-                    close(oufile);
 					lst = lst->next;
 					if (lst && lst->type == WHITE_SPACE)
 						lst = lst->next;
 					if (lst && lst->type == WORD)
 					{
+						if (oufile != 1)
+							close(oufile);
 						oufile = open(lst->value, O_WRONLY | O_CREAT | O_TRUNC,
 							0644);
 						if (lst)
@@ -137,6 +148,8 @@ t_cmd	*ft_join_cmd(t_parser *lst)
 						lst = lst->next;
 					if (lst && lst->type == WORD)
 					{
+						if (oufile != 1)
+							close(oufile);
 						oufile = open(lst->value, O_WRONLY | O_CREAT | O_APPEND,
 							0644);
 						if (lst)
@@ -146,7 +159,10 @@ t_cmd	*ft_join_cmd(t_parser *lst)
 			}
 		}
 		arg[i] = NULL;
-		ft_cmdadd_back(&new, ft_cmdnew(arg[0], arg, infile, oufile));
+		if (!*arg)
+			ft_cmdadd_back(&new, ft_cmdnew("", arg, infile, oufile));
+		else
+			ft_cmdadd_back(&new, ft_cmdnew(arg[0], arg, infile, oufile));
 		infile = 0;
 		oufile = 1;
 		if (lst)
