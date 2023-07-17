@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 14:44:06 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/13 21:32:01 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/17 13:13:14 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	ft_line_word(char *str)
 	int	len;
 
 	len = 1;
-	while (str[len] && str[len] != ' ' && str[len] != '\"' && str[len] != '\''
+	while (str[len] && !white_space(str[len]) && str[len] != '\"' && str[len] != '\''
 		&& str[len] != '>' && str[len] != '<' && str[len] != '|'
 		&& str[len] != 36)
 	{

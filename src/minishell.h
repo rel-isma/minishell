@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:18:02 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/17 02:22:54 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/17 21:46:45 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,5 +144,8 @@ void				ft_delete_double_quote(t_lexer **lst);
 void				ft_delete_quote(t_lexer **lst);
 void				ft_free_list_parser(t_parser *list);
 t_cmd   			*ft_join_cmd(t_parser *lst);
+t_cmd				*ft_cmdnew(char *cmd, char **args, int infile, int oufile);
+void				ft_cmdadd_back(t_cmd **lst, t_cmd *new);
+int					ft_len(t_parser *cur);
 
 #endif
