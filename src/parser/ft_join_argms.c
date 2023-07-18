@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 16:41:16 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/17 11:42:00 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/18 00:23:54 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,30 +54,15 @@ t_parser	*ft_join_word(t_lexer *cur)
 	return (free(str), new);
 }
 
-t_parser	*ft_join_argms(t_lexer **lst)
+t_cmd	*ft_join_argms(t_lexer **lst)
 {
 	t_parser	*tok_new;
 	t_cmd		*cmd;
-	t_cmd		*cur;
-	int			i;
 
 	ft_delete_double_quote(lst);
 	ft_delete_quote(lst);
 	tok_new = ft_join_word(*lst);
 	cmd = ft_join_cmd(tok_new);
-	cur = cmd;
-	while (cur)
-	{
-		i = 0;
-		printf("cmd->\t[%s]\t infile [%d]\t oufile [%d]\t", cur->cmd,
-			cur->infile, cur->oufile);
-		while (cur->argms[i])
-		{
-			printf("arg->\t[%s]\t", cur->argms[i]);
-			i++;
-		}
-		printf("\n");
-		cur = cur->next;
-	}
-	return (tok_new);
+	free(tok_new);
+	return (cmd);
 }

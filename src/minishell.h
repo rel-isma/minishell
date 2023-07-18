@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:18:02 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/17 21:46:45 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/18 00:21:50 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,13 +139,14 @@ t_parser			*ft_parsernew(char *content, int flg, t_type type);
 void				ft_parseradd_back(t_parser **lst, t_parser *new);
 int					check_no_word(t_lexer *lst);
 t_parser			*ft_join_word(t_lexer *cur);
-t_parser			*ft_join_argms(t_lexer **lst);
+t_cmd				*ft_join_argms(t_lexer **lst);
 void				ft_delete_double_quote(t_lexer **lst);
 void				ft_delete_quote(t_lexer **lst);
-void				ft_free_list_parser(t_parser *list);
+void				ft_free_list_cmd(t_cmd *list);
 t_cmd   			*ft_join_cmd(t_parser *lst);
 t_cmd				*ft_cmdnew(char *cmd, char **args, int infile, int oufile);
 void				ft_cmdadd_back(t_cmd **lst, t_cmd *new);
 int					ft_len(t_parser *cur);
+void				ft_open_all(t_parser **lst,int *infile, int *oufile);
 
 #endif
