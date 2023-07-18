@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 01:57:30 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/18 03:06:20 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/18 03:14:57 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,28 @@ void	ft_open_dredir_out(t_parser **lst, int *oufile)
 	}
 }
 
+void	ft_delimiter(int fd, char *delimiter)
+{
+	char	*line;
+
+	while (1)
+	{
+		line = readline("> ");
+		if (line && ft_strcmp(line, delimiter) == 0)
+		{
+			free(line);
+			break ;
+		}
+		write(fd, line, ft_strlen(line));
+		write(fd, "\n", 1);
+		free(line);
+	}
+}
 
 void	ft_open_here_doc(t_parser **lst, int *infile)
 {
 	char	*delimiter;
-	char	*line;
+	int		fd;
 
 	if ((*lst) && (*lst)->type == HERE_DOC)
 	{
@@ -82,35 +99,12 @@ void	ft_open_here_doc(t_parser **lst, int *infile)
 			delimiter = ft_strdup((*lst)->value);
 			if (delimiter)
 			{
-				int fd = open(".here_doc_temp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
-				while (1)
-				{
-					line = readline("> ");
-					if (line && ft_strcmp(line, delimiter) == 0)
-					{
-						free(line);
-						break;
-					}
-					write(fd, line, ft_strlen(line));
-					write(fd, "\n", 1);
-					free(line);
-				}
+				fd = open(".here_doc_temp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+				ft_delimiter(fd, delimiter);
 				close(fd);
 				*infile = open(".here_doc_temp", O_RDONLY);
 				free(delimiter);
 			}
 		}
-	}
-}
-
-void	ft_open_all(t_parser **lst, int *infile, int *oufile)
-{
-	if (*lst && ((*lst)->type == REDIR_IN || (*lst)->type == REDIR_OUT
-			|| (*lst)->type == HERE_DOC || (*lst)->type == DREDIR_OUT))
-	{
-		ft_open_redir_out(lst, oufile);
-		ft_open_redir_in(lst, infile);
-		ft_open_here_doc(lst, infile);  // Call the new function for HERE_DOC
-		ft_open_dredir_out(lst, oufile);
 	}
 }

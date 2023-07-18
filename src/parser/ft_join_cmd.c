@@ -6,11 +6,23 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 13:23:56 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/18 02:08:13 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/18 03:15:02 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	ft_open_all(t_parser **lst, int *infile, int *oufile)
+{
+	if (*lst && ((*lst)->type == REDIR_IN || (*lst)->type == REDIR_OUT
+			|| (*lst)->type == HERE_DOC || (*lst)->type == DREDIR_OUT))
+	{
+		ft_open_redir_out(lst, oufile);
+		ft_open_redir_in(lst, infile);
+		ft_open_here_doc(lst, infile);
+		ft_open_dredir_out(lst, oufile);
+	}
+}
 
 void	ft_creat_cmd_arg(t_parser **lst, int *infile, int *oufile, char **arg)
 {

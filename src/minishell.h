@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:18:02 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/18 02:19:49 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/18 03:16:28 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,7 @@ void				ft_open_all(t_parser **lst, int *infile, int *oufile);
 void				ft_open_redir_out(t_parser **lst, int *oufile);
 void				ft_open_redir_in(t_parser **lst, int *infile);
 void				ft_open_dredir_out(t_parser **lst, int *oufile);
+void				ft_open_here_doc(t_parser **lst, int *infile);
 void				ft_open_all(t_parser **lst, int *infile, int *oufile);
 void				ft_free_list_join(t_parser *list);
 
