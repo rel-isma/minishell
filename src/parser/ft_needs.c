@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 21:17:46 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/18 00:27:01 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/18 02:14:03 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	check_no_word(t_lexer *lst)
 
 void	ft_free_list_cmd(t_cmd *list)
 {
-	int			i;
+	int		i;
 	t_cmd	*tmp;
 
 	while (list)
@@ -80,6 +80,21 @@ void	ft_free_list_cmd(t_cmd *list)
 			i++;
 		}
 		free(list->argms);
+		free(list);
+		list = tmp;
+	}
+}
+
+void	ft_free_list_join(t_parser *list)
+{
+	int			i;
+	t_parser	*tmp;
+
+	while (list)
+	{
+		i = 0;
+		tmp = list->next;
+		free(list->value);
 		free(list);
 		list = tmp;
 	}

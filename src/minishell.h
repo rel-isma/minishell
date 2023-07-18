@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:18:02 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/18 00:21:50 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/18 02:19:49 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 # define MINISHELL_H
 
 # include "../libfc/libft.h"
+# include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <stdio.h>
 # include <string.h>
 # include <unistd.h>
-# include <fcntl.h>
 
 typedef enum s_tokenstatus
 {
@@ -60,10 +60,10 @@ typedef struct s_lexer
 
 typedef struct s_exp
 {
-	char		*key;
-	char		*vl;
-	int			len1;
-	int			len2;
+	char			*key;
+	char			*vl;
+	int				len1;
+	int				len2;
 }					t_exp;
 
 typedef struct s_parser
@@ -75,12 +75,12 @@ typedef struct s_parser
 
 typedef struct s_cmd
 {
-	char				*cmd;
-	char				**argms;
-	int					infile;
-	int					oufile;
-	struct s_cmd		*next;
-}						t_cmd;
+	char			*cmd;
+	char			**argms;
+	int				infile;
+	int				oufile;
+	struct s_cmd	*next;
+}					t_cmd;
 
 ///////////////////////// functions lexer /////////////////////////////////////
 
@@ -111,7 +111,7 @@ void				ft_free_list(t_lexer *list);
 
 //////functions syntax_errors ////////////////////////
 
-void				ft_syntax_errors(t_lexer *token_lst);
+int					ft_syntax_errors(t_lexer *token_lst);
 int					ft_check_syntax_qoute(t_lexer *lst);
 int					ft_check_stx_redir_out(t_lexer *cur);
 int					ft_check_stx_redir_in(t_lexer *cur);
@@ -143,10 +143,15 @@ t_cmd				*ft_join_argms(t_lexer **lst);
 void				ft_delete_double_quote(t_lexer **lst);
 void				ft_delete_quote(t_lexer **lst);
 void				ft_free_list_cmd(t_cmd *list);
-t_cmd   			*ft_join_cmd(t_parser *lst);
+t_cmd				*ft_join_cmd(t_parser *lst);
 t_cmd				*ft_cmdnew(char *cmd, char **args, int infile, int oufile);
 void				ft_cmdadd_back(t_cmd **lst, t_cmd *new);
 int					ft_len(t_parser *cur);
-void				ft_open_all(t_parser **lst,int *infile, int *oufile);
+void				ft_open_all(t_parser **lst, int *infile, int *oufile);
+void				ft_open_redir_out(t_parser **lst, int *oufile);
+void				ft_open_redir_in(t_parser **lst, int *infile);
+void				ft_open_dredir_out(t_parser **lst, int *oufile);
+void				ft_open_all(t_parser **lst, int *infile, int *oufile);
+void				ft_free_list_join(t_parser *list);
 
 #endif
