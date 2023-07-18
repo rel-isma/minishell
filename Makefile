@@ -6,7 +6,7 @@
 #    By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/10 17:16:54 by rel-isma          #+#    #+#              #
-#    Updated: 2023/07/18 01:59:43 by rel-isma         ###   ########.fr        #
+#    Updated: 2023/07/18 05:08:15 by rel-isma         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,7 +61,10 @@ fclean: clean
 	@sleep 0.5
 	@rm -f $(NAME)
 	@printf "\033[0;32mExecutable cleaned.\033[0m\n"
-
+push:
+	git add .
+	git commit -m "ok"
+	git push
 re: fclean all
 
 

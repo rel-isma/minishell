@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:18:02 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/18 03:16:28 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/18 05:05:38 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,8 @@ void				handle_env(t_lexer **tokenlist, char *line, int *i,
 void				handle_word(t_lexer **tokenlist, char *line, int *i,
 						t_status *s);
 int					ft_line_word(char *str);
+void				ft_handle_white_space(t_lexer **tokenlist, char *line,
+						int *i, t_status s);
 int					ft_line_word(char *str);
 int					ft_line_env(char *str);
 int					white_space(char str);
