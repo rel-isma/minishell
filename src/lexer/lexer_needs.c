@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 14:44:06 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/06/13 23:12:48 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/18 02:01:41 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ int	ft_line_env(char *str)
 	int	len;
 
 	len = 1;
-	while (str[len] && (ft_isalpha(str[len])
-		|| ft_isdigit(str[len]) || str[len] == '_'))
+	while (str[len] && (ft_isalpha(str[len]) || ft_isdigit(str[len])
+			|| str[len] == '_'))
 		len++;
 	return (len);
 }
@@ -28,9 +28,9 @@ int	ft_line_word(char *str)
 	int	len;
 
 	len = 1;
-	while (str[len] && str[len] != ' ' && str[len] != '\"'
-		&& str[len] != '\'' && str[len] != '>'
-		&& str[len] != '<' && str[len] != '|'
+	while (str[len] && !white_space(str[len])
+		&& str[len] != '\"' && str[len] != '\''
+		&& str[len] != '>' && str[len] != '<' && str[len] != '|'
 		&& str[len] != 36)
 	{
 		len++;

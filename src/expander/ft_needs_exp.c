@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 16:47:39 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/06/19 19:48:24 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/24 22:04:48 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,14 @@ int	ft_strlen_env_befor(char *env)
 	{
 		if (env[j] == '=')
 		{
-			while (env[j])
+			while (env[++j])
 			{
 				len++;
-				j++;
+				// j++;
 			}
 		}
+		if (env[j] == 0)
+			break ;
 		j++;
 	}
 	return (len);

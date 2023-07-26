@@ -6,11 +6,19 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 14:44:37 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/06/19 16:41:30 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/15 23:32:07 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	white_space(char str)
+{
+	if (str == ' ' || str == '\t' || str == '\n' || str == '\f')
+		return (1);
+	else
+		return (0);
+}
 
 t_lexer	*ft_lexer(char *line)
 {
@@ -23,7 +31,7 @@ t_lexer	*ft_lexer(char *line)
 	tokenlist = NULL;
 	while (line[i] != '\0')
 	{
-		if ((line[i] == ' ' || line[i] == '\"' || line[i] == 36
+		if ((white_space(line[i]) || line[i] == '\"' || line[i] == 36
 				|| line[i] == '\'' || line[i] == '>' || line[i] == '<'
 				|| line[i] == '|'))
 		{
@@ -38,6 +46,5 @@ t_lexer	*ft_lexer(char *line)
 		else
 			handle_word(&tokenlist, line, &i, &s);
 	}
-	free(line);
-	return (tokenlist);
+	return (free(line), tokenlist);
 }
