@@ -6,16 +6,15 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:16:01 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/26 21:31:46 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/26 23:11:14 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_free_all(t_lexer *cur, t_expand *pp, t_cmd *tmp)
+void	ft_free_all(t_lexer *cur, t_cmd *tmp)
 {
 	ft_free_list(cur);
-	ft_free_list_exp(pp);
 	ft_free_list_cmd(tmp);
 }
 
@@ -40,15 +39,14 @@ int	main(int ac, char *av[], char **env)
 {
 	char		*line;
 	t_lexer		*cur;
-	t_expand	*vv;
 	t_cmd		*tmp;
 	t_cmd		*tm;
+	t_expand	*pp;
 	int			i;
 
-	atexit(fu);
+	// atexit(fu);
 	if (ft_check_argms(ac, av))
 		return (1);
-	t_expand	*pp;
 
 	pp = ft_init_expander(env);
 	while (1)
@@ -63,9 +61,8 @@ int	main(int ac, char *av[], char **env)
 			ft_free_list(cur);
 			continue ;
 		}
-		vv = ft_expander(cur, env, 1);
+		ft_expander(cur, env, 1);
 		tmp = ft_join_argms(&cur, env);
-		/// had {{ tmp }} how li tkhdm bih how fih cmd and file and argms
 		tm = tmp;
 		while (tm)
 		{
@@ -80,7 +77,8 @@ int	main(int ac, char *av[], char **env)
 			printf("\n");
 			tm = tm->next;
 		}
-		ft_free_all(cur, pp, tmp);
+		ft_free_all(cur, tmp);
+		ft_free_list_exp(pp);
 	}
 	return (0);
 }

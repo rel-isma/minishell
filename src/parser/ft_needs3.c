@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 01:57:30 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/26 18:46:41 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/26 23:08:00 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ void	ft_open_dredir_out(t_parser **lst, int *oufile)
 void ft_delimiter(int fd, t_parser *delimiter , char **env)
 {
     char *line;
-	t_expand *pp;
 	t_lexer *cur;
 	t_lexer *tmp;
 
@@ -85,7 +84,7 @@ void ft_delimiter(int fd, t_parser *delimiter , char **env)
             break;
 		}
        	tmp = ft_lexer(line);
-        pp = ft_expander(tmp, env, 1);
+        ft_expander(tmp, env, 0);
 		cur = tmp;
         while (cur)
         {
@@ -94,7 +93,6 @@ void ft_delimiter(int fd, t_parser *delimiter , char **env)
         }
         write(fd, "\n", 1);
 		ft_free_list(tmp);
-		ft_free_list_exp(pp);
     }
 }
 

@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 00:06:27 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/26 21:28:00 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/26 22:41:49 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,19 @@ void	ft_expand_valid(t_expand *cur, t_lexer *tmp, int flg)
 {
 	while (cur)
 	{
-			if (tmp && tmp->type == ENV && tmp->status != IN_QUOTE && ft_strcmp(cur->key, (tmp->value + 1)) == 0)
+			if (tmp && flg == 0 && tmp->type == ENV
+				&& ft_strcmp(cur->key, (tmp->value + 1)) == 0)
 			{
-				if (flg && tmp->status != IN_QUOTE)
-				{
-					free(tmp->value);
-					tmp->value = ft_strdup(cur->value);
-					break ;
-				}
+				free(tmp->value);
+				tmp->value = ft_strdup(cur->value);
+				break ;
+			}
+			if (tmp && flg && tmp->type == ENV && tmp->status != IN_QUOTE
+				&& ft_strcmp(cur->key, (tmp->value + 1)) == 0)
+			{
+				free(tmp->value);
+				tmp->value = ft_strdup(cur->value);
+				break ;
 			}
 		cur = cur->next;
 	}
