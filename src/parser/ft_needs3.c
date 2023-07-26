@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 01:57:30 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/26 02:30:51 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/26 18:46:41 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	ft_open_dredir_out(t_parser **lst, int *oufile)
 	}
 }
 
-void ft_delimiter(int fd, char *delimiter, char **env)
+void ft_delimiter(int fd, t_parser *delimiter , char **env)
 {
     char *line;
 	t_expand *pp;
@@ -79,13 +79,13 @@ void ft_delimiter(int fd, char *delimiter, char **env)
         line = readline("> ");
         if (!line)
             break ;
-        if (line && ft_strcmp(line, delimiter) == 0)
+        if (line && ft_strcmp(line, delimiter->value) == 0)
         {
 			free(line);
             break;
-        }
+		}
        	tmp = ft_lexer(line);
-        pp = ft_expander(tmp, env);
+        pp = ft_expander(tmp, env, 1);
 		cur = tmp;
         while (cur)
         {
@@ -101,7 +101,6 @@ void ft_delimiter(int fd, char *delimiter, char **env)
 void	ft_open_here_doc(t_parser **lst, int *infile, char **env)
 {
 	static	int i = 1;
-	char	*delimiter;
 	int		fd;
 	char	*str;
 	char	*ss;
@@ -116,11 +115,10 @@ void	ft_open_here_doc(t_parser **lst, int *infile, char **env)
 			(*lst) = (*lst)->next;
 		if ((*lst))
 		{
-			delimiter = ft_strdup((*lst)->value);
-			if (delimiter)
+			if ((*lst)->value)
 			{
 				fd = open(str, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-				ft_delimiter(fd, delimiter, env);
+				ft_delimiter(fd, (*lst), env);
 				if (*infile != 0)
 				{
 					unlink(str);
@@ -129,7 +127,6 @@ void	ft_open_here_doc(t_parser **lst, int *infile, char **env)
 				else
 					*infile = open(str, O_RDONLY);
 				(*lst) = (*lst)->next;
-				free(delimiter);
 			}
 		}
 		free(ss);

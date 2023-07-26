@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:16:01 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/26 02:10:14 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/26 21:31:46 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	main(int ac, char *av[], char **env)
 {
 	char		*line;
 	t_lexer		*cur;
-	t_expand	*pp;
+	t_expand	*vv;
 	t_cmd		*tmp;
 	t_cmd		*tm;
 	int			i;
@@ -48,6 +48,9 @@ int	main(int ac, char *av[], char **env)
 	atexit(fu);
 	if (ft_check_argms(ac, av))
 		return (1);
+	t_expand	*pp;
+
+	pp = ft_init_expander(env);
 	while (1)
 	{
 		line = readline("minishell$ ");
@@ -60,7 +63,7 @@ int	main(int ac, char *av[], char **env)
 			ft_free_list(cur);
 			continue ;
 		}
-		pp = ft_expander(cur, env);
+		vv = ft_expander(cur, env, 1);
 		tmp = ft_join_argms(&cur, env);
 		/// had {{ tmp }} how li tkhdm bih how fih cmd and file and argms
 		tm = tmp;

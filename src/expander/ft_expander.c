@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 21:43:50 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/24 21:37:57 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/26 18:38:03 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_expand	*ft_init_expander(char **env)
 	return (expd);
 }
 
-void	ft_expander_env(t_lexer *lst, t_expand *expnd)
+void	ft_expander_env(t_lexer *lst, t_expand *expnd, int flg)
 {
 	t_lexer		*tmp;
 	t_expand	*cur;
@@ -47,18 +47,18 @@ void	ft_expander_env(t_lexer *lst, t_expand *expnd)
 		cur = expnd;
 		str = ft_strdup(tmp->value);
 		ft_check_after_here_doc(&tmp);
-		ft_expand_valid(cur, tmp);
+		ft_expand_valid(cur, tmp, flg);
 		ft_expand_no_valid(tmp, str);
 		if (tmp)
 			tmp = tmp->next;
 	}
 }
 
-t_expand	*ft_expander(t_lexer *lst, char **env)
+t_expand	*ft_expander(t_lexer *lst, char **env, int flg)
 {
 	t_expand	*exp;
 
 	exp = ft_init_expander(env);
-	ft_expander_env(lst, exp);
+	ft_expander_env(lst, exp, flg);
 	return (exp);
 }

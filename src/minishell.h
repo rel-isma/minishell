@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:18:02 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/18 18:40:05 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/26 20:26:56 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,14 +125,14 @@ int					ft_check_syntax_pipe(t_lexer *cur);
 
 t_expand			*ft_lexernew_expnd(char *key_v, char *val);
 void				ft_lexeradd_back_expnd(t_expand **lst, t_expand *new);
-t_expand			*ft_expander(t_lexer *lst, char **env);
+t_expand			*ft_expander(t_lexer *lst, char **env, int flg);
 t_expand			*ft_init_expander(char **env);
 void				ft_free_list_exp(t_expand *list);
 int					ft_strlen_env_aftr(char *env);
 int					ft_strlen_env_befor(char *env);
 void				ft_free_list_exp(t_expand *list);
 int					ft_strcmp(const char *s1, const char *s2);
-void				ft_expand_valid(t_expand *cur, t_lexer *tmp);
+void				ft_expand_valid(t_expand *cur, t_lexer *tmp, int flg);
 void				ft_expand_no_valid(t_lexer *tmp, char *str);
 void				ft_check_after_here_doc(t_lexer **tmp);
 
