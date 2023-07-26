@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 04:24:23 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/18 05:05:04 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/24 21:48:42 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,12 @@ void	handle_quote(t_lexer **tokenlist, char *line, int *i, t_status *s)
 {
 	if (line[*i] == '\'')
 	{
-		if (*s == GENERAL)
+		if (line[*i] == '\'' && line[*i + 1] == '\'' && *s == GENERAL)
+		{
+			ft_lexeradd_back(tokenlist, ft_lexernew("", GENERAL, WORD));
+			(*i) += 1;
+		}
+		else if (*s == GENERAL)
 		{
 			ft_lexeradd_back(tokenlist, ft_lexernew("\'", *s, QOUTE));
 			*s = IN_QUOTE;

@@ -6,11 +6,12 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 01:57:30 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/18 03:14:57 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/26 02:30:51 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
 
 void	ft_open_redir_out(t_parser **lst, int *oufile)
 {
@@ -66,31 +67,50 @@ void	ft_open_dredir_out(t_parser **lst, int *oufile)
 	}
 }
 
-void	ft_delimiter(int fd, char *delimiter)
+void ft_delimiter(int fd, char *delimiter, char **env)
 {
-	char	*line;
+    char *line;
+	t_expand *pp;
+	t_lexer *cur;
+	t_lexer *tmp;
 
-	while (1)
-	{
-		line = readline("> ");
-		if (line && ft_strcmp(line, delimiter) == 0)
-		{
+    while (1)
+    {
+        line = readline("> ");
+        if (!line)
+            break ;
+        if (line && ft_strcmp(line, delimiter) == 0)
+        {
 			free(line);
-			break ;
-		}
-		write(fd, line, ft_strlen(line));
-		write(fd, "\n", 1);
-		free(line);
-	}
+            break;
+        }
+       	tmp = ft_lexer(line);
+        pp = ft_expander(tmp, env);
+		cur = tmp;
+        while (cur)
+        {
+            write(fd, cur->value, ft_strlen(cur->value));
+            cur = cur->next;
+        }
+        write(fd, "\n", 1);
+		ft_free_list(tmp);
+		ft_free_list_exp(pp);
+    }
 }
 
-void	ft_open_here_doc(t_parser **lst, int *infile)
+void	ft_open_here_doc(t_parser **lst, int *infile, char **env)
 {
+	static	int i = 1;
 	char	*delimiter;
 	int		fd;
+	char	*str;
+	char	*ss;
 
+	
 	if ((*lst) && (*lst)->type == HERE_DOC)
 	{
+		ss = ft_itoa(i++);
+		str = ft_strjoin("heredoc>" , ss);
 		(*lst) = (*lst)->next;
 		if ((*lst) && (*lst)->type == WHITE_SPACE)
 			(*lst) = (*lst)->next;
@@ -99,12 +119,20 @@ void	ft_open_here_doc(t_parser **lst, int *infile)
 			delimiter = ft_strdup((*lst)->value);
 			if (delimiter)
 			{
-				fd = open(".here_doc_temp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
-				ft_delimiter(fd, delimiter);
-				close(fd);
-				*infile = open(".here_doc_temp", O_RDONLY);
+				fd = open(str, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+				ft_delimiter(fd, delimiter, env);
+				if (*infile != 0)
+				{
+					unlink(str);
+					close(fd);
+				}
+				else
+					*infile = open(str, O_RDONLY);
+				(*lst) = (*lst)->next;
 				free(delimiter);
 			}
 		}
+		free(ss);
+		free(str);
 	}
 }

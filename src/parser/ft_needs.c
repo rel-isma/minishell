@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 21:17:46 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/18 02:14:03 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/24 21:31:53 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	check_no_word(t_lexer *lst)
 		|| ((lst->type != WHITE_SPACE) && lst->type != PIPE_LINE
 			&& lst->type != REDIR_IN && lst->type != REDIR_OUT
 			&& lst->type != HERE_DOC && lst->type != DREDIR_OUT))
-		return (1);
+				return (1);
 	else
 		return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:16:01 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/18 02:34:55 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/26 02:10:14 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	main(int ac, char *av[], char **env)
 	t_cmd		*tm;
 	int			i;
 
-	// atexit(fu);
+	atexit(fu);
 	if (ft_check_argms(ac, av))
 		return (1);
 	while (1)
@@ -61,7 +61,7 @@ int	main(int ac, char *av[], char **env)
 			continue ;
 		}
 		pp = ft_expander(cur, env);
-		tmp = ft_join_argms(&cur);
+		tmp = ft_join_argms(&cur, env);
 		/// had {{ tmp }} how li tkhdm bih how fih cmd and file and argms
 		tm = tmp;
 		while (tm)

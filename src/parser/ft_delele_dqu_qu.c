@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 23:18:07 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/15 23:23:00 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/26 00:52:36 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	ft_delete_double_quote(t_lexer **lst)
 	t_lexer	*prev;
 
 	cur = *lst;
-	next = NULL;
 	prev = NULL;
 	while (cur)
 	{
@@ -32,10 +31,13 @@ void	ft_delete_double_quote(t_lexer **lst)
 				*lst = next;
 			free(cur->value);
 			free(cur);
+			cur = next;
 		}
 		else
+		{
 			prev = cur;
-		cur = cur->next;
+			cur = cur->next;
+		}
 	}
 }
 
@@ -46,7 +48,6 @@ void	ft_delete_quote(t_lexer **lst)
 	t_lexer	*prev;
 
 	cur = *lst;
-	next = NULL;
 	prev = NULL;
 	while (cur)
 	{
@@ -59,9 +60,12 @@ void	ft_delete_quote(t_lexer **lst)
 				*lst = next;
 			free(cur->value);
 			free(cur);
+			cur = next;
 		}
 		else
+		{
 			prev = cur;
-		cur = cur->next;
+			cur = cur->next;
+		}
 	}
 }
