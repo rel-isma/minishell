@@ -24,13 +24,9 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		return (NULL);
 	pcat = (char *)cat_str;
 	while (*s1)
-	{
 		*pcat++ = *s1++;
-	}
 	while (*s2)
-	{
 		*pcat++ = *s2++;
-	}
 	*pcat = '\0';
 	return ((char *)cat_str);
 }

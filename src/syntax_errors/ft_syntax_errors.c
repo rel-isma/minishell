@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 23:15:02 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/06/18 14:19:48 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/18 02:38:45 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,21 @@ int	ft_check_syntax_redir(t_lexer *lst)
 		return (1);
 	if (ft_check_stx_redir_in(lst))
 		return (1);
-	return (0);
+	else
+		return (0);
 }
 
-void	ft_syntax_errors(t_lexer *token_lst)
+int	ft_syntax_errors(t_lexer *token_lst)
 {
 	t_lexer	*current;
 
 	current = token_lst;
 	if (ft_check_syntax_qoute(current))
-		return ;
-	current = token_lst;
-	if (ft_check_syntax_redir(current))
-		return ;
-	current = token_lst;
-	if (ft_check_syntax_pipe(current))
-		return ;
+		return (1);
+	else if (ft_check_syntax_redir(current))
+		return (1);
+	else if (ft_check_syntax_pipe(current))
+		return (1);
+	else
+		return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:18:02 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/06/21 00:08:29 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/18 05:05:38 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,13 @@
 # define MINISHELL_H
 
 # include "../libfc/libft.h"
+# include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <stdio.h>
 # include <string.h>
 # include <unistd.h>
+# include <limits.h>
 
 typedef enum s_tokenstatus
 {
@@ -33,6 +35,7 @@ typedef enum s_tokentype
 	WHITE_SPACE,
 	QOUTE,
 	DOUBLE_QUOTE,
+	VOID,
 	ENV,
 	PIPE_LINE,
 	REDIR_IN,
@@ -56,6 +59,30 @@ typedef struct s_lexer
 	struct s_lexer	*next;
 }					t_lexer;
 
+typedef struct s_exp
+{
+	char			*key;
+	char			*vl;
+	int				len1;
+	int				len2;
+}					t_exp;
+
+typedef struct s_parser
+{
+	t_type			type;
+	char			*value;
+	struct s_parser	*next;
+}					t_parser;
+
+typedef struct s_cmd
+{
+	char			*cmd;
+	char			**argms;
+	int				infile;
+	int				oufile;
+	struct s_cmd	*next;
+}					t_cmd;
+
 ///////////////////////// functions lexer /////////////////////////////////////
 
 t_lexer				*ft_lexer(char *line);
@@ -78,13 +105,16 @@ void				handle_env(t_lexer **tokenlist, char *line, int *i,
 void				handle_word(t_lexer **tokenlist, char *line, int *i,
 						t_status *s);
 int					ft_line_word(char *str);
+void				ft_handle_white_space(t_lexer **tokenlist, char *line,
+						int *i, t_status s);
 int					ft_line_word(char *str);
 int					ft_line_env(char *str);
+int					white_space(char str);
 void				ft_free_list(t_lexer *list);
 
 //////functions syntax_errors ////////////////////////
 
-void				ft_syntax_errors(t_lexer *token_lst);
+int					ft_syntax_errors(t_lexer *token_lst);
 int					ft_check_syntax_qoute(t_lexer *lst);
 int					ft_check_stx_redir_out(t_lexer *cur);
 int					ft_check_stx_redir_in(t_lexer *cur);
@@ -105,5 +135,30 @@ int					ft_strcmp(const char *s1, const char *s2);
 void				ft_expand_valid(t_expand *cur, t_lexer *tmp);
 void				ft_expand_no_valid(t_lexer *tmp, char *str);
 void				ft_check_after_here_doc(t_lexer **tmp);
+
+/////////// functions parser ////////////////
+
+t_parser			*ft_parsernew(char *content, int flg, t_type type);
+void				ft_parseradd_back(t_parser **lst, t_parser *new);
+int					check_no_word(t_lexer *lst);
+t_parser			*ft_join_word(t_lexer *cur);
+t_cmd				*ft_join_argms(t_lexer **lst);
+void				ft_delete_double_quote(t_lexer **lst);
+void				ft_delete_quote(t_lexer **lst);
+void				ft_free_list_cmd(t_cmd *list);
+t_cmd				*ft_join_cmd(t_parser *lst);
+t_cmd				*ft_cmdnew(char *cmd, char **args, int infile, int oufile);
+void				ft_cmdadd_back(t_cmd **lst, t_cmd *new);
+int					ft_len(t_parser *cur);
+void				ft_open_all(t_parser **lst, int *infile, int *oufile);
+void				ft_open_redir_out(t_parser **lst, int *oufile);
+void				ft_open_redir_in(t_parser **lst, int *infile);
+void				ft_open_dredir_out(t_parser **lst, int *oufile);
+void				ft_open_here_doc(t_parser **lst, int *infile);
+void				ft_open_all(t_parser **lst, int *infile, int *oufile);
+void				ft_free_list_join(t_parser *list);
+void        ft_echo(t_cmd *tmp);
+void       ft_builting(t_cmd *tmp,t_expand **pp);
+void    ft_exec(t_cmd *tmp, t_expand *pp);
 
 #endif
