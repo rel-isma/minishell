@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:18:02 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/26 23:05:21 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/27 01:10:09 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,16 +146,15 @@ t_cmd				*ft_join_argms(t_lexer **lst, char **env);
 void				ft_delete_double_quote(t_lexer **lst);
 void				ft_delete_quote(t_lexer **lst);
 void				ft_free_list_cmd(t_cmd *list);
-t_cmd				*ft_join_cmd(t_parser *lst, char **env);
+t_cmd				*ft_join_cmd(t_parser *lst, char **env, char str);
 t_cmd				*ft_cmdnew(char *cmd, char **args, int infile, int oufile);
 void				ft_cmdadd_back(t_cmd **lst, t_cmd *new);
 int					ft_len(t_parser *cur);
-void				ft_open_all(t_parser **lst, int *infile, int *oufile, char **env);
+void				ft_open_all(t_parser **lst, int *infile, int *oufile, char **env, char str);
 void				ft_open_redir_out(t_parser **lst, int *oufile);
 void				ft_open_redir_in(t_parser **lst, int *infile);
 void				ft_open_dredir_out(t_parser **lst, int *oufile);
-void				ft_open_here_doc(t_parser **lst, int *infile, char **env);
-void				ft_open_all(t_parser **lst, int *infile, int *oufile, char **env);
+void				ft_open_here_doc(t_parser **lst, int *infile, char **env, char str);
 void				ft_free_list_join(t_parser *list);
 
 #endif

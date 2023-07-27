@@ -6,26 +6,26 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 13:23:56 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/25 23:36:22 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/27 01:10:30 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_open_all(t_parser **lst, int *infile, int *oufile, char **env)
+void	ft_open_all(t_parser **lst, int *infile, int *oufile, char **env, char str)
 {
 	if (*lst && ((*lst)->type == REDIR_IN || (*lst)->type == REDIR_OUT
 			|| (*lst)->type == HERE_DOC || (*lst)->type == DREDIR_OUT))
 	{
 		ft_open_redir_out(lst, oufile);
 		ft_open_redir_in(lst, infile);
-		ft_open_here_doc(lst, infile, env);
+		ft_open_here_doc(lst, infile, env, str);
 		ft_open_dredir_out(lst, oufile);
 		// puts((*lst)->value);
 	}
 }
 
-void	ft_creat_cmd_arg(t_parser **lst, int *infile, int *oufile, char **arg, char **env)
+void	ft_creat_cmd_arg(t_parser **lst, int *infile, int *oufile, char **arg, char **env, char str)
 {
 	int	i;
 
@@ -39,13 +39,13 @@ void	ft_creat_cmd_arg(t_parser **lst, int *infile, int *oufile, char **arg, char
 		}
 		if ((*lst) && (*lst)->type == WHITE_SPACE)
 			(*lst) = (*lst)->next;
-		ft_open_all(lst, infile, oufile, env);
+		ft_open_all(lst, infile, oufile, env, str);
 	}
 	arg[i] = NULL;
 }
 
 
-t_cmd	*ft_join_cmd(t_parser *lst, char **env)
+t_cmd	*ft_join_cmd(t_parser *lst, char **env, char str)
 {
 	t_cmd	*new;
 	char	**arg;
@@ -60,7 +60,7 @@ t_cmd	*ft_join_cmd(t_parser *lst, char **env)
 		arg = malloc((ft_len(lst) + 1) * sizeof(char *));
 		if (!arg)
 			return (NULL);
-		ft_creat_cmd_arg(&lst, &infile, &oufile, arg, env);
+		ft_creat_cmd_arg(&lst, &infile, &oufile, arg, env, str);
 		if (!*arg)
 			ft_cmdadd_back(&new, ft_cmdnew("", arg, infile, oufile));
 		else

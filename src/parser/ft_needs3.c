@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 01:57:30 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/26 23:08:00 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/27 01:11:46 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	ft_open_dredir_out(t_parser **lst, int *oufile)
 	}
 }
 
-void ft_delimiter(int fd, t_parser *delimiter , char **env)
+void ft_delimiter(int fd, t_parser *delimiter , char **env, char str)
 {
     char *line;
 	t_lexer *cur;
@@ -84,7 +84,8 @@ void ft_delimiter(int fd, t_parser *delimiter , char **env)
             break;
 		}
        	tmp = ft_lexer(line);
-        ft_expander(tmp, env, 0);
+		if (str != '\"' && str != '\'')
+        	ft_expander(tmp, env, 0);
 		cur = tmp;
         while (cur)
         {
@@ -96,7 +97,7 @@ void ft_delimiter(int fd, t_parser *delimiter , char **env)
     }
 }
 
-void	ft_open_here_doc(t_parser **lst, int *infile, char **env)
+void	ft_open_here_doc(t_parser **lst, int *infile, char **env, char str1)
 {
 	static	int i = 1;
 	int		fd;
@@ -116,7 +117,7 @@ void	ft_open_here_doc(t_parser **lst, int *infile, char **env)
 			if ((*lst)->value)
 			{
 				fd = open(str, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-				ft_delimiter(fd, (*lst), env);
+				ft_delimiter(fd, (*lst), env, str1);
 				if (*infile != 0)
 				{
 					unlink(str);
