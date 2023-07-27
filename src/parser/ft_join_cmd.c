@@ -12,7 +12,8 @@
 
 #include "../minishell.h"
 
-void	ft_open_all(t_parser **lst, int *infile, int *oufile, char **env, char str)
+void	ft_open_all(t_parser **lst, int *infile, int *oufile, char **env,
+		char str)
 {
 	if (*lst && ((*lst)->type == REDIR_IN || (*lst)->type == REDIR_OUT
 			|| (*lst)->type == HERE_DOC || (*lst)->type == DREDIR_OUT))
@@ -25,7 +26,8 @@ void	ft_open_all(t_parser **lst, int *infile, int *oufile, char **env, char str)
 	}
 }
 
-void	ft_creat_cmd_arg(t_parser **lst, int *infile, int *oufile, char **arg, char **env, char str)
+void	ft_creat_cmd_arg(t_parser **lst, int *infile, int *oufile, char **arg,
+		char **env, char str)
 {
 	int	i;
 
@@ -43,7 +45,6 @@ void	ft_creat_cmd_arg(t_parser **lst, int *infile, int *oufile, char **arg, char
 	}
 	arg[i] = NULL;
 }
-
 
 t_cmd	*ft_join_cmd(t_parser *lst, char **env, char str)
 {

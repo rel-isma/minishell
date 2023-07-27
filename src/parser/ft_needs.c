@@ -59,7 +59,7 @@ int	check_no_word(t_lexer *lst)
 		|| ((lst->type != WHITE_SPACE) && lst->type != PIPE_LINE
 			&& lst->type != REDIR_IN && lst->type != REDIR_OUT
 			&& lst->type != HERE_DOC && lst->type != DREDIR_OUT))
-				return (1);
+		return (1);
 	else
 		return (0);
 }

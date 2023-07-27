@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:18:02 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/27 01:10:09 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/27 20:46:58 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdio.h>
 # include <string.h>
 # include <unistd.h>
+# include <limits.h>
 
 typedef enum s_tokenstatus
 {
@@ -156,5 +157,11 @@ void				ft_open_redir_in(t_parser **lst, int *infile);
 void				ft_open_dredir_out(t_parser **lst, int *oufile);
 void				ft_open_here_doc(t_parser **lst, int *infile, char **env, char str);
 void				ft_free_list_join(t_parser *list);
+
+/////////////////// exec //////////////////////////////
+
+void				ft_builting(t_cmd *tmp, t_expand *pp);
+void				ft_exec(t_cmd *tmp, t_expand *pp);
+
 
 #endif
