@@ -1,11 +1,19 @@
 #include "../minishell.h"
-void        ft_echo(t_cmd *tmp)
+int x = 0;
+
+int        ft_exit_builtin()//finish fot exit builting
+{
+        return(x);
+}
+void        ft_echo(t_cmd *tmp) //echo the exit status 
 {
     t_cmd *tm;
     tm = tmp;
     int i = 1;
     int j = 2;
-    if(tmp->argms[1][0] == '-' && tmp->argms[1][1] == 'n')
+    if(ft_strcmp(tmp->argms[1], "?"))
+        printf("%d\n", x);
+    else if(tmp->argms[1][0] == '-' && tmp->argms[1][1] == 'n')
     {
         while(tmp->argms[1][i] == 'n')
             i++;
@@ -18,7 +26,6 @@ void        ft_echo(t_cmd *tmp)
                 printf(" ");
                 j++;
             }
-
         }
         else 
         {
@@ -52,11 +59,14 @@ void        ft_echo(t_cmd *tmp)
             }
     }
 }
-void    ft_pwd()
+void    ft_pwd()//finish
 {
     char ptr[PATH_MAX];
-    getcwd(ptr, sizeof(ptr));
-    printf("%s\n", ptr);
+    if(getcwd(ptr, sizeof(ptr)))
+    {    printf("%s\n", ptr);
+    }
+    else 
+        x = 1;
 }
 int     valid_home(t_expand *pp, t_cmd *tmp)
 {
@@ -79,46 +89,57 @@ int     valid_home(t_expand *pp, t_cmd *tmp)
 void     cd_home(t_expand *pp,t_cmd *tmp)
 {
     if(valid_home( pp, tmp) == 0)
+    {
         printf("HOME not set\n");
+        x = 1;
+    }
 }
-void    ft_cd(t_cmd *tmp,t_expand *pp)
+void    ft_cd(t_cmd *tmp,t_expand *pp)//finish
 {
-    static int s = 0;
+    // static int s = 0;
     char current_dir[PATH_MAX];
     char *cd_dir = malloc(sizeof(char) * PATH_MAX);
     if(tmp->argms[1] == NULL)
+    {
         cd_home(pp,tmp);
+    }
     getcwd(current_dir, sizeof(current_dir));
     cd_dir = ft_strjoin(current_dir, "/");
     cd_dir = ft_strjoin(cd_dir , tmp->argms[1]);
     if(chdir(cd_dir))
     {
-        if(s == 0)
-        {
-            printf("getcwd fail\n");
-            s++;
-        }
-        else
-        {
-            while(chdir(cd_dir))
-            cd_dir = ft_strjoin(cd_dir, "/..");
-            if(chdir(cd_dir) == 0)
-                return;
-        }
+            if(getcwd(current_dir, sizeof(current_dir)))
+            {
+                printf("cd: %s: Not a directory\n", tmp->argms[1]);
+                x = 1;
+            }
+            if(getcwd(current_dir, sizeof(current_dir)) == NULL)
+            {
+                printf("cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n");
+                x = 1;
+                chdir("..");
+            }
     }
+    free(cd_dir);
 }
-void	ft_unset(t_expand *pp, t_cmd *tmp)
+
+/* WEXITSTATUS(exit_status) */
+void	ft_unset(t_expand *pp, t_cmd *tmp) //finish
 {
 	t_expand	*cur;
 	t_expand	*next;
 	t_expand	*prev;
+    int         i = 1;
 
-	cur = pp;
 	next = NULL;
 	prev = NULL;
+
+    while (tmp->argms[i])
+    {
+	cur = pp;
 	while (cur)
 	{
-		if (ft_strcmp(cur->key, tmp->argms[1]) == 0)
+		if (ft_strcmp(cur->key, tmp->argms[i]) == 0)
 		{
 			next = cur->next;
 			if (prev)
@@ -132,8 +153,10 @@ void	ft_unset(t_expand *pp, t_cmd *tmp)
 			prev = cur;
 		cur = cur->next;
 	}
+    i++;
+    }
 }
-void   ft_env(t_expand *pp)
+void   ft_env(t_expand *pp) //finish
 {
     
     
@@ -143,7 +166,7 @@ void   ft_env(t_expand *pp)
         pp = pp->next;
     }
 }
-void       ft_builting(t_cmd *tmp, t_expand *pp)
+void       ft_builting(t_cmd *tmp, t_expand *pp)//not yet
 {
     if(ft_strcmp(tmp->cmd, "echo") == 0)
         ft_echo(tmp);
@@ -155,4 +178,10 @@ void       ft_builting(t_cmd *tmp, t_expand *pp)
         ft_unset(pp, tmp);
     if(ft_strcmp(tmp->cmd, "env") == 0)
         ft_env(pp);
+    if(ft_strcmp(tmp->cmd, "exit") == 0)
+    {
+        if(!tmp->argms[1])
+            ft_exit_builtin();
+    }
 }
+//ba9i blan f exit status u ghda nbda l execv;
