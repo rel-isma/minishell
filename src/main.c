@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:16:01 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/28 02:02:57 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/28 19:41:32 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	main(int ac, char *av[], char **env)
 	t_list		*tmp;
 	t_expand	*pp;
 
-	atexit(fu);
+	// atexit(fu);
 	if (ft_check_argms(ac, av))
 		return (1);
 
@@ -61,25 +61,25 @@ int	main(int ac, char *av[], char **env)
 		}
 		ft_expander(cur, pp, 1);
 		tmp = ft_join_argms(&cur, pp);
-		//ft_exec(tmp, pp);
+		if (tmp)
+			ft_exec(tmp, env);
 
-		int			i;
-		t_list		*tm = tmp;
-		while (tm)
-		{
-			i = 0;
-			printf("cmd->\t[%s]\t infile [%d]\t oufile [%d]\t infilename [%s]\t", ((t_cmd *)(tm->content))->cmd,
-				((t_cmd *)(tm->content))->infile, ((t_cmd *)(tm->content))->oufile, (tt(tm->content))->infilename);
-			while (((t_cmd *)(tm->content))->argms[i])
-			{
-				printf("arg->\t[%s]\t", ((t_cmd *)(tm->content))->argms[i]);
-				i++;
-			}
-			printf("\n");
-			tm = tm->next;
-		}
+		// int			i;
+		// t_list		*tm = tmp;
+		// while (tm)
+		// {
+		// 	i = 0;
+		// 	printf("cmd->\t[%s]\t infile [%d]\t oufile [%d]\t infilename [%s]\t", ((t_cmd *)(tm->content))->cmd,
+		// 		((t_cmd *)(tm->content))->infile, ((t_cmd *)(tm->content))->oufile, (tt(tm->content))->infilename);
+		// 	while (((t_cmd *)(tm->content))->argms[i])
+		// 	{
+		// 		printf("arg->\t[%s]\t", ((t_cmd *)(tm->content))->argms[i]);
+		// 		i++;
+		// 	}
+		// 	printf("\n");
+		// 	tm = tm->next;
+		// }
 
-		//ft_free_all(cur, tmp);
 	}
 	return (0);
 }

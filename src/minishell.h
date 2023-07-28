@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:18:02 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/28 02:02:16 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/28 18:21:37 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <unistd.h>
 # include <limits.h>
 
-# define tt (t_cmd *)
+# define tl (t_cmd *)
 
 typedef enum s_tokenstatus
 {
@@ -85,7 +85,7 @@ typedef struct s_cmd
 	char*			infilename;
 	char*			oufilename;
 	t_expand		*envl;
-	// struct s_cmd	*next;
+	int 			exit_status;
 }					t_cmd;
 
 ///////////////////////// functions lexer /////////////////////////////////////
@@ -165,8 +165,10 @@ void				ft_free_list_join(t_parser *list);
 
 /////////////////// exec //////////////////////////////
 
-void				ft_builting(t_cmd *tmp, t_expand *pp);
-void				ft_exec(t_cmd *tmp, t_expand *pp);
+void				ft_builting(t_list *tmp);
+void				ft_exec(t_list *tmp, char **env);
+void				ft_commands(t_list *tmp, char **env);
+void			*sort_list(t_expand* pp);
 
 
 #endif

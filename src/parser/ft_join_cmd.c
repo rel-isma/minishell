@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 13:23:56 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/28 01:56:03 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/28 19:36:04 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	cmd_init(t_cmd *cmd, t_expand *env)
 	cmd->cmd = NULL;
 	cmd->infile = 0;
 	cmd->oufile = 1;
+	cmd->exit_status = 0;
 	cmd->infilename = NULL;
 	cmd->oufilename = NULL;
 	cmd->envl = env;
@@ -58,14 +59,10 @@ void	cmd_init(t_cmd *cmd, t_expand *env)
 t_list	*ft_join_cmd(t_parser *lst, t_expand *env, char str)
 {
 	t_list	*list;
-	// char	**arg;
-	// int		infile;
-	// int		oufile;
 	t_cmd	*cmd;
 
+	list = NULL;
 	cmd = NULL;
-	// infile = 0;
-	// oufile = 1;
 	while (lst)
 	{
 		cmd =  malloc(sizeof(t_cmd));
@@ -75,18 +72,9 @@ t_list	*ft_join_cmd(t_parser *lst, t_expand *env, char str)
 			return (perror("malloc"), NULL);
 		ft_creat_cmd_arg(&lst, cmd, str);
 		if (!*(cmd->argms))
-		{
 			cmd->cmd = ft_strdup("");
-		}
 		else
 			cmd->cmd = ft_strdup(cmd->argms[0]);
-
-		// if (!*arg)
-			// ft_cmdadd_back(&new, ft_cmdnew("", arg, infile, oufile));
-		// else
-		// 	ft_cmdadd_back(&new, ft_cmdnew(arg[0], arg, infile, oufile));
-		// infile = 0;
-		// oufile = 1;
 		ft_lstadd_back(&list, ft_lstnew(cmd));
 		if (lst)
 			lst = lst->next;
