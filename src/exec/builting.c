@@ -1,9 +1,9 @@
 #include "../minishell.h"
 int x = 0;
 
-int        ft_exit_builtin()//finish fot exit builting
+int        ft_exit_builtin(t_cmd *tmp)//finish fot exit builting
 {
-        return(x);
+        exit(tmp->exit_status);
 }
 void        ft_echo(t_cmd *tmp) //echo the exit status 
 {
@@ -11,9 +11,7 @@ void        ft_echo(t_cmd *tmp) //echo the exit status
     tm = tmp;
     int i = 1;
     int j = 2;
-    if(ft_strcmp(tmp->argms[1], "?"))
-        printf("%d\n", x);
-    else if(tmp->argms[1][0] == '-' && tmp->argms[1][1] == 'n')
+    if(tmp->argms[1][0] == '-' && tmp->argms[1][1] == 'n')
     {
         while(tmp->argms[1][i] == 'n')
             i++;
@@ -124,35 +122,58 @@ void    ft_cd(t_cmd *tmp,t_expand *pp)//finish
 }
 
 /* WEXITSTATUS(exit_status) */
+int     syntax(char *str)
+{
+
+    int j = 0;
+    while(str[j])
+    {
+        if(ft_isdigit(str[0]))
+        {
+                printf("bash: unset: `%s': not a valid identifier\n", str);
+                return(0);
+        }
+        else if(!ft_isalnum(str[j]) && !ft_isalnum(str[j]) && str[j] != '_')
+                {
+                printf("bash: unset: `%s': not a valid identifier\n", str);
+                return(0);
+                }
+        j++;
+    }
+    return(1);
+}
 void	ft_unset(t_expand *pp, t_cmd *tmp) //finish
 {
 	t_expand	*cur;
 	t_expand	*next;
 	t_expand	*prev;
-    int         i = 1;
+    int i = 1;
 
 	next = NULL;
 	prev = NULL;
 
     while (tmp->argms[i])
     {
-	cur = pp;
-	while (cur)
-	{
-		if (ft_strcmp(cur->key, tmp->argms[i]) == 0)
-		{
-			next = cur->next;
-			if (prev)
-				prev->next = next;
-			else
-				pp = next;
-			free(cur->value);
-			free(cur);
+	    cur = pp;
+    if(syntax(tmp->argms[i]))
+    {
+	    while (cur)
+	    {
+		    if (ft_strcmp(cur->key, tmp->argms[i]) == 0)
+		        {
+			        next = cur->next;
+			        if (prev)
+				        prev->next = next;
+			        else
+				        pp = next;
+			        free(cur->value);
+			        free(cur);
 		}
 		else
 			prev = cur;
 		cur = cur->next;
-	}
+	    }
+    }
     i++;
     }
 }
@@ -166,6 +187,34 @@ void   ft_env(t_expand *pp) //finish
         pp = pp->next;
     }
 }
+void        ft_export(t_expand *pp, t_cmd *tmp)
+{
+    int i = 1;
+    t_expand *p;
+    p = pp;
+    if(!tmp->argms[1])
+    {
+        sort_list(pp);
+        while(pp)
+        {
+            printf("declare -x %s=%s\n", pp->key, pp->value);
+            pp = pp->next;
+        }
+
+    }
+    else if(tmp->argms[i])
+    {
+        while(tmp->argms[i])
+        {
+        if(syntax(tmp->argms[i]))
+            {
+                //zid dak l arg f export;
+            }
+        i++;
+        }
+    }
+    pp = p;
+}
 void       ft_builting(t_cmd *tmp, t_expand *pp)//not yet
 {
     if(ft_strcmp(tmp->cmd, "echo") == 0)
@@ -178,10 +227,13 @@ void       ft_builting(t_cmd *tmp, t_expand *pp)//not yet
         ft_unset(pp, tmp);
     if(ft_strcmp(tmp->cmd, "env") == 0)
         ft_env(pp);
+    if(ft_strcmp(tmp->cmd, "export") == 0)
+        ft_export(pp,tmp);
     if(ft_strcmp(tmp->cmd, "exit") == 0)
     {
         if(!tmp->argms[1])
-            ft_exit_builtin();
+            ft_exit_builtin(tmp);
     }
+    
 }
 //ba9i blan f exit status u ghda nbda l execv;

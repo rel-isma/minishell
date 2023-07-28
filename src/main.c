@@ -45,7 +45,7 @@ int	main(int ac, char *av[], char **env)
 
 	// int			i;
 
-	atexit(fu);
+	// atexit(fu);
 	if (ft_check_argms(ac, av))
 		return (1);
 	t_expand	*pp;
@@ -65,7 +65,7 @@ int	main(int ac, char *av[], char **env)
 		}
 		vv = ft_expander(cur, env, 1);
 		tmp = ft_join_argms(&cur, env);
-		ft_exec(tmp, pp);
+		ft_exec(tmp, pp, env);
 		ft_free_all(cur, vv, tmp);
 	}
 	return (0);

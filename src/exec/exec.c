@@ -18,8 +18,10 @@ int     ft_check(t_cmd *tmp)
         return(1);
     return(0);
 }
-void    ft_exec(t_cmd *tmp, t_expand *pp)
+void    ft_exec(t_cmd *tmp, t_expand *pp, char **env)
 {
     if(ft_check(tmp))
         ft_builting(tmp, pp);
+    else 
+        ft_commands(tmp, pp, env);
 }

@@ -22,6 +22,7 @@
 # include <unistd.h>
 # include <limits.h>
 
+
 typedef enum s_tokenstatus
 {
 	GENERAL = 1,
@@ -81,6 +82,7 @@ typedef struct s_cmd
 	int				infile;
 	int				oufile;
 	struct s_cmd	*next;
+	int 			exit_status;
 }					t_cmd;
 
 ///////////////////////// functions lexer /////////////////////////////////////
@@ -158,8 +160,12 @@ void				ft_open_dredir_out(t_parser **lst, int *oufile);
 void				ft_open_here_doc(t_parser **lst, int *infile, char **env);
 void				ft_open_all(t_parser **lst, int *infile, int *oufile, char **env);
 void				ft_free_list_join(t_parser *list);
-void       ft_builting(t_cmd *tmp, t_expand *pp);
-void    ft_exec(t_cmd *tmp, t_expand *pp);
-
+void       			ft_builting(t_cmd *tmp, t_expand *pp);
+void    			ft_exec(t_cmd *tmp, t_expand *pp, char **env);
+void             	ft_commands(t_cmd *tmp, t_expand *pp, char **env);
+t_expand			*sort_list(t_expand* pp);
+void	ft_lstadd_back_export(t_expand  **lst, t_expand  *new);
+t_expand	*ft_lstlast_export(t_expand *lst);
+t_expand	*ft_lstnew_export(char *str);
 
 #endif

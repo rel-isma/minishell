@@ -21,7 +21,9 @@ SOURCES = src/main.c src/lexer/lexer.c src/lexer/lexer_needs.c  src/lexer/lexer_
 		  src/parser/ft_join_argms.c  src/parser/ft_needs.c src/parser/ft_delele_dqu_qu.c src/parser/ft_join_cmd.c \
 		  src/parser/ft_needs2.c src/parser/ft_needs3.c \
 		  src/exec/builting.c \
-		  src/exec/exec.c 
+		  src/exec/exec.c \
+		  src/exec/commands.c \
+		  src/exec/sort_list.c 
 
 OBJECTS = $(SOURCES:%.c=obj/%.o)
 
