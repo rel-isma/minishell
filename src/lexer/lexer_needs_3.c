@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 20:34:00 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/18 05:05:22 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/18 18:28:57 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,13 @@ void	special_variables_2(t_lexer **tokenlist, char *line, int *i,
 void	ft_handle_white_space(t_lexer **tokenlist, char *line, int *i,
 		t_status s)
 {
+	char	str[2];
+
 	if (white_space(line[*i]))
 	{
-		ft_lexeradd_back(tokenlist, ft_lexernew((char[]){line[*i], '\0'}, s,
+		str[0] = line[*i];
+		str[1] = '\0';
+		ft_lexeradd_back(tokenlist, ft_lexernew(str, s,
 				WHITE_SPACE));
 		(*i) += 1;
 		if (s == GENERAL)

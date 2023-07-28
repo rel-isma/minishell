@@ -6,13 +6,13 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 01:57:30 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/18 03:14:57 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/28 02:09:15 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_open_redir_out(t_parser **lst, int *oufile)
+void	ft_open_redir_out(t_parser **lst, t_cmd *cmd)
 {
 	if ((*lst) && (*lst)->type == REDIR_OUT)
 	{
@@ -21,16 +21,16 @@ void	ft_open_redir_out(t_parser **lst, int *oufile)
 			(*lst) = (*lst)->next;
 		if ((*lst) && (*lst)->type == WORD)
 		{
-			if (*oufile != 1)
-				close(*oufile);
-			*oufile = open((*lst)->value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if (cmd->oufile != 1)
+				close(cmd->oufile);
+			cmd->oufile = open((*lst)->value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			if ((*lst))
 				(*lst) = (*lst)->next;
 		}
 	}
 }
 
-void	ft_open_redir_in(t_parser **lst, int *infile)
+void	ft_open_redir_in(t_parser **lst, t_cmd *cmd)
 {
 	if ((*lst) && (*lst)->type == REDIR_IN)
 	{
@@ -39,16 +39,16 @@ void	ft_open_redir_in(t_parser **lst, int *infile)
 			(*lst) = (*lst)->next;
 		if ((*lst) && (*lst)->type == WORD)
 		{
-			if (*infile != 0)
-				close(*infile);
-			*infile = open((*lst)->value, O_RDONLY);
+			if (cmd->infile != 0)
+				close(cmd->infile);
+			cmd->infile = open((*lst)->value, O_RDONLY);
 			if ((*lst))
 				(*lst) = (*lst)->next;
 		}
 	}
 }
 
-void	ft_open_dredir_out(t_parser **lst, int *oufile)
+void	ft_open_dredir_out(t_parser **lst, t_cmd *cmd)
 {
 	if ((*lst) && (*lst)->type == DREDIR_OUT)
 	{
@@ -57,53 +57,67 @@ void	ft_open_dredir_out(t_parser **lst, int *oufile)
 			(*lst) = (*lst)->next;
 		if ((*lst) && (*lst)->type == WORD)
 		{
-			if (*oufile != 1)
-				close(*oufile);
-			*oufile = open((*lst)->value, O_WRONLY | O_CREAT | O_APPEND, 0644);
+			if (cmd->oufile != 1)
+				close(cmd->oufile);
+			cmd->oufile = open((*lst)->value, O_WRONLY | O_CREAT | O_APPEND, 0644);
 			if ((*lst))
 				(*lst) = (*lst)->next;
 		}
 	}
 }
 
-void	ft_delimiter(int fd, char *delimiter)
+void	ft_delimiter(int fd, t_parser *delimiter, t_expand *env, char str)
 {
 	char	*line;
+	t_lexer	*cur;
+	t_lexer	*tmp;
 
 	while (1)
 	{
 		line = readline("> ");
-		if (line && ft_strcmp(line, delimiter) == 0)
+		if (!line)
+			break ;
+		if (line && ft_strcmp(line, delimiter->value) == 0)
 		{
 			free(line);
 			break ;
 		}
-		write(fd, line, ft_strlen(line));
+		tmp = ft_lexer(line);
+		if (str != '\"' && str != '\'')
+			ft_expander(tmp, env, 0);
+		cur = tmp;
+		while (cur)
+		{
+			write(fd, cur->value, ft_strlen(cur->value));
+			cur = cur->next;
+		}
 		write(fd, "\n", 1);
-		free(line);
+		ft_free_list(tmp);
 	}
 }
 
-void	ft_open_here_doc(t_parser **lst, int *infile)
+void	ft_open_here_doc(t_parser **lst, t_cmd *cmd, char str1)
 {
-	char	*delimiter;
-	int		fd;
+	static int	i = 1;
+	int			fd;
+	char		*str;
 
 	if ((*lst) && (*lst)->type == HERE_DOC)
 	{
+		str = ft_strjoin("/tmp/.heredoc>", ft_itoa(i));
+		i++;
 		(*lst) = (*lst)->next;
 		if ((*lst) && (*lst)->type == WHITE_SPACE)
 			(*lst) = (*lst)->next;
 		if ((*lst))
 		{
-			delimiter = ft_strdup((*lst)->value);
-			if (delimiter)
+			if ((*lst)->value)
 			{
-				fd = open(".here_doc_temp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
-				ft_delimiter(fd, delimiter);
+				fd = open(str, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+				ft_delimiter(fd, (*lst), cmd->envl, str1);
+				cmd->infilename = str;
 				close(fd);
-				*infile = open(".here_doc_temp", O_RDONLY);
-				free(delimiter);
+				(*lst) = (*lst)->next;
 			}
 		}
 	}

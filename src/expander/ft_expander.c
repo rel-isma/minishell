@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 21:43:50 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/16 00:26:54 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/28 20:58:52 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_expand	*ft_init_expander(char **env)
 	return (expd);
 }
 
-void	ft_expander_env(t_lexer *lst, t_expand *expnd)
+void	ft_expander_env(t_lexer *lst, t_expand *expnd, int flg)
 {
 	t_lexer		*tmp;
 	t_expand	*cur;
@@ -47,18 +47,16 @@ void	ft_expander_env(t_lexer *lst, t_expand *expnd)
 		cur = expnd;
 		str = ft_strdup(tmp->value);
 		ft_check_after_here_doc(&tmp);
-		ft_expand_valid(cur, tmp);
+		ft_expand_valid(cur, tmp, flg);
 		ft_expand_no_valid(tmp, str);
 		if (tmp)
 			tmp = tmp->next;
 	}
 }
 
-t_expand	*ft_expander(t_lexer *lst, char **env)
+void	ft_expander(t_lexer *lst, t_expand *exp, int flg)
 {
-	t_expand	*exp;
-
-	exp = ft_init_expander(env);
-	ft_expander_env(lst, exp);
-	return (exp);
+	
+	ft_expander_env(lst, exp, flg);
+	// ft_free_list_exp(exp);
 }

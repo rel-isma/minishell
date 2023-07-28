@@ -6,25 +6,26 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 13:23:56 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/18 03:15:02 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/28 19:36:04 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_open_all(t_parser **lst, int *infile, int *oufile)
+void	ft_open_all(t_parser **lst, t_cmd *cmd, char str)
 {
 	if (*lst && ((*lst)->type == REDIR_IN || (*lst)->type == REDIR_OUT
 			|| (*lst)->type == HERE_DOC || (*lst)->type == DREDIR_OUT))
 	{
-		ft_open_redir_out(lst, oufile);
-		ft_open_redir_in(lst, infile);
-		ft_open_here_doc(lst, infile);
-		ft_open_dredir_out(lst, oufile);
+		ft_open_redir_out(lst, cmd);
+		ft_open_redir_in(lst, cmd);
+		ft_open_here_doc(lst, cmd, str);
+		ft_open_dredir_out(lst, cmd);
+		// puts((*lst)->value);
 	}
 }
 
-void	ft_creat_cmd_arg(t_parser **lst, int *infile, int *oufile, char **arg)
+void	ft_creat_cmd_arg(t_parser **lst, t_cmd *cmd, char str)
 {
 	int	i;
 
@@ -33,41 +34,50 @@ void	ft_creat_cmd_arg(t_parser **lst, int *infile, int *oufile, char **arg)
 	{
 		if ((*lst)->type == WORD)
 		{
-			arg[i] = ft_strdup((*lst)->value);
-			i++;
+			cmd->argms[i++] = ft_strdup((*lst)->value);
 			(*lst) = (*lst)->next;
 		}
 		if ((*lst) && (*lst)->type == WHITE_SPACE)
 			(*lst) = (*lst)->next;
-		ft_open_all(lst, infile, oufile);
+		ft_open_all(lst, cmd, str);
 	}
-	arg[i] = NULL;
+	cmd->argms[i] = NULL;
 }
 
-t_cmd	*ft_join_cmd(t_parser *lst)
+void	cmd_init(t_cmd *cmd, t_expand *env)
 {
-	t_cmd	*new;
-	char	**arg;
-	int		infile;
-	int		oufile;
+	cmd->argms = NULL;
+	cmd->cmd = NULL;
+	cmd->infile = 0;
+	cmd->oufile = 1;
+	cmd->exit_status = 0;
+	cmd->infilename = NULL;
+	cmd->oufilename = NULL;
+	cmd->envl = env;
+}
 
-	new = NULL;
-	infile = 0;
-	oufile = 1;
+t_list	*ft_join_cmd(t_parser *lst, t_expand *env, char str)
+{
+	t_list	*list;
+	t_cmd	*cmd;
+
+	list = NULL;
+	cmd = NULL;
 	while (lst)
 	{
-		arg = malloc((ft_len(lst) + 1) * sizeof(char *));
-		if (!arg)
-			return (NULL);
-		ft_creat_cmd_arg(&lst, &infile, &oufile, arg);
-		if (!*arg)
-			ft_cmdadd_back(&new, ft_cmdnew("", arg, infile, oufile));
+		cmd =  malloc(sizeof(t_cmd));
+		cmd_init(cmd, env);
+		cmd->argms = malloc((ft_len(lst) + 1) * sizeof(char *));
+		if (!cmd->argms)
+			return (perror("malloc"), NULL);
+		ft_creat_cmd_arg(&lst, cmd, str);
+		if (!*(cmd->argms))
+			cmd->cmd = ft_strdup("");
 		else
-			ft_cmdadd_back(&new, ft_cmdnew(arg[0], arg, infile, oufile));
-		infile = 0;
-		oufile = 1;
+			cmd->cmd = ft_strdup(cmd->argms[0]);
+		ft_lstadd_back(&list, ft_lstnew(cmd));
 		if (lst)
 			lst = lst->next;
 	}
-	return (new);
+	return (list);
 }

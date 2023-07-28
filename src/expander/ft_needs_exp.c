@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 16:47:39 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/06/19 19:48:24 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/28 21:07:47 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	ft_strlen_env_aftr(char *env)
 	int	len;
 
 	len = 0;
-	while (env[len] != '=')
+	while (env[len] && env[len] != '=')
 		len++;
 	return (len);
 }
@@ -64,29 +64,28 @@ int	ft_strlen_env_befor(char *env)
 	{
 		if (env[j] == '=')
 		{
-			while (env[j])
-			{
+			while (env[++j])
 				len++;
-				j++;
-			}
 		}
+		if (env[j] == 0)
+			break ;
 		j++;
 	}
 	return (len);
 }
 
-void	ft_free_list_exp(t_expand *list)
-{
-	int			i;
-	t_expand	*tmp;
+// void	ft_free_list_exp(t_expand *list)
+// {
+// 	int			i;
+// 	t_expand	*tmp;
 
-	i = 0;
-	while (list)
-	{
-		tmp = list->next;
-		free(list->value);
-		free(list->key);
-		free(list);
-		list = tmp;
-	}
-}
+// 	i = 0;
+// 	while (list)
+// 	{
+// 		tmp = list->next;
+// 		free(list->value);
+// 		free(list->key);
+// 		// free(list);
+// 		list = tmp;
+// 	}
+// }

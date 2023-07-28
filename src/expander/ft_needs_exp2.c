@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 00:06:27 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/15 16:05:28 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/26 22:41:49 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,24 @@ int	ft_strcmp(const char *s1, const char *s2)
 	return ((unsigned char)s1[idx] - (unsigned char)s2[idx]);
 }
 
-void	ft_expand_valid(t_expand *cur, t_lexer *tmp)
+void	ft_expand_valid(t_expand *cur, t_lexer *tmp, int flg)
 {
 	while (cur)
 	{
-		if (tmp && tmp->type == ENV && tmp->status != IN_QUOTE
-			&& ft_strcmp(cur->key, (tmp->value + 1)) == 0)
-		{
-			free(tmp->value);
-			tmp->value = ft_strdup(cur->value);
-			break ;
-		}
+			if (tmp && flg == 0 && tmp->type == ENV
+				&& ft_strcmp(cur->key, (tmp->value + 1)) == 0)
+			{
+				free(tmp->value);
+				tmp->value = ft_strdup(cur->value);
+				break ;
+			}
+			if (tmp && flg && tmp->type == ENV && tmp->status != IN_QUOTE
+				&& ft_strcmp(cur->key, (tmp->value + 1)) == 0)
+			{
+				free(tmp->value);
+				tmp->value = ft_strdup(cur->value);
+				break ;
+			}
 		cur = cur->next;
 	}
 }
