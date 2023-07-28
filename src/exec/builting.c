@@ -66,6 +66,17 @@ void    ft_pwd()//finish
     else 
         x = 1;
 }
+int     cd_root(char *str)
+{
+    int i = 0;
+    while(str[i])
+    {
+        if(str[i] != '/')
+            return(0);
+        i++;
+    }
+    return(1);
+}
 int     valid_home(t_expand *pp, t_cmd *tmp)
 {
     int home = 0;
@@ -94,17 +105,21 @@ void     cd_home(t_expand *pp,t_cmd *tmp)
 }
 void    ft_cd(t_cmd *tmp,t_expand *pp)//finish
 {
-    // static int s = 0;
     char current_dir[PATH_MAX];
     char *cd_dir = malloc(sizeof(char) * PATH_MAX);
-    if(tmp->argms[1] == NULL)
-    {
-        cd_home(pp,tmp);
-    }
     getcwd(current_dir, sizeof(current_dir));
     cd_dir = ft_strjoin(current_dir, "/");
     cd_dir = ft_strjoin(cd_dir , tmp->argms[1]);
-    if(chdir(cd_dir))
+    if(tmp->argms[1] == NULL || ft_strcmp(tmp->argms[1], "~") == 0)
+    {
+        cd_home(pp,tmp);
+    }
+    else if(cd_root(tmp->argms[1]))
+    {
+        
+            chdir("/");
+    }
+    else if(chdir(cd_dir))
     {
             if(getcwd(current_dir, sizeof(current_dir)))
             {
@@ -121,7 +136,6 @@ void    ft_cd(t_cmd *tmp,t_expand *pp)//finish
     free(cd_dir);
 }
 
-/* WEXITSTATUS(exit_status) */
 int     syntax(char *str)
 {
 
