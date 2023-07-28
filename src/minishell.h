@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:18:02 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/27 20:46:58 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/28 02:02:16 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # include <string.h>
 # include <unistd.h>
 # include <limits.h>
+
+# define tt (t_cmd *)
 
 typedef enum s_tokenstatus
 {
@@ -80,7 +82,10 @@ typedef struct s_cmd
 	char			**argms;
 	int				infile;
 	int				oufile;
-	struct s_cmd	*next;
+	char*			infilename;
+	char*			oufilename;
+	t_expand		*envl;
+	// struct s_cmd	*next;
 }					t_cmd;
 
 ///////////////////////// functions lexer /////////////////////////////////////
@@ -126,7 +131,7 @@ int					ft_check_syntax_pipe(t_lexer *cur);
 
 t_expand			*ft_lexernew_expnd(char *key_v, char *val);
 void				ft_lexeradd_back_expnd(t_expand **lst, t_expand *new);
-void				ft_expander(t_lexer *lst, char **env, int flg);
+void				ft_expander(t_lexer *lst, t_expand *exp, int flg);
 t_expand			*ft_init_expander(char **env);
 void				ft_free_list_exp(t_expand *list);
 int					ft_strlen_env_aftr(char *env);
@@ -143,19 +148,19 @@ t_parser			*ft_parsernew(char *content, int flg, t_type type);
 void				ft_parseradd_back(t_parser **lst, t_parser *new);
 int					check_no_word(t_lexer *lst);
 t_parser			*ft_join_word(t_lexer *cur);
-t_cmd				*ft_join_argms(t_lexer **lst, char **env);
+t_list				*ft_join_argms(t_lexer **lst, t_expand *env);
 void				ft_delete_double_quote(t_lexer **lst);
 void				ft_delete_quote(t_lexer **lst);
 void				ft_free_list_cmd(t_cmd *list);
-t_cmd				*ft_join_cmd(t_parser *lst, char **env, char str);
+t_list				*ft_join_cmd(t_parser *lst, t_expand *env, char str);
 t_cmd				*ft_cmdnew(char *cmd, char **args, int infile, int oufile);
 void				ft_cmdadd_back(t_cmd **lst, t_cmd *new);
 int					ft_len(t_parser *cur);
-void				ft_open_all(t_parser **lst, int *infile, int *oufile, char **env, char str);
-void				ft_open_redir_out(t_parser **lst, int *oufile);
-void				ft_open_redir_in(t_parser **lst, int *infile);
-void				ft_open_dredir_out(t_parser **lst, int *oufile);
-void				ft_open_here_doc(t_parser **lst, int *infile, char **env, char str);
+void				ft_open_all(t_parser **lst, t_cmd *cmd, char str);
+void				ft_open_redir_out(t_parser **lst, t_cmd *cmd);
+void				ft_open_redir_in(t_parser **lst, t_cmd *cmd);
+void				ft_open_dredir_out(t_parser **lst, t_cmd *cmd);
+void				ft_open_here_doc(t_parser **lst, t_cmd *cmd, char str);
 void				ft_free_list_join(t_parser *list);
 
 /////////////////// exec //////////////////////////////

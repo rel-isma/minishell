@@ -6,17 +6,17 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:16:01 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/27 20:53:50 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/28 02:02:57 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_free_all(t_lexer *cur, t_cmd *tmp)
-{
-	ft_free_list(cur);
-	ft_free_list_cmd(tmp);
-}
+// void	ft_free_all(t_lexer *cur, t_list *tmp)
+// {
+// 	ft_free_list(cur);
+// 	ft_free_list_cmd(tmp);
+// }
 
 int	ft_check_argms(int ac, char **av)
 {
@@ -39,7 +39,7 @@ int	main(int ac, char *av[], char **env)
 {
 	char		*line;
 	t_lexer		*cur;
-	t_cmd		*tmp;
+	t_list		*tmp;
 	t_expand	*pp;
 
 	atexit(fu);
@@ -59,28 +59,27 @@ int	main(int ac, char *av[], char **env)
 			ft_free_list(cur);
 			continue ;
 		}
-		ft_expander(cur, env, 1);
-		tmp = ft_join_argms(&cur, env);
-		ft_exec(tmp, pp);
+		ft_expander(cur, pp, 1);
+		tmp = ft_join_argms(&cur, pp);
+		//ft_exec(tmp, pp);
 
-		// int			i;
-		// t_cmd		*tm = tmp;
-		// while (tm)
-		// {
-		// 	i = 0;
-		// 	printf("cmd->\t[%s]\t infile [%d]\t oufile [%d]\t", tm->cmd,
-		// 		tm->infile, tm->oufile);
-		// 	while (tm->argms[i])
-		// 	{
-		// 		printf("arg->\t[%s]\t", tm->argms[i]);
-		// 		i++;
-		// 	}
-		// 	printf("\n");
-		// 	tm = tm->next;
-		// }
+		int			i;
+		t_list		*tm = tmp;
+		while (tm)
+		{
+			i = 0;
+			printf("cmd->\t[%s]\t infile [%d]\t oufile [%d]\t infilename [%s]\t", ((t_cmd *)(tm->content))->cmd,
+				((t_cmd *)(tm->content))->infile, ((t_cmd *)(tm->content))->oufile, (tt(tm->content))->infilename);
+			while (((t_cmd *)(tm->content))->argms[i])
+			{
+				printf("arg->\t[%s]\t", ((t_cmd *)(tm->content))->argms[i]);
+				i++;
+			}
+			printf("\n");
+			tm = tm->next;
+		}
 
-		ft_free_all(cur, tmp);
-		// ft_free_list_exp(pp);
+		//ft_free_all(cur, tmp);
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 16:41:16 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/27 01:09:25 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/28 01:05:15 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,10 @@ char	ft_get_after_here(t_lexer *lst)
 	return ('\0');
 }
 
-t_cmd	*ft_join_argms(t_lexer **lst, char **env)
+t_list	*ft_join_argms(t_lexer **lst, t_expand *env)
 {
 	t_parser	*tok_new;
-	t_cmd		*cmd;
+	t_list		*cmd;
 	char		str;
 
 	str = ft_get_after_here(*lst);
