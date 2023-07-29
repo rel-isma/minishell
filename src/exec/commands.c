@@ -52,11 +52,12 @@ void             ft_commands(t_list *tmp, char **env)
     pid_t id = fork();
     if(id == 0)
     {
-        if(execve(val, argv, env) == -1)
-        {
-            printf("minishell: command not found: %s\n", (tl(tmp->content))->cmd);
-            exit(1);
-        }
+ 
+            if(execve(val, argv, env) == -1)
+            {
+                printf("minishell: command not found: %s\n", (tl(tmp->content))->cmd);
+                exit(1);
+            }
     }
     else 
         waitpid(id, NULL, 0);

@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 21:43:50 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/28 20:58:52 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/28 23:01:18 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_expand	*ft_init_expander(char **env)
 	// if env empty add
 	while (env[i])
 	{
-		exp.len1 = ft_strlen_env_aftr(env[i]);
+		exp.len1 = ft_strlen_env_aftr(env[i], 0);
 		exp.key = ft_substr(env[i], 0, exp.len1);
 		exp.len2 = ft_strlen_env_befor(env[i]);
 		exp.vl = ft_substr(env[i], exp.len1 + 1, exp.len2);

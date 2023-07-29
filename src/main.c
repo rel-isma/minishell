@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:16:01 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/28 19:41:32 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/29 01:23:44 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,20 @@
 // 	ft_free_list(cur);
 // 	ft_free_list_cmd(tmp);
 // }
+
+void ctrl_c_handler(int signum)
+{
+    (void)signum;
+    printf("\nminishell$ "); 
+    fflush(stdout); 
+}
+
+void ctrl_d_handler(int signum)
+{
+    (void)signum;
+    printf("\nExiting minishell...\n");
+    exit(0);
+}
 
 int	ft_check_argms(int ac, char **av)
 {
@@ -43,9 +57,10 @@ int	main(int ac, char *av[], char **env)
 	t_expand	*pp;
 
 	// atexit(fu);
+	signal(SIGINT, ctrl_c_handler);
+    signal(SIGQUIT, ctrl_d_handler);
 	if (ft_check_argms(ac, av))
 		return (1);
-
 	pp = ft_init_expander(env);
 	while (1)
 	{

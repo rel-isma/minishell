@@ -20,6 +20,8 @@ int     ft_check(t_list *tmp)
 }
 void    ft_exec(t_list *tmp, char **env)
 {
+    if(!*env)
+        return;
     if(ft_check(tmp))
         ft_builting(tmp);
     else 

@@ -133,6 +133,7 @@ void	ft_cd(t_list *tmp) // finish
 int	syntax(char *str)
 {
 	int	j;
+	int	flg = 0;
 
 	j = 0;
 	while (str[j])
@@ -142,7 +143,9 @@ int	syntax(char *str)
 			printf("bash: unset: `%s': not a valid identifier\n", str);
 			return (0);
 		}
-		else if (!ft_isalnum(str[j]) && !ft_isalnum(str[j]) && str[j] != '_' && str[j] != '=')
+		if (!(str[j] == '+' && str[j + 1] == '='))
+			flg = 1;
+		else if (!ft_isalnum(str[j]) && str[j] != '_' && str[j] != '=' && !flg)
 		{
 			printf("bash: unset: `%s': not a valid identifier\n", str);
 			return (0);
@@ -191,15 +194,50 @@ void	ft_env(t_expand *pp) // finish
 {
 	while ((pp))
 	{
-		printf("%s=%s\n", pp->key, pp->value);
-		pp = pp->next;
+		if (ft_strcmp(pp->value, "") == 0)
+			pp = pp->next;
+		else
+		{
+			printf("%s=%s\n", pp->key, pp->value);
+			pp = pp->next;
+		}
 	}
+}
+
+ 
+int	ft_check_duble(char *key, char *vl, t_expand *env, int flg)
+{
+	while (env)
+	{
+		if (ft_strcmp(env->key, key) == 0)
+		{
+			if (ft_strcmp(env->value, vl) != 0 || ft_strcmp(env->value, vl) == 0)
+			{
+				if (flg)
+				{
+					env->value = ft_strjoin(env->value, vl);
+					return 1;
+				}
+				else
+				{
+					free(env->value);
+					env->value = ft_strdup(vl);
+					return 1;
+				}
+			}
+			return 1;
+		}
+		env = env->next;
+	}
+	return 0;
+	
 }
 
 void	ft_export(t_list *tmp)
 {
 	int			i;
 	t_expand	*p;
+	int flg = 0;
 	t_exp		exp_e;
 
 	i = 1;
@@ -209,7 +247,11 @@ void	ft_export(t_list *tmp)
 		sort_list(p);
 		while (p)
 		{
-			printf("declare -x %s=\"%s\"\n", p->key, p->value);
+			if (p->key)
+				printf("declare -x %s", p->key);
+			if (p->value)
+				printf("=\"%s\"", p->value);
+			printf("\n");
 			p = p->next;
 		}
 	}
@@ -219,16 +261,22 @@ void	ft_export(t_list *tmp)
 		{
 			if (syntax((tl(tmp->content))->argms[i]))
 			{
-				exp_e.len1 = ft_strlen_env_aftr((tl(tmp->content))->argms[i]);
+				exp_e.len1 = ft_strlen_env_aftr((tl(tmp->content))->argms[i], &flg);
 				exp_e.key = ft_substr((tl(tmp->content))->argms[i], 0, exp_e.len1);
 				exp_e.len2 = ft_strlen_env_befor((tl(tmp->content))->argms[i]);
-				if (exp_e.len2 == 0)
+				if (exp_e.len2 == 1)
 					exp_e.vl = ft_strdup("");
 				else
+				{;
+					if (flg)
+						exp_e.len1 += 1;
 					exp_e.vl = ft_substr((tl(tmp->content))->argms[i], exp_e.len1 + 1, exp_e.len2);
-				ft_lexeradd_back_expnd(&(tl(tmp->content))->envl, ft_lexernew_expnd(exp_e.key, exp_e.vl));
+				}
+				if (!ft_check_duble(exp_e.key, exp_e.vl, (tl(tmp->content))->envl, flg))
+					ft_lexeradd_back_expnd(&(tl(tmp->content))->envl, ft_lexernew_expnd(exp_e.key, exp_e.vl));
 				free(exp_e.key);
 				free(exp_e.vl);
+
 			}
 			i++;
 		}
