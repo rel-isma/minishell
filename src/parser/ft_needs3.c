@@ -6,11 +6,12 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 01:57:30 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/28 02:09:15 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/30 22:39:16 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
 
 void	ft_open_redir_out(t_parser **lst, t_cmd *cmd)
 {
@@ -92,7 +93,7 @@ void	ft_delimiter(int fd, t_parser *delimiter, t_expand *env, char str)
 			cur = cur->next;
 		}
 		write(fd, "\n", 1);
-		ft_free_list(tmp);
+		ft_free_lexer(tmp);
 	}
 }
 

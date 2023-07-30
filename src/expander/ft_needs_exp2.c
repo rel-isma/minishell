@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 00:06:27 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/26 22:41:49 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/31 00:38:11 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	ft_strcmp(const char *s1, const char *s2)
 	int	idx;
 
 	idx = 0;
-	while ((s1[idx] == s2[idx]) && (s1[idx] != '\0' && s2[idx] != '\0'))
+	while ((s1[idx] != '\0' && s2[idx] != '\0') && (s1[idx] == s2[idx]))
 		idx++;
 	return ((unsigned char)s1[idx] - (unsigned char)s2[idx]);
 }
@@ -49,14 +49,15 @@ void	ft_expand_no_valid(t_lexer *tmp, char *str)
 	if (tmp && tmp->type == ENV && tmp->status != IN_QUOTE
 		&& ft_strcmp(tmp->value, str) == 0)
 	{
-		if (ft_strcmp(tmp->value, "$") == 0 && tmp->status == GENERAL)
-			tmp->value = ft_strdup("");
-		else if (ft_strcmp(tmp->value, "$") == 0)
+		if (ft_strcmp(tmp->value, "$") == 0)
 			tmp->value = ft_strdup("$");
 		else if (ft_strcmp(tmp->value, "$?") == 0)
 			tmp->value = ft_strdup("$?");
 		else
+		{
+			kolchi.www = 2;
 			tmp->value = ft_strdup("");
+		}
 	}
 	free(str);
 }

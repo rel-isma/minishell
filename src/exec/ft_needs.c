@@ -1,28 +1,14 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_all.c                                      :+:      :+:    :+:   */
+/*   ft_needs.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/13 06:09:19 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/30 21:43:18 by rel-isma         ###   ########.fr       */
+/*   Created: 2023/07/30 23:51:42 by rel-isma          #+#    #+#             */
+/*   Updated: 2023/07/30 23:57:34 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_free_lexer(t_lexer *list)
-{
-	int		i;
-	t_lexer	*tmp;
-
-	i = 0;
-	while (list)
-	{
-		tmp = list->next;
-		free(list->value);
-		free(list);
-		list = tmp;
-	}
-}

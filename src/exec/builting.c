@@ -12,6 +12,11 @@ void	ft_echo(t_list *tmp) // echo the exit status
 	tm = tmp;
 	int i = 1;
 	int j = 2;
+	if (!(tl(tmp->content))->argms[1])
+	{
+		printf("\n");
+		return ;
+	}
 	if ((tl(tmp->content))->argms[1][0] == '-'
 		&& (tl(tmp->content))->argms[1][1] == 'n')
 	{
@@ -129,22 +134,65 @@ void	ft_cd(t_list *tmp) // finish
 	free(cd_dir);
 }
 
+int	ft_len_export(char *str)
+{
+	int	len;
+
+	len = 0;
+	while (str[len])
+	{
+		if (str[len] == '=')
+		{
+			len++;
+			return len;
+		}
+		len++;
+	}
+	return len;
+}
 /* WEXITSTATUS(exit_status) */
-int	syntax(char *str)
+int	syntax_export(char *str)
+{
+	int	j;
+	int	flg = 0;
+	char	*s;
+
+	j = 0;
+	s = ft_substr(str, 0, ft_len_export(str));
+	if (ft_isdigit(s[0]))
+	{
+		printf("minishell: export: `%s': not a valid identifier\n", s);
+		return (free(s), 1);
+	}
+	while (s[j])
+	{
+		if ((s[j] == '+' && s[j + 1] == '='))
+			flg = 1;
+		else if (!ft_isalnum(s[j]) && s[j] != '_' && s[j] != '=' && !flg )
+		{
+			printf("minishell: export: `%s': not a valid identifier\n", s);
+			return (free(s), 1);
+		}
+		j++;
+	}
+	return (free(s), 1);
+}
+
+int	syntax_unset(char *str)
 {
 	int	j;
 
 	j = 0;
+	if (ft_isdigit(str[0]))
+	{
+		printf("minishell: unset: `%s': not a valid identifier\n", str);
+		return (0);
+	}
 	while (str[j])
 	{
-		if (ft_isdigit(str[0]))
+		if (!ft_isalnum(str[j]) && str[j] != '_')
 		{
-			printf("bash: unset: `%s': not a valid identifier\n", str);
-			return (0);
-		}
-		else if (!ft_isalnum(str[j]) && !ft_isalnum(str[j]) && str[j] != '_')
-		{
-			printf("bash: unset: `%s': not a valid identifier\n", str);
+			printf("minishell: unset: `%s': not a valid identifier\n", str);
 			return (0);
 		}
 		j++;
@@ -164,7 +212,7 @@ void	ft_unset(t_list *tmp) // finish
 	while ((tl(tmp->content))->argms[i])
 	{
 		cur = (tl(tmp->content))->envl;
-		if (syntax((tl(tmp->content))->argms[i]))
+		if (syntax_unset((tl(tmp->content))->argms[i]))
 		{
 			while (cur)
 			{
@@ -187,38 +235,116 @@ void	ft_unset(t_list *tmp) // finish
 		i++;
 	}
 }
-void	ft_env(t_expand *pp) // finish
+
+void	ft_env(t_expand *pp, int *flg)
 {
 	while ((pp))
 	{
-		printf("%s=%s\n", pp->key, pp->value);
-		pp = pp->next;
+		if (ft_strcmp(pp->value, "") == 0 && *flg)
+		{
+			printf("%s=\n", pp->key);
+			pp = pp->next;
+		}
+		else
+		{
+			if (pp->key && !(ft_strcmp(pp->value, "") == 0))
+					printf("%s", pp->key);
+			if (ft_strcmp(pp->value, "") != 0)
+				printf("=\"%s\"\n", pp->value);
+			pp = pp->next;
+		}
 	}
 }
 
-void	ft_export(t_list *tmp)
+ 
+int	ft_check_duble(char *key, char *vl, t_expand *env, int flg)
+{
+	while (env)
+	{
+		if (ft_strcmp(env->key, key) == 0)
+		{
+			if (ft_strcmp(env->value, vl) != 0 || ft_strcmp(env->value, vl) == 0)
+			{
+				if (flg)
+				{
+					env->value = ft_strjoin(env->value, vl);
+					return 1;
+				}
+				else
+				{
+					free(env->value);
+					env->value = ft_strdup(vl);
+					return 1;
+				}
+			}
+			return 1;
+		}
+		env = env->next;
+	}
+	return 0;
+	
+}
+
+void	ft_print_export(t_list *tmp, int flg, t_expand	*p)
+{
+	int i = 1;
+
+	while ((tl(tmp->content))->argms[i] && ft_strcmp((tl(tmp->content))->argms[i], "") == 0 && kolchi.www == 2)
+		i++;
+	printf(">>>>>>[[%d]]\n", kolchi.err);
+	printf(">>>>>>[[%s]]\n", (tl(tmp->content))->argms[i]);
+	if ((tl(tmp->content))->argms[i] && kolchi.err == 1 && (ft_strcmp((tl(tmp->content))->argms[i], "") == 0))
+		printf("bash: export: `': not a valid identifier\n");
+	else if (!(tl(tmp->content))->argms[i] || (ft_strcmp((tl(tmp->content))->argms[i], "") == 0))
+	{
+		sort_list(p);
+			while (p)
+			{
+				if (p->key)
+					printf("declare -x %s", p->key);
+				if ((ft_strcmp(p->value, "") == 0 && flg) || ft_strcmp(p->value, "") != 0 )
+					printf("=\"%s\"", p->value);
+				printf("\n");
+				p = p->next;
+			}
+	}
+}
+
+void	ft_export(t_list *tmp, int *flg1) // not finsh
 {
 	int			i;
 	t_expand	*p;
+	int flg = 0;
+	t_exp		exp_e;
 
 	i = 1;
 	p = (tl(tmp->content))->envl;
-	if (!(tl(tmp->content))->argms[1])
-	{
-		sort_list(p);
-		while (p)
-		{
-			printf("declare -x %s=%s\n", p->key, p->value);
-			p = p->next;
-		}
-	}
-	else if ((tl(tmp->content))->argms[i])
+	ft_print_export(tmp, *flg1, p);
+	if ((tl(tmp->content))->argms[i])
 	{
 		while ((tl(tmp->content))->argms[i])
 		{
-			if (syntax((tl(tmp->content))->argms[i]))
+			if (syntax_export((tl(tmp->content))->argms[i]))
 			{
-				// zid dak l arg f export;
+				exp_e.len1 = ft_strlen_env_aftr((tl(tmp->content))->argms[i], &flg);
+				exp_e.key = ft_substr((tl(tmp->content))->argms[i], 0, exp_e.len1);
+				exp_e.len2 = ft_strlen_env_befor((tl(tmp->content))->argms[i]);
+				if (exp_e.len2 == 1)
+				{
+					*flg1 = 1;
+					exp_e.vl = ft_strdup("");
+				}
+				else
+				{
+					if (flg)
+						exp_e.len1 += 1;
+					exp_e.vl = ft_substr((tl(tmp->content))->argms[i], exp_e.len1 + 1, exp_e.len2);
+				}
+				if (!ft_check_duble(exp_e.key, exp_e.vl, (tl(tmp->content))->envl, flg))
+					ft_lexeradd_back_expnd(&(tl(tmp->content))->envl, ft_lexernew_expnd(exp_e.key, exp_e.vl));
+				free(exp_e.key);
+				free(exp_e.vl);
+
 			}
 			i++;
 		}
@@ -227,6 +353,8 @@ void	ft_export(t_list *tmp)
 
 void	ft_builting(t_list *tmp) // not yet
 {
+	static int	flg = 0;
+
 	if (ft_strcmp((tl(tmp->content))->cmd, "echo") == 0)
 		ft_echo(tmp);
 	if (ft_strcmp((tl(tmp->content))->cmd, "pwd") == 0)
@@ -236,9 +364,9 @@ void	ft_builting(t_list *tmp) // not yet
 	if (ft_strcmp((tl(tmp->content))->cmd, "unset") == 0)
 		ft_unset(tmp);
 	if (ft_strcmp((tl(tmp->content))->cmd, "env") == 0)
-		ft_env((tl(tmp->content))->envl);
+		ft_env((tl(tmp->content))->envl, &flg);
 	if (ft_strcmp((tl(tmp->content))->cmd, "export") == 0)
-		ft_export(tmp);
+		ft_export(tmp, &flg);
 	if (ft_strcmp((tl(tmp->content))->cmd, "exit") == 0)
 	{
 		if (!(tl(tmp->content))->argms[1])

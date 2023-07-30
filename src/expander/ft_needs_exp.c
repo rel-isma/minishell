@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 16:47:39 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/28 01:26:03 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/29 00:37:11 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,20 @@ void	ft_lexeradd_back_expnd(t_expand **lst, t_expand *new)
 	new->next = NULL;
 }
 
-int	ft_strlen_env_aftr(char *env)
+int	ft_strlen_env_aftr(char *env, int *flg)
 {
 	int	len;
 
 	len = 0;
-	while (env[len] != '=')
+	while (env[len] && env[len] != '=')
+	{
+		if (env[len] == '+' && env[len + 1] == '=')
+		{
+			*flg = 1;
+			return (len);
+		}
 		len++;
+	}
 	return (len);
 }
 
@@ -64,11 +71,10 @@ int	ft_strlen_env_befor(char *env)
 	{
 		if (env[j] == '=')
 		{
+			if (env[j] == '=' && env[j + 1] == '\0')
+				return 1;
 			while (env[++j])
-			{
 				len++;
-				// j++;
-			}
 		}
 		if (env[j] == 0)
 			break ;

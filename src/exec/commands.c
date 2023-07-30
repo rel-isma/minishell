@@ -34,10 +34,23 @@ void             ft_commands(t_list *tmp, char **env)
 {
     int check = 0;
     int i = 0;
+    int r = 0;
+    while((tl(tmp->content))->argms[r])
+        r++;
     char **path = get_path((tl(tmp->content))->envl);
     int status = 0;
     char *cmd = ft_strjoin("/", (tl(tmp->content))->cmd);
-    char *const argv[] = {(tl(tmp->content))->cmd, (tl(tmp->content))->argms[1], NULL};
+    // char **argv = malloc(sizeof(char *) * r);
+    // if(!(tl(tmp->content))->argms[1])
+    //     argv[0] = (tl(tmp->content))->argms[0];
+    // else
+    // {
+    //     r = 1;
+    //     while((tl(tmp->content))->argms[1])
+    //         {argv[r] = (tl(tmp->content))->argms[r];
+    //         r++;
+    //         }
+    // // }
     char *val = NULL;
     while(path[i])
     {
@@ -52,11 +65,12 @@ void             ft_commands(t_list *tmp, char **env)
     pid_t id = fork();
     if(id == 0)
     {
-                if(execve(val, argv, env) == -1)
-                {
-                    printf("minishell: command not found: %s\n", (tl(tmp->content))->cmd);
-                    exit(1);
-                }
+ 
+            if(execve(val, ((tl(tmp->content))->argms), env) == -1)
+            {
+                printf("minishell: command not found: %s\n", (tl(tmp->content))->cmd);
+                exit(1);
+            }
     }
     else 
         waitpid(id, NULL, 0);

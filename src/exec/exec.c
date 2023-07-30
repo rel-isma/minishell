@@ -2,7 +2,6 @@
 
 int     ft_check(t_list *tmp)
 {
-    printf("[[%s]]\n", (tl(tmp->content))->cmd);
     if(ft_strcmp((tl(tmp->content))->cmd, "echo") == 0)
         return(1);
     else if(ft_strcmp((tl(tmp->content))->cmd, "cd") == 0)
@@ -21,6 +20,8 @@ int     ft_check(t_list *tmp)
 }
 void    ft_exec(t_list *tmp, char **env)
 {
+    if(!*env)
+        return;
     if(ft_check(tmp))
         ft_builting(tmp);
     else 

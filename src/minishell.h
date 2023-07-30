@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:18:02 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/28 18:21:37 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/31 00:26:12 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 
 # include "../libfc/libft.h"
 # include <fcntl.h>
-# include <readline/history.h>
-# include <readline/readline.h>
 # include <stdio.h>
 # include <string.h>
 # include <unistd.h>
 # include <limits.h>
+# include <readline/history.h>
+# include <readline/readline.h>
 
 # define tl (t_cmd *)
 
@@ -30,6 +30,7 @@ typedef enum s_tokenstatus
 	IN_QUOTE,
 	IN_DQUOTE,
 }					t_status;
+
 
 typedef enum s_tokentype
 {
@@ -76,6 +77,15 @@ typedef struct s_parser
 	struct s_parser	*next;
 }					t_parser;
 
+typedef struct s_global
+{
+	char	d_s;
+	int		www;
+	int		err;
+}					t_global;
+
+t_global kolchi;
+
 typedef struct s_cmd
 {
 	char			*cmd;
@@ -115,7 +125,7 @@ void				ft_handle_white_space(t_lexer **tokenlist, char *line,
 int					ft_line_word(char *str);
 int					ft_line_env(char *str);
 int					white_space(char str);
-void				ft_free_list(t_lexer *list);
+void				ft_free_lexer(t_lexer *list);
 
 //////functions syntax_errors ////////////////////////
 
@@ -134,7 +144,7 @@ void				ft_lexeradd_back_expnd(t_expand **lst, t_expand *new);
 void				ft_expander(t_lexer *lst, t_expand *exp, int flg);
 t_expand			*ft_init_expander(char **env);
 void				ft_free_list_exp(t_expand *list);
-int					ft_strlen_env_aftr(char *env);
+int					ft_strlen_env_aftr(char *env, int *flg);
 int					ft_strlen_env_befor(char *env);
 void				ft_free_list_exp(t_expand *list);
 int					ft_strcmp(const char *s1, const char *s2);
@@ -168,7 +178,6 @@ void				ft_free_list_join(t_parser *list);
 void				ft_builting(t_list *tmp);
 void				ft_exec(t_list *tmp, char **env);
 void				ft_commands(t_list *tmp, char **env);
-void			*sort_list(t_expand* pp);
-
+void				*sort_list(t_expand* pp);
 
 #endif
