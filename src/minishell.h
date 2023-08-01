@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:18:02 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/31 00:26:12 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/01 03:37:05 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,14 +82,20 @@ typedef struct s_global
 	char	d_s;
 	int		www;
 	int		err;
+	int		stop_exection;
+	int		stdin_backup;
+	int		heredoc_executing;
+	int		command_executing;
+	int		exit_code;
 }					t_global;
 
-t_global kolchi;
+t_global g_minishell;
 
 typedef struct s_cmd
 {
 	char			*cmd;
 	char			**argms;
+	// int				arg_count;
 	int				infile;
 	int				oufile;
 	char*			infilename;
@@ -176,8 +182,9 @@ void				ft_free_list_join(t_parser *list);
 /////////////////// exec //////////////////////////////
 
 void				ft_builting(t_list *tmp);
-void				ft_exec(t_list *tmp, char **env);
-void				ft_commands(t_list *tmp, char **env);
+void				ft_exec(t_list *tmp, t_expand *env);
+void				ft_commands(t_list *tmp, t_expand *env);
 void				*sort_list(t_expand* pp);
+int					ft_exec_cmd(t_list *commands, int *fd, int old_fd);
 
 #endif

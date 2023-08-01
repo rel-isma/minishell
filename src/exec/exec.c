@@ -18,11 +18,9 @@ int     ft_check(t_list *tmp)
         return(1);
     return(0);
 }
-void    ft_exec(t_list *tmp, char **env)
+void    ft_exec(t_list *tmp, t_expand *env)
 {
-    if(!*env)
-        return;
-    if(ft_check(tmp))
+    if(ft_check(tmp) /* and only one command*/)
         ft_builting(tmp);
     else 
         ft_commands(tmp, env);

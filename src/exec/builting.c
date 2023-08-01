@@ -6,7 +6,7 @@ int	ft_exit_builtin(t_list *tmp) // finish fot exit builting
 {
 	exit((tl(tmp->content))->exit_status);
 }
-void	ft_echo(t_list *tmp) // echo the exit status
+int	ft_echo(t_list *tmp) // echo the exit status
 {
 	t_list *tm;
 	tm = tmp;
@@ -15,7 +15,7 @@ void	ft_echo(t_list *tmp) // echo the exit status
 	if (!(tl(tmp->content))->argms[1])
 	{
 		printf("\n");
-		return ;
+		return 1;
 	}
 	if ((tl(tmp->content))->argms[1][0] == '-'
 		&& (tl(tmp->content))->argms[1][1] == 'n')
@@ -65,16 +65,16 @@ void	ft_echo(t_list *tmp) // echo the exit status
 			j++;
 		}
 	}
+	return 0;
 }
-void	ft_pwd(void) // finish
+int	ft_pwd(void)
 {
 	char ptr[PATH_MAX];
 	if (getcwd(ptr, sizeof(ptr)))
 	{
 		printf("%s\n", ptr);
+		return 0;
 	}
-	else
-		x = 1;
 }
 int	valid_home(t_list *tmp)
 {
@@ -289,13 +289,17 @@ void	ft_print_export(t_list *tmp, int flg, t_expand	*p)
 {
 	int i = 1;
 
-	while ((tl(tmp->content))->argms[i] && ft_strcmp((tl(tmp->content))->argms[i], "") == 0 && kolchi.www == 2)
-		i++;
-	printf(">>>>>>[[%d]]\n", kolchi.err);
-	printf(">>>>>>[[%s]]\n", (tl(tmp->content))->argms[i]);
-	if ((tl(tmp->content))->argms[i] && kolchi.err == 1 && (ft_strcmp((tl(tmp->content))->argms[i], "") == 0))
+	if ((tl(tmp->content))->argms[i] && g_minishell.err == 1 && (ft_strcmp((tl(tmp->content))->argms[i], "") == 0))
+	{
 		printf("bash: export: `': not a valid identifier\n");
-	else if (!(tl(tmp->content))->argms[i] || (ft_strcmp((tl(tmp->content))->argms[i], "") == 0))
+		g_minishell.err = 0;
+	}
+	else if ((tl(tmp->content))->argms[i] && g_minishell.www == 2 && ft_strcmp((tl(tmp->content))->argms[i], "") == 0)
+	{
+		while ((tl(tmp->content))->argms[i] && g_minishell.www == 2 && ft_strcmp((tl(tmp->content))->argms[i], "") == 0)
+			i++;
+	}
+	if (!(tl(tmp->content))->argms[i])
 	{
 		sort_list(p);
 			while (p)
@@ -319,8 +323,9 @@ void	ft_export(t_list *tmp, int *flg1) // not finsh
 
 	i = 1;
 	p = (tl(tmp->content))->envl;
-	ft_print_export(tmp, *flg1, p);
-	if ((tl(tmp->content))->argms[i])
+	if (!(tl(tmp->content))->argms[i] || (tl(tmp->content))->argms[i])
+		ft_print_export(tmp, *flg1, p);
+	else if ((tl(tmp->content))->argms[i])
 	{
 		while ((tl(tmp->content))->argms[i])
 		{
@@ -351,26 +356,28 @@ void	ft_export(t_list *tmp, int *flg1) // not finsh
 	}
 }
 
-void	ft_builting(t_list *tmp) // not yet
+int	ft_builting(t_list *tmp) // not yet
 {
 	static int	flg = 0;
 
 	if (ft_strcmp((tl(tmp->content))->cmd, "echo") == 0)
-		ft_echo(tmp);
+		return (ft_echo(tmp));
 	if (ft_strcmp((tl(tmp->content))->cmd, "pwd") == 0)
-		ft_pwd();
+		return (ft_pwd());
 	if (ft_strcmp((tl(tmp->content))->cmd, "cd") == 0)
-		ft_cd(tmp);
+		return (ft_cd(tmp));
 	if (ft_strcmp((tl(tmp->content))->cmd, "unset") == 0)
-		ft_unset(tmp);
+		return (ft_unset(tmp));
 	if (ft_strcmp((tl(tmp->content))->cmd, "env") == 0)
-		ft_env((tl(tmp->content))->envl, &flg);
+		return (ft_env((tl(tmp->content))->envl, &flg));
 	if (ft_strcmp((tl(tmp->content))->cmd, "export") == 0)
-		ft_export(tmp, &flg);
+		return (ft_export(tmp, &flg));
 	if (ft_strcmp((tl(tmp->content))->cmd, "exit") == 0)
-	{
-		if (!(tl(tmp->content))->argms[1])
-			ft_exit_builtin(tmp);
-	}
+		return (ft_exit_builtin(tmp));
+	// if (ft_strcmp((tl(tmp->content))->cmd, "exit") == 0)
+	// {
+	// 	if (!(tl(tmp->content))->argms[1])
+	// 		ft_exit_builtin(tmp);
+	// }
 }
 // ba9i blan f exit status u ghda nbda l execv;

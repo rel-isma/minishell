@@ -1,0 +1,10 @@
+ft_get_path()
+    if already a path return it
+        /dddd > path = /dddd        #execve
+
+    if access returned 1
+        ls > path = /bin/ls         #execve
+    else
+        lsss > path = NULL      #command not found
+
+heredoc close and open

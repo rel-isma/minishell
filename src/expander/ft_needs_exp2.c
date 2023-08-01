@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 00:06:27 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/31 00:38:11 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/07/31 23:18:51 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	ft_expand_no_valid(t_lexer *tmp, char *str)
 			tmp->value = ft_strdup("$?");
 		else
 		{
-			kolchi.www = 2;
+			g_minishell.www = 2;
 			tmp->value = ft_strdup("");
 		}
 	}
