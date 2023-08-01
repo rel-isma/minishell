@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:18:02 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/01 03:37:05 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/01 17:42:27 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,7 +181,7 @@ void				ft_free_list_join(t_parser *list);
 
 /////////////////// exec //////////////////////////////
 
-void				ft_builting(t_list *tmp);
+int				ft_builting(t_list *tmp);
 void				ft_exec(t_list *tmp, t_expand *env);
 void				ft_commands(t_list *tmp, t_expand *env);
 void				*sort_list(t_expand* pp);

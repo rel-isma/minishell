@@ -75,6 +75,13 @@ void    ft_exec_in_child(t_list *cmd, char *path, char **env, int *fd, int  old_
         close(fd[1]);
         close(fd[0]);
     }
+
+    // if (input == 0)
+    //     input = fd[0];
+    // else 
+    //     close
+    // if (output == 1)
+    //     utput = fd[1];
     // dup stdout to out redirection
     if ((tl(cmd->content))->oufilename)
     {
@@ -155,6 +162,30 @@ char    *ft_get_path(t_list *cmd)
     //     (tl(tmp->content))->exit_status = WEXITSTATUS(status);
 }
 
+char    **ft_get_env_tab(t_list *cmd)
+{
+    int len;
+	int 	i;
+    t_expand *cur_size;
+    char    **env;
+
+    cur_size = (tl(cmd->content))->envl;
+	i  = 0;
+    while (cur_size)
+    {
+        len++;
+        cur_size = cur_size->next;
+    }
+    env = malloc(len + 1 * sizeof(char *));
+	if (!env)
+		return (NULL);
+	while ((tl(cmd->content))->envl)
+	{
+		env[i] = ft_strjoin((tl(cmd->content))->envl->key, (tl(cmd->content))->envl->value);
+		(tl(cmd->content))->envl = (tl(cmd->content))->envl->next;
+	}
+}
+
 int ft_exec_cmd(t_list *cmd, int *fd, int old_fd)
 {
     char    *path;
@@ -162,7 +193,7 @@ int ft_exec_cmd(t_list *cmd, int *fd, int old_fd)
     pid_t   pid;
 
     path = ft_get_path(cmd);
-    env = ft_get_env_tab();
+    env = ft_get_env_tab(cmd);
     
     // in case command not found
     if (path == NULL)

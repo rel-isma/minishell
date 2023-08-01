@@ -75,6 +75,7 @@ int	ft_pwd(void)
 		printf("%s\n", ptr);
 		return 0;
 	}
+	return 1;
 }
 int	valid_home(t_list *tmp)
 {
@@ -105,7 +106,7 @@ void	cd_home(t_list *tmp)
 		x = 1;
 	}
 }
-void	ft_cd(t_list *tmp) // finish
+int	ft_cd(t_list *tmp) // finish
 {
 	// static int s = 0;
 	char current_dir[PATH_MAX];
@@ -132,6 +133,7 @@ void	ft_cd(t_list *tmp) // finish
 		}
 	}
 	free(cd_dir);
+	return 0;
 }
 
 int	ft_len_export(char *str)
@@ -175,7 +177,7 @@ int	syntax_export(char *str)
 		}
 		j++;
 	}
-	return (free(s), 1);
+	return (free(s), 0);
 }
 
 int	syntax_unset(char *str)
@@ -186,20 +188,20 @@ int	syntax_unset(char *str)
 	if (ft_isdigit(str[0]))
 	{
 		printf("minishell: unset: `%s': not a valid identifier\n", str);
-		return (0);
+		return (1);
 	}
 	while (str[j])
 	{
 		if (!ft_isalnum(str[j]) && str[j] != '_')
 		{
 			printf("minishell: unset: `%s': not a valid identifier\n", str);
-			return (0);
+			return (1);
 		}
 		j++;
 	}
-	return (1);
+	return (0);
 }
-void	ft_unset(t_list *tmp) // finish
+int	ft_unset(t_list *tmp) // finish
 {
 	t_expand *cur;
 	t_expand *next;
@@ -213,6 +215,8 @@ void	ft_unset(t_list *tmp) // finish
 	{
 		cur = (tl(tmp->content))->envl;
 		if (syntax_unset((tl(tmp->content))->argms[i]))
+			return 1;
+		else
 		{
 			while (cur)
 			{
@@ -234,9 +238,10 @@ void	ft_unset(t_list *tmp) // finish
 		}
 		i++;
 	}
+	return 0;
 }
 
-void	ft_env(t_expand *pp, int *flg)
+int	ft_env(t_expand *pp, int *flg)
 {
 	while ((pp))
 	{
@@ -254,6 +259,7 @@ void	ft_env(t_expand *pp, int *flg)
 			pp = pp->next;
 		}
 	}
+	return 0;
 }
 
  
@@ -314,7 +320,7 @@ void	ft_print_export(t_list *tmp, int flg, t_expand	*p)
 	}
 }
 
-void	ft_export(t_list *tmp, int *flg1) // not finsh
+int	ft_export(t_list *tmp, int *flg1) // not finsh
 {
 	int			i;
 	t_expand	*p;
@@ -330,6 +336,8 @@ void	ft_export(t_list *tmp, int *flg1) // not finsh
 		while ((tl(tmp->content))->argms[i])
 		{
 			if (syntax_export((tl(tmp->content))->argms[i]))
+				return 1;
+			else
 			{
 				exp_e.len1 = ft_strlen_env_aftr((tl(tmp->content))->argms[i], &flg);
 				exp_e.key = ft_substr((tl(tmp->content))->argms[i], 0, exp_e.len1);
@@ -354,6 +362,7 @@ void	ft_export(t_list *tmp, int *flg1) // not finsh
 			i++;
 		}
 	}
+	return 0;
 }
 
 int	ft_builting(t_list *tmp) // not yet
@@ -379,5 +388,6 @@ int	ft_builting(t_list *tmp) // not yet
 	// 	if (!(tl(tmp->content))->argms[1])
 	// 		ft_exit_builtin(tmp);
 	// }
+	return 0;
 }
 // ba9i blan f exit status u ghda nbda l execv;
