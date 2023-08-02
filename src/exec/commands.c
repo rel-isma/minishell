@@ -33,9 +33,9 @@ char**    get_path(t_expand *pp)
 
 void    ft_commands(t_list *commands, t_expand *env)
 {
+    (void)env;
     if (g_minishell.stop_exection)
         return ;
-    
     t_list  *curr;
     int     old_fd;
     int     fd[2] = {-1, -1};
@@ -62,8 +62,9 @@ void    ft_commands(t_list *commands, t_expand *env)
 
 void    ft_exec_in_child(t_list *cmd, char *path, char **env, int *fd, int  old_fd)
 {
+    struct stat file_info;
     //dup
-    if (ft_check(cmd))
+    if (ft_check_builting(cmd))
     {
         g_minishell.exit_code = ft_builting(cmd);
         exit(g_minishell.exit_code);
@@ -106,103 +107,132 @@ void    ft_exec_in_child(t_list *cmd, char *path, char **env, int *fd, int  old_
     //
     // execute cmd
     execve(path, (tl(cmd->content))->argms, env);
-    /*************************************************
-     * check if is a directory with stat
-     * print ("bash: /tmp: is a directory")
-     * set ext_code = 126
-     * ***********************************************/
-    perror(path);
+    if (stat(path, &file_info) == 0)
+    {
+        printf("minishell: %s: is a directory\n", path);
+        exit(126);
+    }
+    else
+    {
+        printf("minishell: %s: No such file or directory\n", path);
+        exit(127);
+    }
 }
 
+char    *ft_getenv(char *path, t_expand *env)
+{
+    char *str;
+
+    while (env)
+    {
+        if (ft_strcmp(path, env->key) == 0)
+        {
+            str = env->value;
+            return (str);
+        }
+        env = env->next;
+    }
+    return NULL;
+}
 char    *ft_get_path(t_list *cmd)
 {
-    // int check = 0;
-    // int i = 0;
-    // int r = 0;
-    // while((tl(tmp->content))->argms[r])
-    //     r++;
-    // char **path = get_path((tl(tmp->content))->envl);
-    // int status = 0;
-    // char *cmd = ft_strjoin("/", (tl(tmp->content))->cmd);
-    // // char **argv = malloc(sizeof(char *) * r);
-    // // if(!(tl(tmp->content))->argms[1])
-    // //     argv[0] = (tl(tmp->content))->argms[0];
-    // // else
-    // // {
-    // //     r = 1;
-    // //     while((tl(tmp->content))->argms[1])
-    // //         {argv[r] = (tl(tmp->content))->argms[r];
-    // //         r++;
-    // //         }
-    // // // }
-    // char *val = NULL;
-    // while(path[i])
-    // {
-    //     if(access(ft_strjoin(path[i], cmd), F_OK) == 0)
-    //     {
-    //         val = ft_strjoin(path[i], cmd);
-    //         check++;
-    //         break;
-    //     }
-    //     i++;
-    // }
-    // pid_t id = fork();
-    // if(id == 0)
-    // {
- 
-    //         if(execve(val, ((tl(tmp->content))->argms), env) == -1)
-    //         {
-    //             printf("minishell: command not found: %s\n", (tl(tmp->content))->cmd);
-    //             exit(1);
-    //         }
-    // }
-    // else 
-    //     waitpid(id, NULL, 0);
-    // if (WIFEXITED(status)) 
-    //     (tl(tmp->content))->exit_status = WEXITSTATUS(status);
+    char       **paths;
+    char        *path;
+    char        *cmd_path;
+    int         i;
+    char *cmd_str = (tl(cmd->content))->cmd;
+
+
+    i = 0;
+    if (cmd_str[0] == '/' || (ft_strnstr(cmd_str, "/", ft_strlen(cmd_str)) && ft_strncmp(cmd_str, "./", 2) != 0))
+    {
+        return ft_strdup(cmd_str);
+    }
+    paths = ft_split(ft_getenv("PATH", (tl(cmd->content))->envl), ':');
+    if (!paths)
+        return NULL;
+    while (paths[i])
+    {
+        cmd_path = ft_strjoin(paths[i], "/");
+        cmd_path = ft_strjoin(cmd_path, (tl(cmd->content))->cmd);
+        if (access(cmd_path, F_OK | X_OK) == 0)
+        {
+            path = cmd_path;
+            ft_free_tab(paths);
+            return (path);
+        }
+        i++;
+        free(cmd_path);
+    }
+    ft_free_tab(paths);
+    return NULL;
 }
 
 char    **ft_get_env_tab(t_list *cmd)
 {
-    int len;
-	int 	i;
+    int len  = 0;
+	int 	i = 0;;
     t_expand *cur_size;
     char    **env;
+    char *str;
 
     cur_size = (tl(cmd->content))->envl;
-	i  = 0;
     while (cur_size)
     {
         len++;
         cur_size = cur_size->next;
     }
-    env = malloc(len + 1 * sizeof(char *));
+    env = malloc((len + 1) * sizeof(char *));
 	if (!env)
 		return (NULL);
-	while ((tl(cmd->content))->envl)
+    cur_size = (tl(cmd->content))->envl;
+	while (cur_size)
 	{
-		env[i] = ft_strjoin((tl(cmd->content))->envl->key, (tl(cmd->content))->envl->value);
-		(tl(cmd->content))->envl = (tl(cmd->content))->envl->next;
+        str = ft_strjoin(cur_size->key, "=");
+		env[i] = ft_strjoin(str, cur_size->value);
+		cur_size = cur_size->next;
+        i++;
+        free(str);
 	}
+    env[i] = NULL;
+    return (env);
 }
 
+void    ft_free_tab(char **env)
+{
+    int i;
+
+    i = 0;
+    while (env[i])
+    {
+        free(env[i]);
+        i++;
+    }
+    free(env);
+}
+void    command_not_found(char *str)
+{
+    printf("minishell: %s: command not found\n", str);
+}
 int ft_exec_cmd(t_list *cmd, int *fd, int old_fd)
 {
     char    *path;
     char    **env;
     pid_t   pid;
+    // int i = 0;
 
     path = ft_get_path(cmd);
     env = ft_get_env_tab(cmd);
-    
+    if (!env)
+        return 0;
     // in case command not found
     if (path == NULL)
-        return (ft_free_tab(env), command_not_found(), g_minishell.exit_code = 127, 0);
+        return ( ft_free_tab(env),  command_not_found((tl(cmd->content))->cmd), g_minishell.exit_code = 127, 0);
 
     // fork
     pid = fork();
     if (pid == -1)
-        return (free(path), ft_free_tab(env), perror("fork"),1);
+        return ( free(path), ft_free_tab(env), perror("fork"), 1);
     else if (pid == 0)
         ft_exec_in_child(cmd, path, env, fd, old_fd);
     // in parent

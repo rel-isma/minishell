@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-int     ft_check(t_list *tmp)
+int     ft_check_builting(t_list *tmp)
 {
     if(ft_strcmp((tl(tmp->content))->cmd, "echo") == 0)
         return(1);
@@ -20,7 +20,7 @@ int     ft_check(t_list *tmp)
 }
 void    ft_exec(t_list *tmp, t_expand *env)
 {
-    if(ft_check(tmp) /* and only one command*/)
+    if(ft_check_builting(tmp) /* and only one command*/)
         ft_builting(tmp);
     else 
         ft_commands(tmp, env);

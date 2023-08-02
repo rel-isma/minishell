@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:18:02 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/01 17:42:27 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/02 16:00:36 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 # define MINISHELL_H
 
 # include "../libfc/libft.h"
+# include <sys/types.h>
+# include <sys/stat.h>
 # include <fcntl.h>
-# include <stdio.h>
+#include <stdio.h>
 # include <string.h>
 # include <unistd.h>
 # include <limits.h>
@@ -181,10 +183,12 @@ void				ft_free_list_join(t_parser *list);
 
 /////////////////// exec //////////////////////////////
 
-int				ft_builting(t_list *tmp);
+int					ft_builting(t_list *tmp);
 void				ft_exec(t_list *tmp, t_expand *env);
 void				ft_commands(t_list *tmp, t_expand *env);
 void				*sort_list(t_expand* pp);
 int					ft_exec_cmd(t_list *commands, int *fd, int old_fd);
+int					ft_check_builting(t_list *tmp);
+void				ft_free_tab(char **env);
 
 #endif
