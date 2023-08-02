@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 01:57:30 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/28 02:09:15 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/02 16:57:50 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void	ft_delimiter(int fd, t_parser *delimiter, t_expand *env, char str)
 
 	while (1)
 	{
+		g_minishell.heredoc_executing = 1;
 		line = readline("> ");
 		if (!line)
 			break ;
@@ -92,8 +93,9 @@ void	ft_delimiter(int fd, t_parser *delimiter, t_expand *env, char str)
 			cur = cur->next;
 		}
 		write(fd, "\n", 1);
-		ft_free_list(tmp);
+		ft_free_lexer(tmp);
 	}
+	g_minishell.heredoc_executing = 0;
 }
 
 void	ft_open_here_doc(t_parser **lst, t_cmd *cmd, char str1)

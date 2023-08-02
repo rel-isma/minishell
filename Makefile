@@ -6,13 +6,13 @@
 #    By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/10 17:16:54 by rel-isma          #+#    #+#              #
-#    Updated: 2023/07/28 21:24:36 by rel-isma         ###   ########.fr        #
+#    Updated: 2023/08/02 16:53:12 by rel-isma         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-CFLAGS = -g -Wall -Wextra -Werror  #-fsanitize=address
-LIBS = -lreadline -L/Users/rel-isma/.brew/opt/readline/lib -I/Users/rel-isma/.brew/opt/readline/include
+CFLAGS = -g -Wall -Wextra -Werror  -fsanitize=address
+LIBS = -lreadline -L ~/.brew/opt/readline/lib
 
 SOURCES = src/main.c src/lexer/lexer.c src/lexer/lexer_needs.c  src/lexer/lexer_needs2.c \
           src/lexer/ft_free_all.c  src/lexer/lexer_needs_3.c src/syntax_errors/ft_syntax_errors.c src/syntax_errors/ft_check_stx_pipe.c \
@@ -35,7 +35,7 @@ libft:
 	@make -C $(LIBFT_PATH)
 
 obj/%.o: %.c src/minishell.h | obj
-	@$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@ -I ~/.brew/opt/readline/include
 	@printf "\033[0;36mCompiling $<\033[0m\n"
 
 obj:

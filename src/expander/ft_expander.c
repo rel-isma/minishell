@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 21:43:50 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/28 23:01:18 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/02 16:55:27 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,5 @@ void	ft_expander_env(t_lexer *lst, t_expand *expnd, int flg)
 
 void	ft_expander(t_lexer *lst, t_expand *exp, int flg)
 {
-	
 	ft_expander_env(lst, exp, flg);
-	// ft_free_list_exp(exp);
 }
