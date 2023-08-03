@@ -6,12 +6,14 @@ int	ft_exit_builtin(t_list *tmp) // finish fot exit builting
 {
 	exit((tl(tmp->content))->exit_status);
 }
+
 int	ft_echo(t_list *tmp) // echo the exit status
 {
 	t_list *tm;
 	tm = tmp;
 	int i = 1;
 	int j = 2;
+
 	if (!(tl(tmp->content))->argms[1])
 	{
 		printf("\n");
@@ -26,9 +28,10 @@ int	ft_echo(t_list *tmp) // echo the exit status
 		{
 			while ((tl(tmp->content))->argms[j])
 			{
-				printf("%s", (tl(tmp->content))->argms[j]);
+				write((tl(tmp->content))->oufile, (tl(tmp->content))->argms[j], ft_strlen((tl(tmp->content))->argms[j]));
+				// printf("%s", (tl(tmp->content))->argms[j]);
 				if ((tl(tmp->content))->argms[j + 1])
-					printf(" ");
+					write((tl(tmp->content))->oufile, " ", 1);
 				j++;
 			}
 		}
@@ -67,6 +70,7 @@ int	ft_echo(t_list *tmp) // echo the exit status
 	}
 	return (0);
 }
+
 int	ft_pwd(void)
 {
 	char	ptr[PATH_MAX];

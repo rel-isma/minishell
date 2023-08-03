@@ -8,3 +8,13 @@ ft_get_path()
         lsss > path = NULL      #command not found
 
 heredoc close and open
+
+
+
+//////////
+echo $_
+.
+..
+OLDPWD
+PWD
+SHLVL

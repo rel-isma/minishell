@@ -20,8 +20,26 @@ int     ft_check_builting(t_list *tmp)
 }
 void    ft_exec(t_list *tmp)
 {
-    if(ft_check_builting(tmp) /* and only one command*/)
-        ft_builting(tmp);
-    else 
+    if (ft_check_builting(tmp)  /* and only one command*/)
+    {
+        // int old_stdout = -1;
+        // // int old_stdin = -1;
+
+        // if ((tl(tmp->content))->oufilename)
+        // {
+        //     printf(">>out %s:\n", (tl(tmp->content))->oufilename);
+        //     old_stdout = dup(STDOUT_FILENO);
+        //     dup2((tl(tmp->content))->oufile, STDOUT_FILENO);
+        //     close((tl(tmp->content))->oufile);
+        // }
+        if ((tl(tmp->content))->infile != -1)
+            ft_builting(tmp);
+        // if (old_stdout != -1)
+        // {
+        //     dup2(old_stdout, STDOUT_FILENO);
+        //     close (old_stdout);
+        // }
+    }
+    else
         ft_commands(tmp);
 }

@@ -79,15 +79,20 @@ void    ft_exec_in_child(t_list *cmd, char *path, char **env, int *fd, int  old_
     // dup stdin to in redirection
     if ((tl(cmd->content))->infilename)
     {
-        // if ()
-        // // handle herdoc
-        // else
-        dup2((tl(cmd->content))->infile, STDOUT_FILENO);
+        // if ((tl(cmd->content))->infile < 0)
+        // {
+        //     printf("minishell: %s: No such file or directory\n", (tl(cmd->content))->infilename);
+        //     exit(127);
+        // }
+        if ((ft_strncmp("/tmp/.heredoc>", (tl(cmd->content))->infilename, 14) == 0))
+            (tl(cmd->content))->infile = open((tl(cmd->content))->infilename, O_RDONLY);
+        dup2((tl(cmd->content))->infile, STDIN_FILENO);
     }
     // close all open file descriptors in child
     // close_all_fds();
     //
     // execute cmd
+    // printf("[%s]\n", path);
     execve(path, (tl(cmd->content))->argms, env);
     if (stat(path, &file_info) == 0)
     {
@@ -203,29 +208,34 @@ int ft_exec_cmd(t_list *cmd, int *fd, int old_fd)
     pid_t   pid;
     // int i = 0;
 
-    path = ft_get_path(cmd);
-    env = ft_get_env_tab(cmd);
-   
-    // in case command not found
-    if (path == NULL)
+    if ((tl(cmd->content))->infile != -1)
     {
-        command_not_found((tl(cmd->content))->cmd);
+        path = ft_get_path(cmd);
+        env = ft_get_env_tab(cmd);
+    
+        // in case command not found
+        if (path == NULL)
+        {
+            command_not_found((tl(cmd->content))->cmd);
+            ft_free_tab(env);
+            free(path);
+            g_minishell.exit_code = 127;
+            return 0;
+        }
+        // fork
+        pid = fork();
+        if (pid == -1)
+        {
+            perror("fork");
+            free(path);
+            ft_free_tab(env);
+            return -1;
+        }
+        else if (pid == 0)
+            ft_exec_in_child(cmd, path, env, fd, old_fd);
         ft_free_tab(env);
         free(path);
-        g_minishell.exit_code = 127;
-        return 0;
     }
-    // fork
-    pid = fork();
-    if (pid == -1)
-    {
-        perror("fork");
-        free(path);
-        ft_free_tab(env);
-        return -1;
-    }
-    else if (pid == 0)
-        ft_exec_in_child(cmd, path, env, fd, old_fd);
     // in parent
     // wait for last command
     if (!cmd->next)
@@ -235,7 +245,5 @@ int ft_exec_cmd(t_list *cmd, int *fd, int old_fd)
         close(fd[1]);
     if (old_fd != -1)
         close(old_fd);
-    ft_free_tab(env);
-    free(path);
     return 0;
 }

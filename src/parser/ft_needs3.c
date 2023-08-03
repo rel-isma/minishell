@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 01:57:30 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/03 06:22:12 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/03 21:31:47 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,11 @@ void	ft_open_redir_in(t_parser **lst, t_cmd *cmd)
 			if (cmd->infile != 0)
 				close(cmd->infile);
 			cmd->infile = open((*lst)->value, O_RDONLY);
+			if (cmd->infile < 0)
+        	{
+				printf("minishell: %s: No such file or directory\n", (*lst)->value);
+				g_minishell.exit_code = 1;
+        	}
 			cmd->infilename = (*lst)->value;
 			if ((*lst))
 				(*lst) = (*lst)->next;
