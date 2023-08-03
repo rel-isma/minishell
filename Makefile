@@ -6,12 +6,12 @@
 #    By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/10 17:16:54 by rel-isma          #+#    #+#              #
-#    Updated: 2023/08/02 16:53:12 by rel-isma         ###   ########.fr        #
+#    Updated: 2023/08/03 10:02:06 by rel-isma         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-CFLAGS = -g -Wall -Wextra -Werror  -fsanitize=address
+CFLAGS = -g -Wall -Wextra -Werror  #-fsanitize=address
 LIBS = -lreadline -L ~/.brew/opt/readline/lib
 
 SOURCES = src/main.c src/lexer/lexer.c src/lexer/lexer_needs.c  src/lexer/lexer_needs2.c \

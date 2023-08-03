@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 16:47:39 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/29 00:37:11 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/03 09:44:45 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,19 +82,3 @@ int	ft_strlen_env_befor(char *env)
 	}
 	return (len);
 }
-
-// void	ft_free_list_exp(t_expand *list)
-// {
-// 	int			i;
-// 	t_expand	*tmp;
-
-// 	i = 0;
-// 	while (list)
-// 	{
-// 		tmp = list->next;
-// 		free(list->value);
-// 		free(list->key);
-// 		// free(list);
-// 		list = tmp;
-// 	}
-// }

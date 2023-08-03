@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:16:01 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/02 16:57:27 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/03 11:07:43 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,29 @@ void	fu(void)
 	system("leaks minishell");
 }
 
+void	ft_free_all_minishell(t_list *cmds)
+{
+	int i;
+	t_list	*tmp;
+
+	while (cmds)
+	{
+		tmp = cmds->next;
+		i = 0;
+		while ((tl(cmds->content))->argms[i])
+		{
+			free((tl(cmds->content))->argms[i]);
+			i++;
+		}
+		free((tl(cmds->content))->argms);
+		free((tl(cmds->content))->cmd);
+		free((tl(cmds->content)));
+		free(cmds);
+		cmds = tmp;
+	}
+	
+}
+
 int	main(int ac, char *av[], char **env)
 {
 	char		*line;
@@ -86,24 +109,9 @@ int	main(int ac, char *av[], char **env)
 		commands = ft_join_argms(&cur, envl);
 		if (commands)
 		{
-            ft_exec(commands, envl);
+            ft_exec(commands);
+			ft_free_all_minishell(commands);
 		}
-
-		// int			i;
-		// t_list		*tm = tmp;
-		// while (tm)
-		// {
-		// 	i = 0;
-		// 	printf("cmd->\t[%s]\t infile [%d]\t oufile [%d]\t infilename [%s]\t", ((t_cmd *)(tm->content))->cmd,
-		// 		((t_cmd *)(tm->content))->infile, ((t_cmd *)(tm->content))->oufile, ((t_cmd *)(tm->content))->infilename);
-		// 	while (((t_cmd *)(tm->content))->argms[i])
-		// 	{
-		// 		printf("arg->\t[%s]\t", ((t_cmd *)(tm->content))->argms[i]);
-		// 		i++;
-		// 	}
-		// 	printf("\n");
-		// 	tm = tm->next;
-		// }
 	}
 	return (0);
 }

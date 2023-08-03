@@ -17,21 +17,8 @@ char *ft_strcat(char *dest, char *src)
 	dest[i + j] = '\0';
 	return (dest);
 }
-char**    get_path(t_expand *pp)
-{
-    while(pp)
-    {
-        if(ft_strcmp(pp->key, "PATH") == 0)
-        {
-            char **str = ft_split(pp->value, ':');
-            return(str);
-        }
-        pp = pp->next;
-    }
-    return(NULL);
-}
 
-void    ft_commands(t_list *commands, t_expand *env)
+void    ft_commands(t_list *commands)
 {
 
     if (g_minishell.stop_exection)
@@ -43,12 +30,13 @@ void    ft_commands(t_list *commands, t_expand *env)
     curr = commands;
     while (curr)
     {
+
         g_minishell.command_executing = 1;
         old_fd = fd[0];
         if (curr->next)
             pipe(fd);
-        if (ft_exec_cmd(curr, fd, old_fd))
-            return ;
+        if (ft_exec_cmd(curr, fd, old_fd) == -1)
+            break ;
         curr = curr->next;
     }
     while (wait(NULL) != -1)
@@ -72,26 +60,20 @@ void    ft_exec_in_child(t_list *cmd, char *path, char **env, int *fd, int  old_
     // dup stdout to pipe
     if (cmd->next)
     {
-        dup2(STDOUT_FILENO, fd[1]);
+        dup2(fd[1], STDOUT_FILENO);
         close(fd[1]);
         close(fd[0]);
     }
 
-    // if (input == 0)
-    //     input = fd[0];
-    // else 
-    //     close
-    // if (output == 1)
-    //     utput = fd[1];
     // dup stdout to out redirection
     if ((tl(cmd->content))->oufilename)
     {
-        dup2(STDOUT_FILENO, (tl(cmd->content))->oufile);
+        dup2((tl(cmd->content))->oufile, STDOUT_FILENO);
     }
     // dup stdin to pipe
     if (old_fd != -1)
     {
-        dup2(STDIN_FILENO, old_fd);
+        dup2(old_fd, STDIN_FILENO);
         close(old_fd);
     }
     // dup stdin to in redirection
@@ -100,7 +82,7 @@ void    ft_exec_in_child(t_list *cmd, char *path, char **env, int *fd, int  old_
         // if ()
         // // handle herdoc
         // else
-        dup2(STDOUT_FILENO, (tl(cmd->content))->infile);
+        dup2((tl(cmd->content))->infile, STDOUT_FILENO);
     }
     // close all open file descriptors in child
     // close_all_fds();
@@ -139,30 +121,30 @@ char    *ft_get_path(t_list *cmd)
     char       **paths;
     char        *path;
     char        *cmd_path;
+    char        *cmd_path1;
     int         i;
     char *cmd_str = (tl(cmd->content))->cmd;
 
-
     i = 0;
-    if (cmd_str[0] == '/' || (ft_strnstr(cmd_str, "/", ft_strlen(cmd_str)) && ft_strncmp(cmd_str, "./", 2) != 0))
-    {
-        return ft_strdup(cmd_str);
-    }
+    if (cmd_str[0] == '/' || (ft_strnstr(cmd_str, "/", ft_strlen(cmd_str))))
+        return cmd_str;
     paths = ft_split(ft_getenv("PATH", (tl(cmd->content))->envl), ':');
     if (!paths)
         return NULL;
     while (paths[i])
     {
-        cmd_path = ft_strjoin(paths[i], "/");
-        cmd_path = ft_strjoin(cmd_path, (tl(cmd->content))->cmd);
+        cmd_path1 = ft_strjoin(paths[i], "/");
+        cmd_path = ft_strjoin(cmd_path1, (tl(cmd->content))->cmd);
         if (access(cmd_path, F_OK | X_OK) == 0)
         {
+            free(cmd_path1);
             path = cmd_path;
             ft_free_tab(paths);
             return (path);
         }
         i++;
         free(cmd_path);
+        free(cmd_path1);
     }
     ft_free_tab(paths);
     return NULL;
@@ -223,16 +205,25 @@ int ft_exec_cmd(t_list *cmd, int *fd, int old_fd)
 
     path = ft_get_path(cmd);
     env = ft_get_env_tab(cmd);
-    if (!env)
-        return 0;
+   
     // in case command not found
     if (path == NULL)
-        return ( ft_free_tab(env),  command_not_found((tl(cmd->content))->cmd), g_minishell.exit_code = 127, 0);
-
+    {
+        command_not_found((tl(cmd->content))->cmd);
+        ft_free_tab(env);
+        free(path);
+        g_minishell.exit_code = 127;
+        return 0;
+    }
     // fork
     pid = fork();
     if (pid == -1)
-        return ( free(path), ft_free_tab(env), perror("fork"), 1);
+    {
+        perror("fork");
+        free(path);
+        ft_free_tab(env);
+        return -1;
+    }
     else if (pid == 0)
         ft_exec_in_child(cmd, path, env, fd, old_fd);
     // in parent
@@ -244,5 +235,7 @@ int ft_exec_cmd(t_list *cmd, int *fd, int old_fd)
         close(fd[1]);
     if (old_fd != -1)
         close(old_fd);
-    return (0);
+    ft_free_tab(env);
+    free(path);
+    return 0;
 }
