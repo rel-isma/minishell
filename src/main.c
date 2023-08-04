@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:16:01 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/04 09:29:35 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/03 13:35:15 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int	main(int ac, char *av[], char **env)
 		if (commands)
 		{
             ft_exec(commands);
-			ft_free_all_minishell(commands);
+			// ft_free_all_minishell(commands);
 		}
 	}
 	return (0);

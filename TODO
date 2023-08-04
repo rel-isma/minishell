@@ -19,6 +19,10 @@ OLDPWD
 PWD
 SHLVL
 cd: home ~ ////
-export
+export yl 3tith ghir a=j j maktkonch
 exit();
-
+// minishell$ cat << $'t'est
+// > $test 
+// minishell$ cat << $'t'est
+// > test 
+/// $"USER" \\ USER

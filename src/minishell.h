@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:18:02 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/03 07:28:15 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/04 12:00:35 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ typedef struct s_global
 	int		heredoc_executing;
 	int		command_executing;
 	int		exit_code;
+	char	*str;
 }					t_global;
 
 t_global g_minishell;
@@ -103,6 +104,7 @@ typedef struct s_cmd
 	char*			oufilename;
 	t_expand		*envl;
 	int 			exit_status;
+	char*			pwd;
 }					t_cmd;
 
 ///////////////////////// functions lexer /////////////////////////////////////
@@ -189,5 +191,12 @@ void				*sort_list(t_expand* pp);
 int					 ft_exec_cmd(t_list *cmd, int *fd, int old_fd);
 int					ft_check_builting(t_list *tmp);
 void				ft_free_tab(char **env);
-
+int	ft_export(t_list *tmp, int *flg1);
+int	ft_cd(t_list *tmp);
+int	ft_unset(t_list *tmp);
+int	ft_env(t_expand *pp, int *flg);
+int	ft_pwd();
+int	ft_echo(t_list *tmp);
+char    **ft_get_env_tab(t_list *cmd);
+char    *ft_get_path(t_list *cmd);
 #endif
