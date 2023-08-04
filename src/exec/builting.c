@@ -6,16 +6,18 @@ int	ft_exit_builtin(t_list *tmp) // finish fot exit builting
 {
 	exit((tl(tmp->content))->exit_status);
 }
+
 int	ft_echo(t_list *tmp) // echo the exit status
 {
 	t_list *tm;
 	tm = tmp;
 	int i = 1;
 	int j = 2;
+
 	if (!(tl(tmp->content))->argms[1])
 	{
 		printf("\n");
-		return 1;
+		return (1);
 	}
 	if ((tl(tmp->content))->argms[1][0] == '-'
 		&& (tl(tmp->content))->argms[1][1] == 'n')
@@ -26,9 +28,10 @@ int	ft_echo(t_list *tmp) // echo the exit status
 		{
 			while ((tl(tmp->content))->argms[j])
 			{
-				printf("%s", (tl(tmp->content))->argms[j]);
+				write((tl(tmp->content))->oufile, (tl(tmp->content))->argms[j], ft_strlen((tl(tmp->content))->argms[j]));
+				// printf("%s", (tl(tmp->content))->argms[j]);
 				if ((tl(tmp->content))->argms[j + 1])
-					printf(" ");
+					write((tl(tmp->content))->oufile, " ", 1);
 				j++;
 			}
 		}
@@ -39,11 +42,11 @@ int	ft_echo(t_list *tmp) // echo the exit status
 			{
 				if ((tl(tmp->content))->argms[j + 1])
 				{
-					printf("%s", (tl(tmp->content))->argms[j]);
-					printf(" ");
+					write((tl(tmp->content))->oufile, (tl(tmp->content))->argms[j], ft_strlen((tl(tmp->content))->argms[j]));
+					write((tl(tmp->content))->oufile, " ", 1);
 				}
 				else
-					printf("%s\n", (tl(tmp->content))->argms[j]);
+					write((tl(tmp->content))->oufile, (tl(tmp->content))->argms[j], ft_strlen((tl(tmp->content))->argms[j]));
 
 				j++;
 			}
@@ -56,26 +59,27 @@ int	ft_echo(t_list *tmp) // echo the exit status
 		{
 			if ((tl(tmp->content))->argms[j + 1])
 			{
-				printf("%s", (tl(tmp->content))->argms[j]);
-				printf(" ");
+				write((tl(tmp->content))->oufile, (tl(tmp->content))->argms[j], ft_strlen((tl(tmp->content))->argms[j]));
+				write((tl(tmp->content))->oufile, " ", 1);
 			}
 			else
-				printf("%s\n", (tl(tmp->content))->argms[j]);
-
+				write((tl(tmp->content))->oufile, (tl(tmp->content))->argms[j], ft_strlen((tl(tmp->content))->argms[j]));
 			j++;
 		}
 	}
-	return 0;
+	return (0);
 }
+
 int	ft_pwd(void)
 {
-	char ptr[PATH_MAX];
+	char	ptr[PATH_MAX];
+
 	if (getcwd(ptr, sizeof(ptr)))
 	{
 		printf("%s\n", ptr);
-		return 0;
+		return (0);
 	}
-	return 1;
+	return (1);
 }
 int	valid_home(t_list *tmp)
 {
@@ -103,37 +107,37 @@ void	cd_home(t_list *tmp)
 	if (valid_home(tmp) == 0)
 	{
 		printf("HOME not set\n");
-		x = 1;
 	}
 }
 int	ft_cd(t_list *tmp) // finish
 {
+	int cd = 0;
 	// static int s = 0;
 	char current_dir[PATH_MAX];
 	char *cd_dir = malloc(sizeof(char) * PATH_MAX);
 	if ((tl(tmp->content))->argms[1] == NULL)
 	{
+		cd = 1;
 		cd_home(tmp);
 	}
 	getcwd(current_dir, sizeof(current_dir));
 	cd_dir = ft_strjoin(current_dir, "/");
 	cd_dir = ft_strjoin(cd_dir, (tl(tmp->content))->argms[1]);
-	if (chdir(cd_dir))
+	if (chdir(cd_dir) && !cd)
 	{
 		if (getcwd(current_dir, sizeof(current_dir)))
 		{
-			printf("cd: %s: Not a directory\n", (tl(tmp->content))->argms[1]);
-			x = 1;
+			printf("minishell: cd: %s: Not a directory\n",
+				(tl(tmp->content))->argms[1]);
 		}
 		if (getcwd(current_dir, sizeof(current_dir)) == NULL)
 		{
 			printf("cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n");
-			x = 1;
 			chdir("..");
 		}
 	}
 	free(cd_dir);
-	return 0;
+	return (0);
 }
 
 int	ft_len_export(char *str)
@@ -146,19 +150,20 @@ int	ft_len_export(char *str)
 		if (str[len] == '=')
 		{
 			len++;
-			return len;
+			return (len);
 		}
 		len++;
 	}
-	return len;
+	return (len);
 }
 /* WEXITSTATUS(exit_status) */
 int	syntax_export(char *str)
 {
-	int	j;
-	int	flg = 0;
+	int		j;
+	int		flg;
 	char	*s;
 
+	flg = 0;
 	j = 0;
 	s = ft_substr(str, 0, ft_len_export(str));
 	if (ft_isdigit(s[0]))
@@ -170,7 +175,7 @@ int	syntax_export(char *str)
 	{
 		if ((s[j] == '+' && s[j + 1] == '='))
 			flg = 1;
-		else if (!ft_isalnum(s[j]) && s[j] != '_' && s[j] != '=' && !flg )
+		else if (!ft_isalnum(s[j]) && s[j] != '_' && s[j] != '=' && !flg)
 		{
 			printf("minishell: export: `%s': not a valid identifier\n", s);
 			return (free(s), 1);
@@ -215,7 +220,7 @@ int	ft_unset(t_list *tmp) // finish
 	{
 		cur = (tl(tmp->content))->envl;
 		if (syntax_unset((tl(tmp->content))->argms[i]))
-			return 1;
+			return (1);
 		else
 		{
 			while (cur)
@@ -238,7 +243,7 @@ int	ft_unset(t_list *tmp) // finish
 		}
 		i++;
 	}
-	return 0;
+	return (0);
 }
 
 int	ft_env(t_expand *pp, int *flg)
@@ -253,94 +258,99 @@ int	ft_env(t_expand *pp, int *flg)
 		else
 		{
 			if (pp->key && !(ft_strcmp(pp->value, "") == 0))
-					printf("%s", pp->key);
+				printf("%s", pp->key);
 			if (ft_strcmp(pp->value, "") != 0)
 				printf("=\"%s\"\n", pp->value);
 			pp = pp->next;
 		}
 	}
-	return 0;
+	return (0);
 }
 
- 
 int	ft_check_duble(char *key, char *vl, t_expand *env, int flg)
 {
 	while (env)
 	{
 		if (ft_strcmp(env->key, key) == 0)
 		{
-			if (ft_strcmp(env->value, vl) != 0 || ft_strcmp(env->value, vl) == 0)
+			if (ft_strcmp(env->value, vl) != 0 || ft_strcmp(env->value,
+					vl) == 0)
 			{
 				if (flg)
 				{
 					env->value = ft_strjoin(env->value, vl);
-					return 1;
+					return (1);
 				}
 				else
 				{
 					free(env->value);
 					env->value = ft_strdup(vl);
-					return 1;
+					return (1);
 				}
 			}
-			return 1;
+			return (1);
 		}
 		env = env->next;
 	}
-	return 0;
-	
+	return (0);
 }
 
-void	ft_print_export(t_list *tmp, int flg, t_expand	*p)
+void	ft_print_export(t_list *tmp, int flg, t_expand *p)
 {
-	int i = 1;
+	int	i;
 
-	if ((tl(tmp->content))->argms[i] && g_minishell.err == 1 && (ft_strcmp((tl(tmp->content))->argms[i], "") == 0))
+	i = 1;
+	if ((tl(tmp->content))->argms[i] && g_minishell.err == 1
+		&& (ft_strcmp((tl(tmp->content))->argms[i], "") == 0))
 	{
 		printf("bash: export: `': not a valid identifier\n");
 		g_minishell.err = 0;
 	}
-	else if ((tl(tmp->content))->argms[i] && g_minishell.www == 2 && ft_strcmp((tl(tmp->content))->argms[i], "") == 0)
+	else if ((tl(tmp->content))->argms[i] && g_minishell.www == 2
+		&& ft_strcmp((tl(tmp->content))->argms[i], "") == 0)
 	{
-		while ((tl(tmp->content))->argms[i] && g_minishell.www == 2 && ft_strcmp((tl(tmp->content))->argms[i], "") == 0)
+		while ((tl(tmp->content))->argms[i] && g_minishell.www == 2
+			&& ft_strcmp((tl(tmp->content))->argms[i], "") == 0)
 			i++;
 	}
 	if (!(tl(tmp->content))->argms[i])
 	{
 		sort_list(p);
-			while (p)
-			{
-				if (p->key)
-					printf("declare -x %s", p->key);
-				if ((ft_strcmp(p->value, "") == 0 && flg) || ft_strcmp(p->value, "") != 0 )
-					printf("=\"%s\"", p->value);
-				printf("\n");
-				p = p->next;
-			}
+		while (p)
+		{
+			if (p->key)
+				printf("declare -x %s", p->key);
+			if ((ft_strcmp(p->value, "") == 0 && flg) || ft_strcmp(p->value,
+					"") != 0)
+				printf("=\"%s\"", p->value);
+			printf("\n");
+			p = p->next;
+		}
 	}
 }
 
 int	ft_export(t_list *tmp, int *flg1) // not finsh
 {
-	int			i;
-	t_expand	*p;
+	int i;
+	t_expand *p;
 	int flg = 0;
-	t_exp		exp_e;
+	t_exp exp_e;
 
 	i = 1;
 	p = (tl(tmp->content))->envl;
-	if (!(tl(tmp->content))->argms[i] || (tl(tmp->content))->argms[i])
-		ft_print_export(tmp, *flg1, p);
-	else if ((tl(tmp->content))->argms[i])
+	ft_print_export(tmp, *flg1, p);
+	if ((tl(tmp->content))->argms[i])
 	{
 		while ((tl(tmp->content))->argms[i])
 		{
 			if (syntax_export((tl(tmp->content))->argms[i]))
-				return 1;
+				return (1);
 			else
 			{
-				exp_e.len1 = ft_strlen_env_aftr((tl(tmp->content))->argms[i], &flg);
-				exp_e.key = ft_substr((tl(tmp->content))->argms[i], 0, exp_e.len1);
+				exp_e.len1 = ft_strlen_env_aftr((tl(tmp->content))->argms[i],
+					&flg);
+				exp_e.key = ft_substr((tl(tmp->content))->argms[i], 0,
+					exp_e.len1);
 				exp_e.len2 = ft_strlen_env_befor((tl(tmp->content))->argms[i]);
 				if (exp_e.len2 == 1)
 				{
@@ -351,23 +361,25 @@ int	ft_export(t_list *tmp, int *flg1) // not finsh
 				{
 					if (flg)
 						exp_e.len1 += 1;
-					exp_e.vl = ft_substr((tl(tmp->content))->argms[i], exp_e.len1 + 1, exp_e.len2);
+					exp_e.vl = ft_substr((tl(tmp->content))->argms[i],
+						exp_e.len1 + 1, exp_e.len2);
 				}
-				if (!ft_check_duble(exp_e.key, exp_e.vl, (tl(tmp->content))->envl, flg))
-					ft_lexeradd_back_expnd(&(tl(tmp->content))->envl, ft_lexernew_expnd(exp_e.key, exp_e.vl));
+				if (!ft_check_duble(exp_e.key, exp_e.vl,
+						(tl(tmp->content))->envl, flg))
+					ft_lexeradd_back_expnd(&(tl(tmp->content))->envl,
+						ft_lexernew_expnd(exp_e.key, exp_e.vl));
 				free(exp_e.key);
 				free(exp_e.vl);
-
 			}
 			i++;
 		}
 	}
-	return 0;
+	return (0);
 }
 
 int	ft_builting(t_list *tmp) // not yet
 {
-	static int	flg = 0;
+	static int flg = 0;
 
 	if (ft_strcmp((tl(tmp->content))->cmd, "echo") == 0)
 		return (ft_echo(tmp));

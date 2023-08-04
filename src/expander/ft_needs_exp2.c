@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 00:06:27 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/31 23:18:51 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/03 09:36:57 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,20 +26,20 @@ void	ft_expand_valid(t_expand *cur, t_lexer *tmp, int flg)
 {
 	while (cur)
 	{
-			if (tmp && flg == 0 && tmp->type == ENV
-				&& ft_strcmp(cur->key, (tmp->value + 1)) == 0)
-			{
-				free(tmp->value);
-				tmp->value = ft_strdup(cur->value);
-				break ;
-			}
-			if (tmp && flg && tmp->type == ENV && tmp->status != IN_QUOTE
-				&& ft_strcmp(cur->key, (tmp->value + 1)) == 0)
-			{
-				free(tmp->value);
-				tmp->value = ft_strdup(cur->value);
-				break ;
-			}
+		if (tmp && flg == 0 && tmp->type == ENV
+			&& ft_strcmp(cur->key, (tmp->value + 1)) == 0)
+		{
+			free(tmp->value);
+			tmp->value = ft_strdup(cur->value);
+			break ;
+		}
+		if (tmp && flg && tmp->type == ENV && tmp->status != IN_QUOTE
+			&& ft_strcmp(cur->key, (tmp->value + 1)) == 0)
+		{
+			free(tmp->value);
+			tmp->value = ft_strdup(cur->value);
+			break ;
+		}
 		cur = cur->next;
 	}
 }

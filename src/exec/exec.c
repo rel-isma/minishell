@@ -18,10 +18,13 @@ int     ft_check_builting(t_list *tmp)
         return(1);
     return(0);
 }
-void    ft_exec(t_list *tmp, t_expand *env)
+void    ft_exec(t_list *tmp)
 {
-    if(ft_check_builting(tmp) /* and only one command*/)
-        ft_builting(tmp);
-    else 
-        ft_commands(tmp, env);
+    if (ft_check_builting(tmp)  && !(tl(tmp->content))->cmd)
+    {
+        if ((tl(tmp->content))->infile != -1)
+            ft_builting(tmp);
+    }
+    else
+        ft_commands(tmp);
 }

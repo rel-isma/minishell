@@ -6,12 +6,11 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 01:57:30 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/07/31 22:55:45 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/03 21:31:47 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
 
 void	ft_open_redir_out(t_parser **lst, t_cmd *cmd)
 {
@@ -25,6 +24,7 @@ void	ft_open_redir_out(t_parser **lst, t_cmd *cmd)
 			if (cmd->oufile != 1)
 				close(cmd->oufile);
 			cmd->oufile = open((*lst)->value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			cmd->oufilename = (*lst)->value;
 			if ((*lst))
 				(*lst) = (*lst)->next;
 		}
@@ -43,6 +43,12 @@ void	ft_open_redir_in(t_parser **lst, t_cmd *cmd)
 			if (cmd->infile != 0)
 				close(cmd->infile);
 			cmd->infile = open((*lst)->value, O_RDONLY);
+			if (cmd->infile < 0)
+        	{
+				printf("minishell: %s: No such file or directory\n", (*lst)->value);
+				g_minishell.exit_code = 1;
+        	}
+			cmd->infilename = (*lst)->value;
 			if ((*lst))
 				(*lst) = (*lst)->next;
 		}
@@ -61,6 +67,7 @@ void	ft_open_dredir_out(t_parser **lst, t_cmd *cmd)
 			if (cmd->oufile != 1)
 				close(cmd->oufile);
 			cmd->oufile = open((*lst)->value, O_WRONLY | O_CREAT | O_APPEND, 0644);
+			cmd->oufilename = (*lst)->value;
 			if ((*lst))
 				(*lst) = (*lst)->next;
 		}
