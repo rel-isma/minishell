@@ -1,9 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builting.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/04 08:43:37 by yoel-bas          #+#    #+#             */
+/*   Updated: 2023/08/04 08:43:38 by yoel-bas         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
-int		x = 0;
 
+char *str;
 int	ft_exit_builtin(t_list *tmp) // finish fot exit builting
 {
+	printf("exit\n");
 	exit((tl(tmp->content))->exit_status);
 }
 
@@ -29,7 +42,6 @@ int	ft_echo(t_list *tmp) // echo the exit status
 			while ((tl(tmp->content))->argms[j])
 			{
 				write((tl(tmp->content))->oufile, (tl(tmp->content))->argms[j], ft_strlen((tl(tmp->content))->argms[j]));
-				// printf("%s", (tl(tmp->content))->argms[j]);
 				if ((tl(tmp->content))->argms[j + 1])
 					write((tl(tmp->content))->oufile, " ", 1);
 				j++;
@@ -71,7 +83,7 @@ int	ft_echo(t_list *tmp) // echo the exit status
 	return (0);
 }
 
-int	ft_pwd(void)
+int	ft_pwd()
 {
 	char	ptr[PATH_MAX];
 
@@ -80,6 +92,8 @@ int	ft_pwd(void)
 		printf("%s\n", ptr);
 		return (0);
 	}
+	else 
+		printf("%s\n", str);
 	return (1);
 }
 int	valid_home(t_list *tmp)
@@ -113,7 +127,6 @@ void	cd_home(t_list *tmp)
 int	ft_cd(t_list *tmp) // finish
 {
 	int cd = 0;
-	// static int s = 0;
 	char current_dir[PATH_MAX];
 	char *cd_dir = malloc(sizeof(char) * PATH_MAX);
 	if ((tl(tmp->content))->argms[1] == NULL)
@@ -126,6 +139,7 @@ int	ft_cd(t_list *tmp) // finish
 	cd_dir = ft_strjoin(cd_dir, (tl(tmp->content))->argms[1]);
 	if (chdir(cd_dir) && !cd)
 	{
+		(tl(tmp->content))->pwd = getcwd(current_dir, sizeof(current_dir));
 		if (getcwd(current_dir, sizeof(current_dir)))
 		{
 			printf("minishell: cd: %s: Not a directory\n",
@@ -137,6 +151,8 @@ int	ft_cd(t_list *tmp) // finish
 			chdir("..");
 		}
 	}
+	if(!cd)
+		str = ft_strdup(cd_dir);
 	free(cd_dir);
 	return (0);
 }

@@ -18,3 +18,4 @@ echo $_
 OLDPWD
 PWD
 SHLVL
+cd HOME

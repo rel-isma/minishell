@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:18:02 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/03 07:28:15 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/04 04:10:57 by yoel-bas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ typedef struct s_cmd
 	char*			oufilename;
 	t_expand		*envl;
 	int 			exit_status;
+	char*	pwd;
 }					t_cmd;
 
 ///////////////////////// functions lexer /////////////////////////////////////

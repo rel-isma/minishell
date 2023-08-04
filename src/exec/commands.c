@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   commands.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/04 08:43:39 by yoel-bas          #+#    #+#             */
+/*   Updated: 2023/08/04 08:43:40 by yoel-bas         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 char *ft_strcat(char *dest, char *src)
@@ -239,7 +251,11 @@ int ft_exec_cmd(t_list *cmd, int *fd, int old_fd)
     // in parent
     // wait for last command
     if (!cmd->next)
+    {
         waitpid(pid, &g_minishell.exit_code, 0);
+        if( WIFEXITED(g_minishell.exit_code))
+            (tl(cmd->content))->exit_status = WEXITSTATUS(g_minishell.exit_code);
+    }
     //close pipe
     if (cmd->next)
         close(fd[1]);
