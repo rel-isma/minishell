@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:43:39 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/04 12:12:48 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/05 05:11:24 by yoel-bas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,15 +89,24 @@ int ft_exec_cmd(t_list *cmd, int *fd, int old_fd)
     pid_t   pid;
     // int i = 0;
 
-    if ((tl(cmd->content))->infile != -1)
+    if ( (tl(cmd->content))->argms[0][0] != '\0' && (tl(cmd->content))->infile != -1)
     {
+        if(ft_strcmp((tl(cmd->content))->cmd, "..") == 0)
+        {
+                command_not_found((tl(cmd->content))->cmd);
+                            g_minishell.exit_code = 127;
+            return 0;
+        }
         path = ft_get_path(cmd);
         env = ft_get_env_tab(cmd);
     
         // in case command not found
         if (path == NULL)
         {
-            command_not_found((tl(cmd->content))->cmd);
+            if((tl(cmd->content))->lvl)
+                printf("minishell: %s: No such file or directory\n", (tl(cmd->content))->cmd);
+            else 
+                command_not_found((tl(cmd->content))->cmd);
             ft_free_tab(env);
             free(path);
             g_minishell.exit_code = 127;

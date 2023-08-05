@@ -3,15 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+         #
+#    By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/10 17:16:54 by rel-isma          #+#    #+#              #
-#    Updated: 2023/08/04 12:00:54 by rel-isma         ###   ########.fr        #
+#    Updated: 2023/08/05 08:34:32 by yoel-bas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CC = cc
-CFLAGS = -g -Wall -Wextra -Werror  #-fsanitize=address
+CC = gcc
+CFLAGS = -g -Wall -Wextra -Werror  -fsanitize=address
 LIBS = -lreadline -L ~/.brew/opt/readline/lib
 
 SOURCES = src/main.c src/lexer/lexer.c src/lexer/lexer_needs.c  src/lexer/lexer_needs2.c \

@@ -3,24 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   ft_needs_cmds.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 11:57:30 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/04 12:01:41 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/05 08:30:19 by yoel-bas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char    *ft_getenv(char *path, t_expand *env)
+char    *ft_getenv(char *path, t_expand *env, t_list *cmd)
 {
     char *str;
+    (tl(cmd->content))->lvl = 1;
 
     while (env)
     {
         if (ft_strcmp(path, env->key) == 0)
         {
             str = env->value;
+            (tl(cmd->content))->lvl = 0;
             return (str);
         }
         env = env->next;
@@ -40,7 +42,7 @@ char    *ft_get_path(t_list *cmd)
     i = 0;
     if (cmd_str[0] == '/' || (ft_strnstr(cmd_str, "/", ft_strlen(cmd_str))))
         return cmd_str;
-    paths = ft_split(ft_getenv("PATH", (tl(cmd->content))->envl), ':');
+    paths = ft_split(ft_getenv("PATH", (tl(cmd->content))->envl, cmd), ':');
     if (!paths)
         return NULL;
     while (paths[i])

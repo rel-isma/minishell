@@ -13,14 +13,12 @@ heredoc close and open
 
 //////////
 echo $_
-.
-..
-OLDPWD
-PWD
-SHLVL
+SHLVL // if not in the env
 cd: home ~ ////
-export yl 3tith ghir a=j j maktkonch
+
 exit();
+minishell$ export | grep SHLVL
+minishell: export: command not found
 // minishell$ cat << $'t'est
 // > $test 
 // minishell$ cat << $'t'est

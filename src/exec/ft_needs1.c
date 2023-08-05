@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_needs1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:43:25 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/04 11:46:01 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/05 08:23:36 by yoel-bas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,14 @@ int	ft_cd(t_list *tmp) // finish
 {
 	int cd = 0;
 	char current_dir[PATH_MAX];
+	char *old_pwd;
 	char *cd_dir = malloc(sizeof(char) * PATH_MAX);
 	if ((tl(tmp->content))->argms[1] == NULL)
 	{
 		cd = 1;
 		cd_home(tmp);
 	}
-	getcwd(current_dir, sizeof(current_dir));
+	old_pwd =  ft_strdup(getcwd(current_dir, sizeof(current_dir)));
 	cd_dir = ft_strjoin(current_dir, "/");
 	cd_dir = ft_strjoin(cd_dir, (tl(tmp->content))->argms[1]);
 	if (chdir(cd_dir) && !cd)
@@ -70,7 +71,24 @@ int	ft_cd(t_list *tmp) // finish
 		}
 	}
 	if(!cd)
+	{
+		while((tl(tmp->content))->envl)
+		{
+			if (ft_strcmp((tl(tmp->content))->envl->key, "OLDPWD") == 0)
+			{
+				free((tl(tmp->content))->envl->value);
+				(tl(tmp->content))->envl->value = ft_strdup(old_pwd);
+			}
+			if (ft_strcmp((tl(tmp->content))->envl->key, "PWD") == 0)
+			{
+				free((tl(tmp->content))->envl->value);
+				(tl(tmp->content))->envl->value = ft_strdup(getcwd(current_dir, sizeof(current_dir)));
+			}
+		(tl(tmp->content))->envl = (tl(tmp->content))->envl->next;
+		}
 		g_minishell.str = ft_strdup(cd_dir);
+	}
 	free(cd_dir);
 	return (0);
 }
+////////////////

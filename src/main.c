@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:16:01 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/03 13:35:15 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/05 08:25:03 by yoel-bas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ int	main(int ac, char *av[], char **env)
 	t_lexer		*cur;
 	t_list		*commands;
 	t_expand	*envl;
+	t_expand	*mini;
+	int lvl = 1;
 
 	rl_catch_signals = 0;
 	signal(SIGINT, sig_handler);
@@ -89,6 +91,19 @@ int	main(int ac, char *av[], char **env)
 	if (ft_check_argms(ac, av))
 		return (1);
 	envl = ft_init_expander(env);
+	mini = envl;
+	while(mini)
+	{
+		if(ft_strcmp(mini->key, "SHLVL") == 0)
+		{
+			if(mini->value == NULL)
+				mini->value = ft_strdup(ft_itoa(1));
+			else 
+				mini->value = ft_strdup(ft_itoa(ft_atoi(mini->value) + 1));
+			lvl++;
+		}
+		mini = mini->next;
+	}
 	while (1)
 	{
 		//reset_stdin
