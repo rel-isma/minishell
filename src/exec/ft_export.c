@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 23:51:42 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/08 06:11:40 by yoel-bas         ###   ########.fr       */
+/*   Updated: 2023/08/08 10:43:42 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,18 +110,18 @@ void	ft_print_export(t_list *tmp, int flg, t_expand *p)
 		while (p)
 		{
 			if (p->key)
-				// printf("declare -x %s", p->key);
+			{
 				write((tl(tmp->content))->oufile, "declare -x ", ft_strlen("declare -x "));
 				write((tl(tmp->content))->oufile, p->key, ft_strlen(p->key));
-			if ((ft_strcmp(p->value, "") == 0 && flg) || ft_strcmp(p->value,
-					"") != 0)
-				write((tl(tmp->content))->oufile,  "\"=\"" ,2);
+			}
+			if ((ft_strcmp(p->value, "") == 0 && flg) || ft_strcmp(p->value, "") != 0)
+			{
+
+				write((tl(tmp->content))->oufile,  "=\"" ,2);
 				write((tl(tmp->content))->oufile,  p->value, ft_strlen(p->value));
-				// write((tl(tmp->content))->oufile,  "\"\", 1);
-				ft_putchar_fd('\"', (tl(tmp->content))->oufile);
-				write((tl(tmp->content))->oufile,  "\n", 1);
-				// printf("=\"\"", p->value);
-			// printf("\n");
+				write((tl(tmp->content))->oufile,  "\"" ,1);
+			}
+			write((tl(tmp->content))->oufile,  "\n", 1);
 			p = p->next;
 		}
 	}
@@ -151,7 +151,7 @@ int	ft_export(t_list *tmp, int *flg1) // not finsh
 				exp_e.key = ft_substr((tl(tmp->content))->argms[i], 0,
 					exp_e.len1);
 				exp_e.len2 = ft_strlen_env_befor((tl(tmp->content))->argms[i]);
-				if (exp_e.len2 == 1 && (tl(tmp->content))->argms[i][exp_e.len2 + 1] == '\0')
+				if (exp_e.len2 == 1 && (tl(tmp->content))->argms[i][exp_e.len1 + 1] == '\0')
 				{
 					*flg1 = 1;
 					exp_e.vl = ft_strdup("");

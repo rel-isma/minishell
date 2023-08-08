@@ -16,13 +16,11 @@ echo $_
 cd: home ~ ////
 
 exit();
-minishell$ export | grep SHLVL
-minishell: export: command not found
 // minishell$ cat << $'t'est
 // > $test 
 // minishell$ cat << $'t'est
 // > test 
 /// $"USER" \\ USER
-get the error message from exit
-env fixed but when use it with grep print all the message
 if(!env) export SEGV
+
+chmod 000 . | cd .. SEGV
