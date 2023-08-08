@@ -6,7 +6,7 @@
 /*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:43:25 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/05 08:23:36 by yoel-bas         ###   ########.fr       */
+/*   Updated: 2023/08/06 00:52:21 by yoel-bas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int	ft_cd(t_list *tmp) // finish
 		{
 			printf("minishell: cd: %s: Not a directory\n",
 				(tl(tmp->content))->argms[1]);
+			g_minishell.exit_code = 1;
 		}
 		if (getcwd(current_dir, sizeof(current_dir)) == NULL)
 		{

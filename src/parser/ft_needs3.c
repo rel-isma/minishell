@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_needs3.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 01:57:30 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/03 21:31:47 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/07 10:18:32 by yoel-bas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,11 @@ void	ft_open_redir_out(t_parser **lst, t_cmd *cmd)
 			if (cmd->oufile != 1)
 				close(cmd->oufile);
 			cmd->oufile = open((*lst)->value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if(open((*lst)->value, O_WRONLY | O_CREAT | O_TRUNC, 0644) == - 1)
+			{
+				ft_putstr_fd("minsihell :", 2);
+				perror((*lst)->value);
+			}
 			cmd->oufilename = (*lst)->value;
 			if ((*lst))
 				(*lst) = (*lst)->next;

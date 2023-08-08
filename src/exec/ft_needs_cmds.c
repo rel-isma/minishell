@@ -6,7 +6,7 @@
 /*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 11:57:30 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/05 08:30:19 by yoel-bas         ###   ########.fr       */
+/*   Updated: 2023/08/08 02:08:46 by yoel-bas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ char    *ft_get_path(t_list *cmd)
     char *cmd_str = (tl(cmd->content))->cmd;
 
     i = 0;
+  
     if (cmd_str[0] == '/' || (ft_strnstr(cmd_str, "/", ft_strlen(cmd_str))))
         return cmd_str;
     paths = ft_split(ft_getenv("PATH", (tl(cmd->content))->envl, cmd), ':');

@@ -6,7 +6,7 @@
 /*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:16:01 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/05 08:25:03 by yoel-bas         ###   ########.fr       */
+/*   Updated: 2023/08/08 05:36:29 by yoel-bas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ void sig_handler(int signum)
 {
 	if (signum == SIGINT)
 	{
-		// if (g_minishell.heredoc_executing)
-		// {
-		// 	g_minishell.stdin_backup = dup(STDIN_FILENO);
-		// 	close(STDIN_FILENO);
-		// 	g_minishell.stop_exection = 1;
-		// }
+		if (g_minishell.heredoc_executing)
+		{
+			g_minishell.stdin_backup = dup(STDIN_FILENO);
+			close(STDIN_FILENO);
+			g_minishell.stop_exection = 1;
+		}
 		if (!g_minishell.command_executing)
 		{
 			write(1, "\n", 1);
@@ -82,7 +82,7 @@ int	main(int ac, char *av[], char **env)
 	t_list		*commands;
 	t_expand	*envl;
 	t_expand	*mini;
-	int lvl = 1;
+	// int lvl = 1;
 
 	rl_catch_signals = 0;
 	signal(SIGINT, sig_handler);
@@ -100,7 +100,7 @@ int	main(int ac, char *av[], char **env)
 				mini->value = ft_strdup(ft_itoa(1));
 			else 
 				mini->value = ft_strdup(ft_itoa(ft_atoi(mini->value) + 1));
-			lvl++;
+			// lvl++;
 		}
 		mini = mini->next;
 	}

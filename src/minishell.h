@@ -6,7 +6,7 @@
 /*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:18:02 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/05 08:27:19 by yoel-bas         ###   ########.fr       */
+/*   Updated: 2023/08/06 04:57:29 by yoel-bas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,7 +195,7 @@ void				ft_free_tab(char **env);
 int	ft_export(t_list *tmp, int *flg1);
 int	ft_cd(t_list *tmp);
 int	ft_unset(t_list *tmp);
-int	ft_env(t_expand *pp, int *flg);
+int	ft_env(t_expand *pp, t_list *tmp);
 int	ft_pwd();
 int	ft_echo(t_list *tmp);
 char    **ft_get_env_tab(t_list *cmd);

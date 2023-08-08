@@ -6,7 +6,7 @@
 /*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:43:39 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/05 05:11:24 by yoel-bas         ###   ########.fr       */
+/*   Updated: 2023/08/08 06:21:42 by yoel-bas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ void    ft_exec_in_child(t_list *cmd, char *path, char **env, int *fd, int  old_
     if (stat(path, &file_info) == 0)
     {
         printf("minishell: %s: is a directory\n", path);
-        exit(126);
+        // g_minishell.exit_code = 1;
+        exit(1);
     }
     else
     {
@@ -89,9 +90,15 @@ int ft_exec_cmd(t_list *cmd, int *fd, int old_fd)
     pid_t   pid;
     // int i = 0;
 
+        if((tl(cmd->content))->cmd[0] == '\0')
+        {
+                command_not_found((tl(cmd->content))->cmd);
+                            g_minishell.exit_code = 127;
+            return 0;
+        }
     if ( (tl(cmd->content))->argms[0][0] != '\0' && (tl(cmd->content))->infile != -1)
     {
-        if(ft_strcmp((tl(cmd->content))->cmd, "..") == 0)
+        if(ft_strcmp((tl(cmd->content))->cmd, "..") == 0 || ft_strcmp((tl(cmd->content))->cmd, ".") == 0 )
         {
                 command_not_found((tl(cmd->content))->cmd);
                             g_minishell.exit_code = 127;
@@ -132,7 +139,18 @@ int ft_exec_cmd(t_list *cmd, int *fd, int old_fd)
     {
         waitpid(pid, &g_minishell.exit_code, 0);
         if( WIFEXITED(g_minishell.exit_code))
-            (tl(cmd->content))->exit_status = WEXITSTATUS(g_minishell.exit_code);
+        {
+            g_minishell.exit_code = WEXITSTATUS(g_minishell.exit_code);
+            
+        }
+    }
+    if(g_minishell.exit_code == 11)
+    {
+        ft_putstr_fd("Segmentation fault : 11\n", 2);
+    }
+    if(g_minishell.exit_code == 10)
+    {
+        ft_putstr_fd("bus error : 10\n", 2);
     }
     //close pipe
     if (cmd->next)

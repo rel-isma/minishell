@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_needs3.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:43:30 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/04 11:51:21 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/08 05:44:15 by yoel-bas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 
-int	ft_echo(t_list *tmp)
+int	ft_echo(t_list *tmp) // echo the exit status
 {
 	t_list *tm;
 	tm = tmp;
@@ -47,14 +47,12 @@ int	ft_echo(t_list *tmp)
 			{
 				if ((tl(tmp->content))->argms[j + 1])
 				{
-					write((tl(tmp->content))->oufile, (tl(tmp->content))->argms[j], ft_strlen((tl(tmp->content))->argms[j]));
-					write((tl(tmp->content))->oufile, " ", 1);
+					printf("%s", (tl(tmp->content))->argms[j]);
+					printf(" ");
 				}
 				else
-				{
-					write((tl(tmp->content))->oufile, (tl(tmp->content))->argms[j], ft_strlen((tl(tmp->content))->argms[j]));
-					write((tl(tmp->content))->oufile, "\n", 1);
-				}
+					printf("%s\n", (tl(tmp->content))->argms[j]);
+
 				j++;
 			}
 		}
@@ -66,14 +64,12 @@ int	ft_echo(t_list *tmp)
 		{
 			if ((tl(tmp->content))->argms[j + 1])
 			{
-				write((tl(tmp->content))->oufile, (tl(tmp->content))->argms[j], ft_strlen((tl(tmp->content))->argms[j]));
-				write((tl(tmp->content))->oufile, " ", 1);
+				printf("%s", (tl(tmp->content))->argms[j]);
+				printf(" ");
 			}
 			else
-			{
-				write((tl(tmp->content))->oufile, (tl(tmp->content))->argms[j], ft_strlen((tl(tmp->content))->argms[j]));
-				write((tl(tmp->content))->oufile, "\n", 1);
-			}
+				printf("%s\n", (tl(tmp->content))->argms[j]);
+
 			j++;
 		}
 	}

@@ -13,7 +13,6 @@ heredoc close and open
 
 //////////
 echo $_
-SHLVL // if not in the env
 cd: home ~ ////
 
 exit();
@@ -24,3 +23,6 @@ minishell: export: command not found
 // minishell$ cat << $'t'est
 // > test 
 /// $"USER" \\ USER
+get the error message from exit
+env fixed but when use it with grep print all the message
+if(!env) export SEGV

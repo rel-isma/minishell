@@ -6,101 +6,43 @@
 /*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:43:28 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/05 09:11:32 by yoel-bas         ###   ########.fr       */
+/*   Updated: 2023/08/08 06:18:54 by yoel-bas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 
-int	ft_env(t_expand *pp, int *flg)
+int	ft_env(t_expand *pp, t_list *tmp)
 {
 	while ((pp))
 	{
-		if (pp->key && pp->value && ft_strcmp(pp->value, "") == 0 && *flg)
+		if (pp->key && pp->value && ft_strcmp(pp->value, "") == 0)
 		{
-			printf("%s=\n", pp->key);
+			write((tl(tmp->content))->oufile, pp->key, ft_strlen(pp->key));
+			write((tl(tmp->content))->oufile, "=\n", ft_strlen("=\n"));
+			
 		}
 		else if (pp->key && pp->value &&  (ft_strcmp(pp->value, "")))
 		{
 			if (pp->key && (ft_strcmp(pp->value, "")))
-				printf("%s", pp->key);
+			{
+			write((tl(tmp->content))->oufile, pp->key, ft_strlen(pp->key));
+			write((tl(tmp->content))->oufile, "=", ft_strlen("="));
+			}
 			if (ft_strcmp(pp->value, "") != 0)
-				printf("=\"%s\"\n", pp->value);
+			{
+				write((tl(tmp->content))->oufile, pp->value, ft_strlen(pp->value));
+				write((tl(tmp->content))->oufile, "\n", ft_strlen("\n"));
+				
+			}
 		}
 		pp = pp->next;
 	}
 	return (0);
 }
 
-int	syntax_unset(char *str)
-{
-	int	j;
 
-	j = 0;
-	if (ft_isdigit(str[0]))
-	{
-		printf("minishell: unset: `%s': not a valid identifier\n", str);
-		return (1);
-	}
-	while (str[j])
-	{
-		if (!ft_isalnum(str[j]) && str[j] != '_')
-		{
-			printf("minishell: unset: `%s': not a valid identifier\n", str);
-			return (1);
-		}
-		j++;
-	}
-	return (0);
-}
-int	ft_unset(t_list *tmp) // finish
-{
-	t_expand *cur;
-	t_expand *next;
-	t_expand *prev;
-	int i = 1;
-
-	next = NULL;
-	prev = NULL;
-
-	while ((tl(tmp->content))->argms[i])
-	{
-		if (syntax_unset((tl(tmp->content))->argms[i]))
-			return (1);
-		else
-		{
-		cur = (tl(tmp->content))->envl;
-			while (cur)
-			{
-				if (ft_strcmp(cur->key, (tl(tmp->content))->argms[i]) == 0)
-				{
-					next = cur->next;
-					if (prev)
-					{
-						prev->next = next;
-						break;
-					}
-					else
-					{
-						(tl(tmp->content))->envl = next;
-						free(cur->value);
-						free(cur->key);
-						cur->value = NULL;
-						cur->key = NULL;
-					break;
-					}
-				}
-				else
-					prev = cur;
-				if (cur)
-					cur = cur->next;
-			}
-		}
-		i++;
-	}
-	return (0);
-}
 
 int	ft_pwd()
 {
