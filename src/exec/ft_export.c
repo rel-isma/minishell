@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 23:51:42 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/08 10:43:42 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/09 10:28:35 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ int	syntax_export(char *str)
 	flg = 0;
 	j = 0;
 	s = ft_substr(str, 0, ft_len_export(str));
-	if (ft_isdigit(s[0]))
+	if (s[0] == '=' || ft_isdigit(s[0]))
 	{
-		printf("minishell: export: `%s': not a valid identifier\n", s);
+		printf("minishell: export: `%s': not a valid identifier\n", str);
 		return (free(s), 1);
 	}
 	while (s[j])
