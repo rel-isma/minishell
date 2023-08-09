@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 13:23:56 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/09 13:20:18 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/09 18:09:18 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,10 @@ void	ft_creat_cmd_arg(t_parser **lst, t_cmd *cmd, char str)
 			(*lst) = (*lst)->next;
 		}
 		if ((*lst) && (*lst)->type == WHITE_SPACE)
+		{
+			cmd->white_space = 3; 
 			(*lst) = (*lst)->next;
+		}
 		ft_open_all(lst, cmd, str);
 	}
 	cmd->argms[i] = NULL;
@@ -49,6 +52,7 @@ void	cmd_init(t_cmd *cmd, t_expand *env)
 	cmd->cmd = NULL;
 	cmd->infile = 0;
 	cmd->oufile = 1;
+	cmd->white_space = 0;
 	cmd->exit_status = 0;
 	cmd->infilename = NULL;
 	cmd->oufilename = NULL;
@@ -59,19 +63,12 @@ t_list	*ft_join_cmd(t_parser *lst, t_expand *env, char str)
 {
 	t_list	*list;
 	t_cmd	*cmd;
-	t_parser *pop = lst;
 
 	list = NULL;
 	cmd = NULL;
-	while (pop)
-	{
-		printf("[%s]\n", pop->value);
-		pop = pop->next;
-	}
-
 	while (lst)
 	{
-		cmd =  malloc(sizeof(t_cmd));
+		cmd =  malloc(sizeof(t_cmd)); 
 		cmd_init(cmd, env);
 		cmd->argms = malloc((ft_len(lst) + 1) * sizeof(char *));
 		if (!cmd->argms)

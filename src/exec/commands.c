@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:43:39 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/09 13:17:18 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/09 18:10:43 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,14 +92,13 @@ int ft_exec_cmd(t_list *cmd, int *fd, int old_fd)
     pid_t   pid;
     // int i = 0;
 
-    if((tl(cmd->content))->cmd[0] == '\0')
+    if((tl(cmd->content))->cmd[0] == '\0' && (tl(cmd->content))->white_space != 3)
     {
-        printf("[%s]\n", (tl(cmd->content))->cmd);
         command_not_found((tl(cmd->content))->cmd);
         g_minishell.exit_code = 127;
         return 0;
     }
-    if ( (tl(cmd->content))->argms[0][0] != '\0' && (tl(cmd->content))->infile != -1)
+    if ((tl(cmd->content))->argms[0] && (tl(cmd->content))->argms[0][0] != '\0' && (tl(cmd->content))->infile != -1)
     {
         if(ft_strcmp((tl(cmd->content))->cmd, "..") == 0 || ft_strcmp((tl(cmd->content))->cmd, ".") == 0 )
         {
@@ -109,7 +108,6 @@ int ft_exec_cmd(t_list *cmd, int *fd, int old_fd)
         }
         path = ft_get_path(cmd);
         env = ft_get_env_tab(cmd);
-        // in case command not found
         if (path == NULL)
         {
                 command_not_found((tl(cmd->content))->cmd);

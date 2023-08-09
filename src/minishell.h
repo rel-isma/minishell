@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:18:02 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/09 13:05:05 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/09 18:09:02 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ typedef struct s_cmd
 {
 	char			*cmd;
 	char			**argms;
+	int				white_space;
 	int				infile;
 	int				oufile;
 	char*			infilename;
