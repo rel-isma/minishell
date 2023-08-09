@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:18:02 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/06 04:57:29 by yoel-bas         ###   ########.fr       */
+/*   Updated: 2023/08/09 13:05:05 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ typedef struct s_cmd
 ///////////////////////// functions lexer /////////////////////////////////////
 
 t_lexer				*ft_lexer(char *line);
+int					white_space(char str);
 t_lexer				*ft_lexernew(char *content, t_status status, t_type type);
 void				ft_lexeradd_back(t_lexer **lst, t_lexer *new);
 void				handle_redirection(t_lexer **tokenlist, char *line, int *i,

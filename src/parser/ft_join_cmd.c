@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 13:23:56 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/03 19:02:29 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/09 13:20:18 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,16 @@ t_list	*ft_join_cmd(t_parser *lst, t_expand *env, char str)
 {
 	t_list	*list;
 	t_cmd	*cmd;
+	t_parser *pop = lst;
 
 	list = NULL;
 	cmd = NULL;
+	while (pop)
+	{
+		printf("[%s]\n", pop->value);
+		pop = pop->next;
+	}
+
 	while (lst)
 	{
 		cmd =  malloc(sizeof(t_cmd));

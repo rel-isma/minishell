@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 CC = gcc
-CFLAGS = -g -Wall -Wextra -Werror  -fsanitize=address
+CFLAGS = -g -Wall -Wextra -Werror  #-fsanitize=address
 LIBS = -lreadline -L ~/.brew/opt/readline/lib
 
 SOURCES = src/main.c src/lexer/lexer.c src/lexer/lexer_needs.c  src/lexer/lexer_needs2.c \

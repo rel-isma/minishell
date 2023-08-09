@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_needs1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:43:25 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/06 00:52:21 by yoel-bas         ###   ########.fr       */
+/*   Updated: 2023/08/09 13:17:59 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,7 @@ int	valid_home(t_list *tmp)
 		{
 			home++;
 			if (chdir((tl(tmp->content))->envl->value))
-			{
-				printf("cd : no such file or directory: %s\n",
-					(tl(tmp->content))->argms[1]);
-				return (0);
-			}
+				return (1);
 		}
 		(tl(tmp->content))->envl = (tl(tmp->content))->envl->next;
 	}
@@ -41,28 +37,43 @@ void	cd_home(t_list *tmp)
 		printf("HOME not set\n");
 	}
 }
-
+int 	cd_root(char *str)
+{
+	int i = 0;
+	while(str[i])
+	{	
+		if(str[i] != '/')
+			return(0);
+		i++;
+	}
+	return(1);
+}
 int	ft_cd(t_list *tmp) // finish
 {
 	int cd = 0;
 	char current_dir[PATH_MAX];
 	char *old_pwd;
 	char *cd_dir = malloc(sizeof(char) * PATH_MAX);
-	if ((tl(tmp->content))->argms[1] == NULL)
+		g_minishell.err = 0;
+	if ((tl(tmp->content))->argms[1] == NULL || ft_strcmp((tl(tmp->content))->argms[1], "~") == 0)
 	{
 		cd = 1;
 		cd_home(tmp);
 	}
-	old_pwd =  ft_strdup(getcwd(current_dir, sizeof(current_dir)));
+	else if(cd_root((tl(tmp->content))->argms[1]))
+		chdir("/");
+	if(getcwd(current_dir, sizeof(current_dir)))
+		old_pwd =  ft_strdup(getcwd(current_dir, sizeof(current_dir)));
 	cd_dir = ft_strjoin(current_dir, "/");
 	cd_dir = ft_strjoin(cd_dir, (tl(tmp->content))->argms[1]);
+	if(chdir(cd_dir) == 0)
+		g_minishell.err = 1;
 	if (chdir(cd_dir) && !cd)
 	{
 		(tl(tmp->content))->pwd = getcwd(current_dir, sizeof(current_dir));
 		if (getcwd(current_dir, sizeof(current_dir)))
 		{
-			printf("minishell: cd: %s: Not a directory\n",
-				(tl(tmp->content))->argms[1]);
+			printf("minishell : cd %s No such file or directory\n", (tl(tmp->content))->argms[1]);
 			g_minishell.exit_code = 1;
 		}
 		if (getcwd(current_dir, sizeof(current_dir)) == NULL)
@@ -75,6 +86,8 @@ int	ft_cd(t_list *tmp) // finish
 	{
 		while((tl(tmp->content))->envl)
 		{
+			if(g_minishell.err)
+			{
 			if (ft_strcmp((tl(tmp->content))->envl->key, "OLDPWD") == 0)
 			{
 				free((tl(tmp->content))->envl->value);
@@ -83,7 +96,10 @@ int	ft_cd(t_list *tmp) // finish
 			if (ft_strcmp((tl(tmp->content))->envl->key, "PWD") == 0)
 			{
 				free((tl(tmp->content))->envl->value);
-				(tl(tmp->content))->envl->value = ft_strdup(getcwd(current_dir, sizeof(current_dir)));
+				g_minishell.err = 0;
+				if(getcwd(current_dir, sizeof(current_dir)))
+					(tl(tmp->content))->envl->value = ft_strdup(getcwd(current_dir, sizeof(current_dir)));
+			}
 			}
 		(tl(tmp->content))->envl = (tl(tmp->content))->envl->next;
 		}

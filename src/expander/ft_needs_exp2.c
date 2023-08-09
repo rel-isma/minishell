@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_needs_exp2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 00:06:27 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/06 04:50:38 by yoel-bas         ###   ########.fr       */
+/*   Updated: 2023/08/09 13:01:48 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,19 @@ void	ft_expand_valid(t_expand *cur, t_lexer *tmp, int flg)
 
 void	ft_expand_no_valid(t_lexer *tmp, char *str)
 {
+	char *env_;
+
 	if (tmp && tmp->type == ENV && tmp->status != IN_QUOTE
 		&& ft_strcmp(tmp->value, str) == 0)
 	{
 		if (ft_strcmp(tmp->value, "$") == 0)
 			tmp->value = ft_strdup("$");
 		else if (ft_strcmp(tmp->value, "$?") == 0)
-			tmp->value = ft_strdup("$?");
+		{
+			env_ = ft_itoa(g_minishell.exit_code);
+			tmp->value = ft_strdup(env_);
+			free(env_);
+		}
 		else
 		{
 			g_minishell.www = 2;

@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:43:39 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/08 10:09:46 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/09 13:17:18 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,13 @@ void    ft_exec_in_child(t_list *cmd, char *path, char **env, int *fd, int  old_
     {
         printf("minishell: %s: is a directory\n", path);
         // g_minishell.exit_code = 1;
-        exit(1);
+        exit(126);
     }
     else
     {
-        printf("minishell: %s: No such file or directory\n", path);
+        write(STDERR_FILENO, "minishell: ", 11);
+        write(STDERR_FILENO, path, ft_strlen(path));
+        perror(" ");
         exit(127);
     }
 }
@@ -92,8 +94,9 @@ int ft_exec_cmd(t_list *cmd, int *fd, int old_fd)
 
     if((tl(cmd->content))->cmd[0] == '\0')
     {
-            command_not_found((tl(cmd->content))->cmd);
-                        g_minishell.exit_code = 127;
+        printf("[%s]\n", (tl(cmd->content))->cmd);
+        command_not_found((tl(cmd->content))->cmd);
+        g_minishell.exit_code = 127;
         return 0;
     }
     if ( (tl(cmd->content))->argms[0][0] != '\0' && (tl(cmd->content))->infile != -1)
@@ -107,11 +110,8 @@ int ft_exec_cmd(t_list *cmd, int *fd, int old_fd)
         path = ft_get_path(cmd);
         env = ft_get_env_tab(cmd);
         // in case command not found
-        if (path == NULL && !ft_check_builting(cmd))
+        if (path == NULL)
         {
-            if((tl(cmd->content))->lvl)
-                printf("minishell: %s: No such file or directory\n", (tl(cmd->content))->cmd);
-            else
                 command_not_found((tl(cmd->content))->cmd);
             ft_free_tab(env);
             free(path);
@@ -141,6 +141,14 @@ int ft_exec_cmd(t_list *cmd, int *fd, int old_fd)
         {
             g_minishell.exit_code = WEXITSTATUS(g_minishell.exit_code);
             
+        }
+        if (WTERMSIG(g_minishell.exit_code))
+        {
+            g_minishell.exit_code = 128 + WTERMSIG(g_minishell.exit_code);
+            if (WTERMSIG(g_minishell.exit_code) == 2)
+                write(1, "\n", 1);
+            else if (WTERMSIG(g_minishell.exit_code) == 3)
+                write(1, "Quit: 3\n", 8);
         }
     }
     if(g_minishell.exit_code == 11)
