@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-isma <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 21:25:26 by rel-isma          #+#    #+#             */
-/*   Updated: 2022/10/18 11:58:20 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/10 15:49:35 by yoel-bas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
 char	*ft_strdup(const char *s1)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-isma <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 10:46:45 by rel-isma          #+#    #+#             */
-/*   Updated: 2022/10/14 11:45:12 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/10 15:48:01 by yoel-bas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*ft_itoa(int n)
 	if (n == -2147483648)
 		return (ft_strdup("-2147483648"));
 	len = lenitoi(n);
-	str = malloc((len + 1) * sizeof(char));
+	str = malloc((len + 1) * sizeof(char)); // 
 	if (!str)
 		return (0);
 	str[len] = '\0';

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_needs1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:43:25 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/09 13:17:59 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/10 17:11:33 by yoel-bas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,10 @@ int	ft_cd(t_list *tmp) // finish
 	}
 	else if(cd_root((tl(tmp->content))->argms[1]))
 		chdir("/");
+	if(chdir((tl(tmp->content))->argms[1]) == 0)
+		return(0);
+	else
+	{
 	if(getcwd(current_dir, sizeof(current_dir)))
 		old_pwd =  ft_strdup(getcwd(current_dir, sizeof(current_dir)));
 	cd_dir = ft_strjoin(current_dir, "/");
@@ -74,13 +78,16 @@ int	ft_cd(t_list *tmp) // finish
 		if (getcwd(current_dir, sizeof(current_dir)))
 		{
 			printf("minishell : cd %s No such file or directory\n", (tl(tmp->content))->argms[1]);
-			g_minishell.exit_code = 1;
+			g_minishell.err = 1;
+			return(1);
 		}
 		if (getcwd(current_dir, sizeof(current_dir)) == NULL)
 		{
 			printf("cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n");
+			g_minishell.err = 1;
 			chdir("..");
 		}
+	}
 	}
 	if(!cd)
 	{

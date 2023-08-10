@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 23:51:42 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/09 12:13:52 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/10 03:46:57 by yoel-bas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ int	syntax_export(char *str)
 	flg = 0;
 	j = 0;
 	s = ft_substr(str, 0, ft_len_export(str));
-	if (s[0] == '=' || ft_isdigit(s[0]))
+	if (ft_isdigit(s[0]))
 	{
-		printf("minishell: export: `%s': not a valid identifier\n", str);
+		printf("minishell: export: `%s': not a valid identifier\n", s);
 		return (free(s), 1);
 	}
 	while (s[j])
@@ -114,14 +114,14 @@ void	ft_print_export(t_list *tmp, int flg, t_expand *p)
 				write((tl(tmp->content))->oufile, "declare -x ", ft_strlen("declare -x "));
 				write((tl(tmp->content))->oufile, p->key, ft_strlen(p->key));
 			}
-			if ((ft_strcmp(p->value, "") == 0 && flg) || ft_strcmp(p->value, "") != 0)
+			if (((ft_strcmp(p->value, "") == 0 && flg) || ft_strcmp(p->value, "") != 0) && p->value)
 			{
 
 				write((tl(tmp->content))->oufile,  "=\"" ,2);
 				write((tl(tmp->content))->oufile,  p->value, ft_strlen(p->value));
 				write((tl(tmp->content))->oufile,  "\"" ,1);
-			}
 			write((tl(tmp->content))->oufile,  "\n", 1);
+			}
 			p = p->next;
 		}
 	}
