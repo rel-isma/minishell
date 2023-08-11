@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+         #
+#    By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/10 17:16:54 by rel-isma          #+#    #+#              #
-#    Updated: 2023/08/08 01:57:54 by yoel-bas         ###   ########.fr        #
+#    Updated: 2023/08/11 16:43:41 by rel-isma         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ SOURCES = src/main.c src/lexer/lexer.c src/lexer/lexer_needs.c  src/lexer/lexer_
 		  src/parser/ft_needs2.c src/parser/ft_needs3.c \
 		  src/exec/builting.c src/exec/exec.c  src/exec/commands.c src/exec/sort_list.c src/exec/ft_export.c\
 		  src/exec/ft_needs1.c src/exec/ft_needs2.c src/exec/ft_needs3.c src/exec/ft_needs_cmds.c \
-		  src/exec/ft_unset.c
+		  src/exec/ft_unset.c src/exec/needs_export.c
 
 
 OBJECTS = $(SOURCES:%.c=obj/%.o)

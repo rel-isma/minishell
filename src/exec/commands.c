@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:43:39 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/11 01:03:54 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/11 15:20:53 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int ft_exec_cmd(t_list *cmd, int *fd, int old_fd)
     pid_t   pid;
     // int i = 0;
 
-    if((tl(cmd->content))->cmd[0] == '\0' && (tl(cmd->content))->type != WHITE_SPACE && (tl(cmd->content))->type != ENV)
+    if((tl(cmd->content))->cmd[0] == '\0' && (tl(cmd->content))->type != WHITE_SPACE && g_minishell.env != 5)
     {
         command_not_found((tl(cmd->content))->cmd);
         g_minishell.exit_code = 127;
