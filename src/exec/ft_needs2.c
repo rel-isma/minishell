@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:43:28 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/09 12:53:13 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/11 01:31:39 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ int	ft_env(t_expand *pp, t_list *tmp)
 int	ft_pwd()
 {
 	char	ptr[PATH_MAX];
-	puts("hihih\n");
 	if (getcwd(ptr, sizeof(ptr)))
 	{
 		printf("%s\n", ptr);

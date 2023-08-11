@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_needs3.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:43:30 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/08 05:44:15 by yoel-bas         ###   ########.fr       */
+/*   Updated: 2023/08/11 00:27:15 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,11 @@ int	ft_echo(t_list *tmp) // echo the exit status
 			{
 				if ((tl(tmp->content))->argms[j + 1])
 				{
-					printf("%s", (tl(tmp->content))->argms[j]);
-					printf(" ");
+					write((tl(tmp->content))->oufile, (tl(tmp->content))->argms[j], ft_strlen((tl(tmp->content))->argms[j]));
+					write((tl(tmp->content))->oufile, " ", 1);
 				}
 				else
-					printf("%s\n", (tl(tmp->content))->argms[j]);
-
+					write((tl(tmp->content))->oufile, (tl(tmp->content))->argms[j], ft_strlen((tl(tmp->content))->argms[j]));
 				j++;
 			}
 		}
@@ -64,11 +63,11 @@ int	ft_echo(t_list *tmp) // echo the exit status
 		{
 			if ((tl(tmp->content))->argms[j + 1])
 			{
-				printf("%s", (tl(tmp->content))->argms[j]);
-				printf(" ");
+				write((tl(tmp->content))->oufile, (tl(tmp->content))->argms[j], ft_strlen((tl(tmp->content))->argms[j]));
+				write((tl(tmp->content))->oufile, " ", 1);
 			}
 			else
-				printf("%s\n", (tl(tmp->content))->argms[j]);
+				write((tl(tmp->content))->oufile, (tl(tmp->content))->argms[j], ft_strlen((tl(tmp->content))->argms[j]));
 
 			j++;
 		}

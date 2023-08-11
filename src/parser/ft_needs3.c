@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_needs3.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 01:57:30 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/07 10:18:32 by yoel-bas         ###   ########.fr       */
+/*   Updated: 2023/08/11 01:26:48 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,8 @@ void	ft_open_here_doc(t_parser **lst, t_cmd *cmd, char str1)
 	if ((*lst) && (*lst)->type == HERE_DOC)
 	{
 		str = ft_strjoin("/tmp/.heredoc>", ft_itoa(i));
+		// ft_itoa;
+		// return (perror("malloc"), exit(EXIT_FAILURE), NULL);
 		i++;
 		(*lst) = (*lst)->next;
 		if ((*lst) && (*lst)->type == WHITE_SPACE)

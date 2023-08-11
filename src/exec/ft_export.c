@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 23:51:42 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/09 12:13:52 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/10 16:14:41 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,6 @@ void	ft_print_export(t_list *tmp, int flg, t_expand *p)
 			}
 			if ((ft_strcmp(p->value, "") == 0 && flg) || ft_strcmp(p->value, "") != 0)
 			{
-
 				write((tl(tmp->content))->oufile,  "=\"" ,2);
 				write((tl(tmp->content))->oufile,  p->value, ft_strlen(p->value));
 				write((tl(tmp->content))->oufile,  "\"" ,1);

@@ -6,13 +6,13 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 16:41:16 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/09 17:55:40 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/11 01:27:14 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_join_specail(t_lexer **cur, t_parser **new, char **str)
+void	ft_join_specail(t_lexer **cur, t_parser **new)
 {
 	int	i;
 
@@ -20,8 +20,6 @@ void	ft_join_specail(t_lexer **cur, t_parser **new, char **str)
 	if (*cur && (!check_no_word(*cur)))
 	{
 		i = (*cur)->type;
-		free(*str);
-		*str = ft_strdup("");
 		ft_parseradd_back(new, ft_parsernew((*cur)->value, 0, i));
 		*cur = (*cur)->next;
 	}
@@ -31,27 +29,26 @@ t_parser	*ft_join_word(t_lexer *cur)
 {
 	t_parser	*new;
 	char		*str;
-	char		*tmp;
 	int			flg;
 
 	flg = 1;
 	new = NULL;
-	str = ft_strdup("");
 	while (cur)
 	{
-		while (cur && check_no_word(cur))
+		str = ft_strdup("");
+		if (cur && check_no_word(cur))
 		{
 			if (!*cur->value)
 				flg = 0;
-			tmp = str;
 			str = ft_strjoin(str, cur->value);
-			free(tmp);
+			ft_parseradd_back(&new, ft_parsernew(str, flg, cur->type));
 			cur = cur->next;
 		}
-		ft_parseradd_back(&new, ft_parsernew(str, flg, 1));
-		ft_join_specail(&cur, &new, &str);
+		else
+			ft_join_specail(&cur, &new);
+		free(str);
 	}
-	return (free(str), new);
+	return (new);
 }
 
 char	ft_get_after_here(t_lexer *lst)

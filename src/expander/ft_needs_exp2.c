@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 00:06:27 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/09 13:01:48 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/10 23:53:07 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void	ft_expand_no_valid(t_lexer *tmp, char *str)
 		else
 		{
 			g_minishell.www = 2;
+			// free(tmp->value);
 			tmp->value = ft_strdup("");
 		}
 	}
