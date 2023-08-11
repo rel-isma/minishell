@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 13:23:56 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/11 01:26:14 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/11 15:20:16 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,11 @@ void	ft_creat_cmd_arg(t_parser **lst, t_cmd *cmd, char str)
 	i = 0;
 	while ((*lst) && (*lst)->type != PIPE_LINE)
 	{
-		if ((*lst)->type == WORD || (*lst)->type == ENV)
+		if ((*lst)->type == WORD)
 		{
-			if ((*lst)->type == WORD)
-				cmd->type = WORD;
-			else
-				cmd->type = ENV;
-			cmd->argms[i++] = ft_strdup((*lst)->value);
+			cmd->type = WORD;
+			cmd->argms[i] = ft_strdup((*lst)->value);
+			i++;
 			(*lst) = (*lst)->next;
 		}
 		if ((*lst) && (*lst)->type == WHITE_SPACE)

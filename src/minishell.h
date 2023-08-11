@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:18:02 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/11 01:27:38 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/11 16:45:04 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ typedef struct s_global
 	char	d_s;
 	int		www;
 	int		err;
+	int		env;
 	int		stop_exection;
 	int		stdin_backup;
 	int		heredoc_executing;
@@ -194,6 +195,9 @@ void				*sort_list(t_expand* pp);
 int					 ft_exec_cmd(t_list *cmd, int *fd, int old_fd);
 int					ft_check_builting(t_list *tmp);
 void				ft_free_tab(char **env);
+int	ft_check_duble(char *key, char *vl, t_expand *env, int flg);
+int	syntax_export(char *str);
+void	ft_print_export(t_list *tmp, int flg, t_expand *p);
 int	ft_export(t_list *tmp, int *flg1);
 int	ft_cd(t_list *tmp);
 int	ft_unset(t_list *tmp);

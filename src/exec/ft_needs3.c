@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:43:30 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/11 00:27:15 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/11 15:05:13 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,10 @@ int	ft_echo(t_list *tmp) // echo the exit status
 					write((tl(tmp->content))->oufile, " ", 1);
 				}
 				else
+				{
 					write((tl(tmp->content))->oufile, (tl(tmp->content))->argms[j], ft_strlen((tl(tmp->content))->argms[j]));
+					write((tl(tmp->content))->oufile, "\n", 1);
+				}
 				j++;
 			}
 		}
@@ -67,7 +70,10 @@ int	ft_echo(t_list *tmp) // echo the exit status
 				write((tl(tmp->content))->oufile, " ", 1);
 			}
 			else
+			{
 				write((tl(tmp->content))->oufile, (tl(tmp->content))->argms[j], ft_strlen((tl(tmp->content))->argms[j]));
+				write((tl(tmp->content))->oufile, "\n", 1);
+			}
 
 			j++;
 		}
