@@ -13,9 +13,16 @@ heredoc close and open
 
 //////////
 echo $_
-.
-..
-OLDPWD
-PWD
-SHLVL
-cd HOME
+cd: home ~ ////
+
+exit();
+// minishell$ cat << $'t'est
+// > $test 
+// minishell$ cat << $'t'est
+// > test 
+/// $"USER" \\ USER
+if(!env) export SEGV
+
+chmod 000 . | cd .. SEGV
+SHLVL (any negative number should be equal to zero when I run another instance of minishell!!)
+SHLVL (when i set shlvl to 999 and when I enter to another instance should be empty string)

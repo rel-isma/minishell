@@ -3,31 +3,166 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:43:39 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/04 08:43:40 by yoel-bas         ###   ########.fr       */
+/*   Updated: 2023/08/11 01:03:54 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char *ft_strcat(char *dest, char *src)
-{
-	int i;
-	int j;
 
-	i = 0;
-	while (dest[i] != '\0')
-		i++;
-	j = 0;
-	while (src[j] != '\0')
-	{
-		dest[i + j] = src[j];
-		j++;
-	}
-	dest[i + j] = '\0';
-	return (dest);
+void    ft_exec_in_child(t_list *cmd, char *path, char **env, int *fd, int  old_fd)
+{
+    struct stat file_info;
+    //dup
+    // dup stdout to pipe
+    if (cmd->next)
+    {
+        dup2(fd[1], STDOUT_FILENO);
+        close(fd[1]);
+        close(fd[0]);
+    }
+
+    // dup stdout to out redirection
+    if ((tl(cmd->content))->oufilename)
+    {
+        dup2((tl(cmd->content))->oufile, STDOUT_FILENO);
+    }
+    // dup stdin to pipe
+    if (old_fd != -1)
+    {
+        dup2(old_fd, STDIN_FILENO);
+        close(old_fd);
+    }
+    // dup stdin to in redirection
+    if ((tl(cmd->content))->infilename)
+    {
+        if ((ft_strncmp("/tmp/.heredoc>", (tl(cmd->content))->infilename, 14) == 0))
+            (tl(cmd->content))->infile = open((tl(cmd->content))->infilename, O_RDONLY);
+        dup2((tl(cmd->content))->infile, STDIN_FILENO);
+    }
+    if (ft_check_builting(cmd))
+    {
+        g_minishell.exit_code = ft_builting(cmd);
+        exit(g_minishell.exit_code);
+    }
+    // close all open file descriptors in child
+    // close_all_fds();
+    //
+    // execute cmd
+    // printf("[%s]\n", path);
+    execve(path, (tl(cmd->content))->argms, env);
+    if (stat(path, &file_info) == 0)
+    {
+        printf("minishell: %s: is a directory\n", path);
+        // g_minishell.exit_code = 1;
+        exit(126);
+    }
+    else
+    {
+        write(STDERR_FILENO, "minishell: ", 11);
+        write(STDERR_FILENO, path, ft_strlen(path));
+        perror(" ");
+        exit(127);
+    }
+}
+
+void    ft_free_tab(char **env)
+{
+    int i;
+
+    i = 0;
+    while (env[i])
+    {
+        free(env[i]);
+        i++;
+    }
+    free(env);
+}
+void    command_not_found(char *str)
+{
+    printf("minishell: %s: command not found\n", str);
+}
+int ft_exec_cmd(t_list *cmd, int *fd, int old_fd)
+{
+    char    *path;
+    char    **env;
+    pid_t   pid;
+    // int i = 0;
+
+    if((tl(cmd->content))->cmd[0] == '\0' && (tl(cmd->content))->type != WHITE_SPACE && (tl(cmd->content))->type != ENV)
+    {
+        command_not_found((tl(cmd->content))->cmd);
+        g_minishell.exit_code = 127;
+        return 0;
+    }
+    if ((tl(cmd->content))->argms[0] && (tl(cmd->content))->argms[0][0] != '\0' && (tl(cmd->content))->infile != -1)
+    {
+        if(ft_strcmp((tl(cmd->content))->cmd, "..") == 0 || ft_strcmp((tl(cmd->content))->cmd, ".") == 0 )
+        {
+                command_not_found((tl(cmd->content))->cmd);
+                            g_minishell.exit_code = 127;
+            return 0;
+        }
+        path = ft_get_path(cmd);
+        env = ft_get_env_tab(cmd);
+        if (path == NULL)
+        {
+                command_not_found((tl(cmd->content))->cmd);
+            ft_free_tab(env);
+            free(path);
+            g_minishell.exit_code = 127;
+            return 0;
+        }
+        // fork
+        pid = fork();
+        if (pid == -1)
+        {
+            perror("fork");
+            free(path);
+            ft_free_tab(env);
+            return -1;
+        }
+        else if (pid == 0)
+            ft_exec_in_child(cmd, path, env, fd, old_fd);
+        ft_free_tab(env);
+        free(path);
+    }
+    // in parent
+    // wait for last command
+    if (!cmd->next)
+    {
+        waitpid(pid, &g_minishell.exit_code, 0);
+        if( WIFEXITED(g_minishell.exit_code))
+        {
+            g_minishell.exit_code = WEXITSTATUS(g_minishell.exit_code);
+            
+        }
+        if (WTERMSIG(g_minishell.exit_code))
+        {
+            g_minishell.exit_code = 128 + WTERMSIG(g_minishell.exit_code);
+            if (WTERMSIG(g_minishell.exit_code) == 2)
+                write(1, "\n", 1);
+            else if (WTERMSIG(g_minishell.exit_code) == 3)
+                write(1, "Quit: 3\n", 8);
+        }
+    }
+    if(g_minishell.exit_code == 11)
+    {
+        ft_putstr_fd("Segmentation fault : 11\n", 2);
+    }
+    if(g_minishell.exit_code == 10)
+    {
+        ft_putstr_fd("bus error : 10\n", 2);
+    }
+    //close pipe
+    if (cmd->next)
+        close(fd[1]);
+    if (old_fd != -1)
+        close(old_fd);
+    return 0;
 }
 
 void    ft_commands(t_list *commands)
@@ -58,208 +193,4 @@ void    ft_commands(t_list *commands)
     /***************************************************************************
      * get exit status using waitpid macros WIFEXITED WEXITSTATUS WIFSIG WTERMSIG
      */
-}
-
-void    ft_exec_in_child(t_list *cmd, char *path, char **env, int *fd, int  old_fd)
-{
-    struct stat file_info;
-    //dup
-    if (ft_check_builting(cmd))
-    {
-        g_minishell.exit_code = ft_builting(cmd);
-        exit(g_minishell.exit_code);
-    }
-    // dup stdout to pipe
-    if (cmd->next)
-    {
-        dup2(fd[1], STDOUT_FILENO);
-        close(fd[1]);
-        close(fd[0]);
-    }
-
-    // dup stdout to out redirection
-    if ((tl(cmd->content))->oufilename)
-    {
-        dup2((tl(cmd->content))->oufile, STDOUT_FILENO);
-    }
-    // dup stdin to pipe
-    if (old_fd != -1)
-    {
-        dup2(old_fd, STDIN_FILENO);
-        close(old_fd);
-    }
-    // dup stdin to in redirection
-    if ((tl(cmd->content))->infilename)
-    {
-        // if ((tl(cmd->content))->infile < 0)
-        // {
-        //     printf("minishell: %s: No such file or directory\n", (tl(cmd->content))->infilename);
-        //     exit(127);
-        // }
-        if ((ft_strncmp("/tmp/.heredoc>", (tl(cmd->content))->infilename, 14) == 0))
-            (tl(cmd->content))->infile = open((tl(cmd->content))->infilename, O_RDONLY);
-        dup2((tl(cmd->content))->infile, STDIN_FILENO);
-    }
-    // close all open file descriptors in child
-    // close_all_fds();
-    //
-    // execute cmd
-    // printf("[%s]\n", path);
-    execve(path, (tl(cmd->content))->argms, env);
-    if (stat(path, &file_info) == 0)
-    {
-        printf("minishell: %s: is a directory\n", path);
-        exit(126);
-    }
-    else
-    {
-        printf("minishell: %s: No such file or directory\n", path);
-        exit(127);
-    }
-}
-
-char    *ft_getenv(char *path, t_expand *env)
-{
-    char *str;
-
-    while (env)
-    {
-        if (ft_strcmp(path, env->key) == 0)
-        {
-            str = env->value;
-            return (str);
-        }
-        env = env->next;
-    }
-    return NULL;
-}
-char    *ft_get_path(t_list *cmd)
-{
-    char       **paths;
-    char        *path;
-    char        *cmd_path;
-    char        *cmd_path1;
-    int         i;
-    char *cmd_str = (tl(cmd->content))->cmd;
-
-    i = 0;
-    if (cmd_str[0] == '/' || (ft_strnstr(cmd_str, "/", ft_strlen(cmd_str))))
-        return cmd_str;
-    paths = ft_split(ft_getenv("PATH", (tl(cmd->content))->envl), ':');
-    if (!paths)
-        return NULL;
-    while (paths[i])
-    {
-        cmd_path1 = ft_strjoin(paths[i], "/");
-        cmd_path = ft_strjoin(cmd_path1, (tl(cmd->content))->cmd);
-        if (access(cmd_path, F_OK | X_OK) == 0)
-        {
-            free(cmd_path1);
-            path = cmd_path;
-            ft_free_tab(paths);
-            return (path);
-        }
-        i++;
-        free(cmd_path);
-        free(cmd_path1);
-    }
-    ft_free_tab(paths);
-    return NULL;
-}
-
-char    **ft_get_env_tab(t_list *cmd)
-{
-    int len  = 0;
-	int 	i = 0;;
-    t_expand *cur_size;
-    char    **env;
-    char *str;
-
-    cur_size = (tl(cmd->content))->envl;
-    while (cur_size)
-    {
-        len++;
-        cur_size = cur_size->next;
-    }
-    env = malloc((len + 1) * sizeof(char *));
-	if (!env)
-		return (NULL);
-    cur_size = (tl(cmd->content))->envl;
-	while (cur_size)
-	{
-        str = ft_strjoin(cur_size->key, "=");
-		env[i] = ft_strjoin(str, cur_size->value);
-		cur_size = cur_size->next;
-        i++;
-        free(str);
-	}
-    env[i] = NULL;
-    return (env);
-}
-
-void    ft_free_tab(char **env)
-{
-    int i;
-
-    i = 0;
-    while (env[i])
-    {
-        free(env[i]);
-        i++;
-    }
-    free(env);
-}
-void    command_not_found(char *str)
-{
-    printf("minishell: %s: command not found\n", str);
-}
-int ft_exec_cmd(t_list *cmd, int *fd, int old_fd)
-{
-    char    *path;
-    char    **env;
-    pid_t   pid;
-    // int i = 0;
-
-    if ((tl(cmd->content))->infile != -1)
-    {
-        path = ft_get_path(cmd);
-        env = ft_get_env_tab(cmd);
-    
-        // in case command not found
-        if (path == NULL)
-        {
-            command_not_found((tl(cmd->content))->cmd);
-            ft_free_tab(env);
-            free(path);
-            g_minishell.exit_code = 127;
-            return 0;
-        }
-        // fork
-        pid = fork();
-        if (pid == -1)
-        {
-            perror("fork");
-            free(path);
-            ft_free_tab(env);
-            return -1;
-        }
-        else if (pid == 0)
-            ft_exec_in_child(cmd, path, env, fd, old_fd);
-        ft_free_tab(env);
-        free(path);
-    }
-    // in parent
-    // wait for last command
-    if (!cmd->next)
-    {
-        waitpid(pid, &g_minishell.exit_code, 0);
-        if( WIFEXITED(g_minishell.exit_code))
-            (tl(cmd->content))->exit_status = WEXITSTATUS(g_minishell.exit_code);
-    }
-    //close pipe
-    if (cmd->next)
-        close(fd[1]);
-    if (old_fd != -1)
-        close(old_fd);
-    return 0;
 }

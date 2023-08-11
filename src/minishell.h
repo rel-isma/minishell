@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:18:02 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/04 04:10:57 by yoel-bas         ###   ########.fr       */
+/*   Updated: 2023/08/11 01:27:38 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ typedef struct s_global
 	int		heredoc_executing;
 	int		command_executing;
 	int		exit_code;
+	char	*str;
 }					t_global;
 
 t_global g_minishell;
@@ -97,18 +98,21 @@ typedef struct s_cmd
 {
 	char			*cmd;
 	char			**argms;
+	int				type;
 	int				infile;
 	int				oufile;
 	char*			infilename;
 	char*			oufilename;
 	t_expand		*envl;
 	int 			exit_status;
-	char*	pwd;
+	char*			pwd;
+	int lvl;
 }					t_cmd;
 
 ///////////////////////// functions lexer /////////////////////////////////////
 
 t_lexer				*ft_lexer(char *line);
+int					white_space(char str);
 t_lexer				*ft_lexernew(char *content, t_status status, t_type type);
 void				ft_lexeradd_back(t_lexer **lst, t_lexer *new);
 void				handle_redirection(t_lexer **tokenlist, char *line, int *i,
@@ -190,5 +194,12 @@ void				*sort_list(t_expand* pp);
 int					 ft_exec_cmd(t_list *cmd, int *fd, int old_fd);
 int					ft_check_builting(t_list *tmp);
 void				ft_free_tab(char **env);
-
+int	ft_export(t_list *tmp, int *flg1);
+int	ft_cd(t_list *tmp);
+int	ft_unset(t_list *tmp);
+int	ft_env(t_expand *pp, t_list *tmp);
+int	ft_pwd();
+int	ft_echo(t_list *tmp);
+char    **ft_get_env_tab(t_list *cmd);
+char    *ft_get_path(t_list *cmd);
 #endif

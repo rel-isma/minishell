@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 13:23:56 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/03 19:02:29 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/11 01:26:14 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,20 @@ void	ft_creat_cmd_arg(t_parser **lst, t_cmd *cmd, char str)
 	i = 0;
 	while ((*lst) && (*lst)->type != PIPE_LINE)
 	{
-		if ((*lst)->type == WORD)
+		if ((*lst)->type == WORD || (*lst)->type == ENV)
 		{
+			if ((*lst)->type == WORD)
+				cmd->type = WORD;
+			else
+				cmd->type = ENV;
 			cmd->argms[i++] = ft_strdup((*lst)->value);
 			(*lst) = (*lst)->next;
 		}
 		if ((*lst) && (*lst)->type == WHITE_SPACE)
+		{
+			cmd->type = WHITE_SPACE; 
 			(*lst) = (*lst)->next;
+		}
 		ft_open_all(lst, cmd, str);
 	}
 	cmd->argms[i] = NULL;
@@ -49,6 +56,7 @@ void	cmd_init(t_cmd *cmd, t_expand *env)
 	cmd->cmd = NULL;
 	cmd->infile = 0;
 	cmd->oufile = 1;
+	cmd->type = 0;
 	cmd->exit_status = 0;
 	cmd->infilename = NULL;
 	cmd->oufilename = NULL;
@@ -64,7 +72,7 @@ t_list	*ft_join_cmd(t_parser *lst, t_expand *env, char str)
 	cmd = NULL;
 	while (lst)
 	{
-		cmd =  malloc(sizeof(t_cmd));
+		cmd =  malloc(sizeof(t_cmd)); 
 		cmd_init(cmd, env);
 		cmd->argms = malloc((ft_len(lst) + 1) * sizeof(char *));
 		if (!cmd->argms)

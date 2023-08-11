@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 00:06:27 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/03 09:36:57 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/10 23:53:07 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	ft_strcmp(const char *s1, const char *s2)
 	int	idx;
 
 	idx = 0;
+	if(!s1  || !s2)
+		return(1);
 	while ((s1[idx] != '\0' && s2[idx] != '\0') && (s1[idx] == s2[idx]))
 		idx++;
 	return ((unsigned char)s1[idx] - (unsigned char)s2[idx]);
@@ -46,16 +48,23 @@ void	ft_expand_valid(t_expand *cur, t_lexer *tmp, int flg)
 
 void	ft_expand_no_valid(t_lexer *tmp, char *str)
 {
+	char *env_;
+
 	if (tmp && tmp->type == ENV && tmp->status != IN_QUOTE
 		&& ft_strcmp(tmp->value, str) == 0)
 	{
 		if (ft_strcmp(tmp->value, "$") == 0)
 			tmp->value = ft_strdup("$");
 		else if (ft_strcmp(tmp->value, "$?") == 0)
-			tmp->value = ft_strdup("$?");
+		{
+			env_ = ft_itoa(g_minishell.exit_code);
+			tmp->value = ft_strdup(env_);
+			free(env_);
+		}
 		else
 		{
 			g_minishell.www = 2;
+			// free(tmp->value);
 			tmp->value = ft_strdup("");
 		}
 	}

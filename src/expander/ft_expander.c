@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 21:43:50 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/03 09:34:50 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/09 12:58:16 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,9 @@ t_expand	*ft_init_expander(char **env)
 		exp.key = ft_strdup("PWD");
 		exp.vl = getcwd(ptr, sizeof(ptr));
 		ft_lexeradd_back_expnd(&expd, ft_lexernew_expnd(exp.key, exp.vl));
-		// free(exp.key);
-		// free(exp.vl);
 		exp.key = ft_strdup("SHLVL");
 		exp.vl = ft_strdup("1");
 		ft_lexeradd_back_expnd(&expd, ft_lexernew_expnd(exp.key, exp.vl));
-		// free(exp.key);
-		// free(exp.vl);
 		exp.key = ft_strdup("_");
 		exp.vl = ft_strdup("/usr/bin/env");
 		ft_lexeradd_back_expnd(&expd, ft_lexernew_expnd(exp.key, exp.vl));

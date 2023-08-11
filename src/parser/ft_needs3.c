@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 01:57:30 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/03 21:31:47 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/11 01:26:48 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,11 @@ void	ft_open_redir_out(t_parser **lst, t_cmd *cmd)
 			if (cmd->oufile != 1)
 				close(cmd->oufile);
 			cmd->oufile = open((*lst)->value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if(open((*lst)->value, O_WRONLY | O_CREAT | O_TRUNC, 0644) == - 1)
+			{
+				ft_putstr_fd("minsihell :", 2);
+				perror((*lst)->value);
+			}
 			cmd->oufilename = (*lst)->value;
 			if ((*lst))
 				(*lst) = (*lst)->next;
@@ -115,6 +120,8 @@ void	ft_open_here_doc(t_parser **lst, t_cmd *cmd, char str1)
 	if ((*lst) && (*lst)->type == HERE_DOC)
 	{
 		str = ft_strjoin("/tmp/.heredoc>", ft_itoa(i));
+		// ft_itoa;
+		// return (perror("malloc"), exit(EXIT_FAILURE), NULL);
 		i++;
 		(*lst) = (*lst)->next;
 		if ((*lst) && (*lst)->type == WHITE_SPACE)
