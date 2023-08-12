@@ -12,7 +12,6 @@
 
 #include "../minishell.h"
 
-
 int	ft_echo(t_list *tmp) // echo the exit status
 {
 	t_list *tm;
@@ -34,7 +33,8 @@ int	ft_echo(t_list *tmp) // echo the exit status
 		{
 			while ((tl(tmp->content))->argms[j])
 			{
-				write((tl(tmp->content))->oufile, (tl(tmp->content))->argms[j], ft_strlen((tl(tmp->content))->argms[j]));
+				write((tl(tmp->content))->oufile, (tl(tmp->content))->argms[j],
+					ft_strlen((tl(tmp->content))->argms[j]));
 				if ((tl(tmp->content))->argms[j + 1])
 					write((tl(tmp->content))->oufile, " ", 1);
 				j++;
@@ -47,12 +47,16 @@ int	ft_echo(t_list *tmp) // echo the exit status
 			{
 				if ((tl(tmp->content))->argms[j + 1])
 				{
-					write((tl(tmp->content))->oufile, (tl(tmp->content))->argms[j], ft_strlen((tl(tmp->content))->argms[j]));
+					write((tl(tmp->content))->oufile,
+						(tl(tmp->content))->argms[j],
+						ft_strlen((tl(tmp->content))->argms[j]));
 					write((tl(tmp->content))->oufile, " ", 1);
 				}
 				else
 				{
-					write((tl(tmp->content))->oufile, (tl(tmp->content))->argms[j], ft_strlen((tl(tmp->content))->argms[j]));
+					write((tl(tmp->content))->oufile,
+						(tl(tmp->content))->argms[j],
+						ft_strlen((tl(tmp->content))->argms[j]));
 					write((tl(tmp->content))->oufile, "\n", 1);
 				}
 				j++;
@@ -66,12 +70,14 @@ int	ft_echo(t_list *tmp) // echo the exit status
 		{
 			if ((tl(tmp->content))->argms[j + 1])
 			{
-				write((tl(tmp->content))->oufile, (tl(tmp->content))->argms[j], ft_strlen((tl(tmp->content))->argms[j]));
+				write((tl(tmp->content))->oufile, (tl(tmp->content))->argms[j],
+					ft_strlen((tl(tmp->content))->argms[j]));
 				write((tl(tmp->content))->oufile, " ", 1);
 			}
 			else
 			{
-				write((tl(tmp->content))->oufile, (tl(tmp->content))->argms[j], ft_strlen((tl(tmp->content))->argms[j]));
+				write((tl(tmp->content))->oufile, (tl(tmp->content))->argms[j],
+					ft_strlen((tl(tmp->content))->argms[j]));
 				write((tl(tmp->content))->oufile, "\n", 1);
 			}
 

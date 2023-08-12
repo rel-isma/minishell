@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:16:01 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/08 05:36:29 by yoel-bas         ###   ########.fr       */
+/*   Updated: 2023/08/11 23:36:31 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,11 @@ int	main(int ac, char *av[], char **env)
 		if(ft_strcmp(mini->key, "SHLVL") == 0)
 		{
 			if(mini->value == NULL)
+			{
 				mini->value = ft_strdup(ft_itoa(1));
+				if (!mini->value)
+					return 1;
+			}
 			else 
 				mini->value = ft_strdup(ft_itoa(ft_atoi(mini->value) + 1));
 			// lvl++;

@@ -12,16 +12,16 @@
 
 #include "../minishell.h"
 
-void	*sort_list(t_expand* pp)
+void	*sort_list(t_expand *pp)
 {
 	char *swap;
 	char *swap2;
 
 	t_expand *tmp;
 	tmp = pp;
-	while(pp->next)
+	while (pp->next)
 	{
-		if(pp->next && pp->key[0] > pp->next->key[0])
+		if (pp->next && pp->key[0] > pp->next->key[0])
 		{
 			swap = pp->key;
 			swap2 = pp->value;
@@ -29,11 +29,11 @@ void	*sort_list(t_expand* pp)
 			pp->value = pp->next->value;
 			pp->next->key = swap;
 			pp->next->value = swap2;
-			pp =tmp;
+			pp = tmp;
 		}
-		else 
-		pp = pp->next;
+		else
+			pp = pp->next;
 	}
 	pp = tmp;
-	return(pp);
+	return (pp);
 }

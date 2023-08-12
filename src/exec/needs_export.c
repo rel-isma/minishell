@@ -94,15 +94,15 @@ void	ft_print_exp(t_expand *p, t_list *tmp, int flg)
 			write((tl(tmp->content))->oufile, "declare -x ", 11);
 			write((tl(tmp->content))->oufile, p->key, ft_strlen(p->key));
 		}
-		if (((ft_strcmp(p->value, "") == 0 && flg) || ft_strcmp(p->value, "") != 0) && p->value)
+		if (((ft_strcmp(p->value, "") == 0 && flg) || ft_strcmp(p->value,
+					"") != 0) && p->value)
 		{
-
-			write((tl(tmp->content))->oufile,  "=\"" ,2);
-			write((tl(tmp->content))->oufile,  p->value, ft_strlen(p->value));
-			write((tl(tmp->content))->oufile,  "\"" ,1);
+			write((tl(tmp->content))->oufile, "=\"", 2);
+			write((tl(tmp->content))->oufile, p->value, ft_strlen(p->value));
+			write((tl(tmp->content))->oufile, "\"", 1);
 		}
 		p = p->next;
-		write((tl(tmp->content))->oufile,  "\n", 1);
+		write((tl(tmp->content))->oufile, "\n", 1);
 	}
 }
 

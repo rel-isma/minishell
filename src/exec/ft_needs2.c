@@ -12,7 +12,6 @@
 
 #include "../minishell.h"
 
-
 int	ft_env(t_expand *pp, t_list *tmp)
 {
 	while ((pp))
@@ -21,20 +20,19 @@ int	ft_env(t_expand *pp, t_list *tmp)
 		{
 			write((tl(tmp->content))->oufile, pp->key, ft_strlen(pp->key));
 			write((tl(tmp->content))->oufile, "=\n", ft_strlen("=\n"));
-			
 		}
-		else if (pp->key && pp->value &&  (ft_strcmp(pp->value, "")))
+		else if (pp->key && pp->value && (ft_strcmp(pp->value, "")))
 		{
 			if (pp->key && (ft_strcmp(pp->value, "")))
 			{
-			write((tl(tmp->content))->oufile, pp->key, ft_strlen(pp->key));
-			write((tl(tmp->content))->oufile, "=", ft_strlen("="));
+				write((tl(tmp->content))->oufile, pp->key, ft_strlen(pp->key));
+				write((tl(tmp->content))->oufile, "=", ft_strlen("="));
 			}
 			if (ft_strcmp(pp->value, "") != 0)
 			{
-				write((tl(tmp->content))->oufile, pp->value, ft_strlen(pp->value));
+				write((tl(tmp->content))->oufile, pp->value,
+					ft_strlen(pp->value));
 				write((tl(tmp->content))->oufile, "\n", ft_strlen("\n"));
-				
 			}
 		}
 		pp = pp->next;
@@ -42,18 +40,16 @@ int	ft_env(t_expand *pp, t_list *tmp)
 	return (0);
 }
 
-
-
-int	ft_pwd()
+int	ft_pwd(void)
 {
 	char	ptr[PATH_MAX];
+
 	if (getcwd(ptr, sizeof(ptr)))
 	{
 		printf("%s\n", ptr);
 		return (0);
 	}
-	else 
+	else
 		printf("%s\n", g_minishell.str);
 	return (1);
 }
-

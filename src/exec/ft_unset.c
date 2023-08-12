@@ -1,4 +1,5 @@
 #include "../minishell.h"
+
 int	syntax_unset(char *str)
 {
 	int	j;
@@ -29,8 +30,6 @@ int	ft_unset(t_list *tmp) // finish
 
 	next = NULL;
 	prev = NULL;
-	
-	
 	while ((tl(tmp->content))->argms[i])
 	{
 		cur = (tl(tmp->content))->envl;

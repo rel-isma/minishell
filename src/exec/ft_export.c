@@ -14,13 +14,12 @@
 
 void	add_env_help(int *flg1, t_list *tmp, int i)
 {
-	int flg = 0;
-	t_exp exp_e;
+	int		flg;
+	t_exp	exp_e;
 
-	exp_e.len1 = ft_strlen_env_aftr((tl(tmp->content))->argms[i],
-		&flg);
-	exp_e.key = ft_substr((tl(tmp->content))->argms[i], 0,
-		exp_e.len1);
+	flg = 0;
+	exp_e.len1 = ft_strlen_env_aftr((tl(tmp->content))->argms[i], &flg);
+	exp_e.key = ft_substr((tl(tmp->content))->argms[i], 0, exp_e.len1);
 	exp_e.len2 = ft_strlen_env_befor((tl(tmp->content))->argms[i]);
 	if (exp_e.len2 == 1 && (tl(tmp->content))->argms[i][exp_e.len1 + 1] == '\0')
 	{
@@ -31,8 +30,8 @@ void	add_env_help(int *flg1, t_list *tmp, int i)
 	{
 		if (flg)
 			exp_e.len1 += 1;
-		exp_e.vl = ft_substr((tl(tmp->content))->argms[i],
-			exp_e.len1 + 1, exp_e.len2);
+		exp_e.vl = ft_substr((tl(tmp->content))->argms[i], exp_e.len1 + 1,
+			exp_e.len2);
 	}
 	if (!ft_check_duble(exp_e.key, exp_e.vl, (tl(tmp->content))->envl, flg))
 		ft_lexeradd_back_expnd(&(tl(tmp->content))->envl,
@@ -41,9 +40,9 @@ void	add_env_help(int *flg1, t_list *tmp, int i)
 	free(exp_e.vl);
 }
 
-int ft_add_env(t_list *tmp, int *flg1)
+int	ft_add_env(t_list *tmp, int *flg1)
 {
-	int i;
+	int	i;
 
 	i = 1;
 	while ((tl(tmp->content))->argms[i])
@@ -56,13 +55,12 @@ int ft_add_env(t_list *tmp, int *flg1)
 		}
 		i++;
 	}
-	return 0;
+	return (0);
 }
 int	ft_export(t_list *tmp, int *flg1) // not finsh
 {
 	int i;
 	t_expand *p;
-	
 
 	i = 1;
 	p = (tl(tmp->content))->envl;
@@ -70,8 +68,7 @@ int	ft_export(t_list *tmp, int *flg1) // not finsh
 	if ((tl(tmp->content))->argms[i])
 	{
 		if (ft_add_env(tmp, flg1))
-			return 1;
+			return (1);
 	}
 	return (0);
 }
-
