@@ -12,7 +12,6 @@
 
 #include "../minishell.h"
 
-
 int	ft_len(t_parser *cur)
 {
 	int	len;

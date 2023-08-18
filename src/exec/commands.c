@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:43:39 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/11 15:20:53 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/18 22:43:15 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,14 +90,14 @@ int ft_exec_cmd(t_list *cmd, int *fd, int old_fd)
     char    *path;
     char    **env;
     pid_t   pid;
-    // int i = 0;
 
-    if((tl(cmd->content))->cmd[0] == '\0' && (tl(cmd->content))->type != WHITE_SPACE && g_minishell.env != 5)
+    if((tl(cmd->content))->cmd[0] == '\0' && (tl(cmd->content))->type != 0 && (tl(cmd->content))->type != WHITE_SPACE && g_minishell.env != 5 )
     {
         command_not_found((tl(cmd->content))->cmd);
         g_minishell.exit_code = 127;
         return 0;
     }
+
     if ((tl(cmd->content))->argms[0] && (tl(cmd->content))->argms[0][0] != '\0' && (tl(cmd->content))->infile != -1)
     {
         if(ft_strcmp((tl(cmd->content))->cmd, "..") == 0 || ft_strcmp((tl(cmd->content))->cmd, ".") == 0 )
@@ -116,7 +116,7 @@ int ft_exec_cmd(t_list *cmd, int *fd, int old_fd)
             g_minishell.exit_code = 127;
             return 0;
         }
-        // fork
+      
         pid = fork();
         if (pid == -1)
         {
@@ -130,8 +130,7 @@ int ft_exec_cmd(t_list *cmd, int *fd, int old_fd)
         ft_free_tab(env);
         free(path);
     }
-    // in parent
-    // wait for last command
+
     if (!cmd->next)
     {
         waitpid(pid, &g_minishell.exit_code, 0);
@@ -157,7 +156,7 @@ int ft_exec_cmd(t_list *cmd, int *fd, int old_fd)
     {
         ft_putstr_fd("bus error : 10\n", 2);
     }
-    //close pipe
+
     if (cmd->next)
         close(fd[1]);
     if (old_fd != -1)
@@ -189,8 +188,4 @@ void    ft_commands(t_list *commands)
     while (wait(NULL) != -1)
         ;
     g_minishell.command_executing = 0;
-    //close_all_fds(commands);
-    /***************************************************************************
-     * get exit status using waitpid macros WIFEXITED WEXITSTATUS WIFSIG WTERMSIG
-     */
 }

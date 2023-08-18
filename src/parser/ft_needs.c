@@ -64,7 +64,6 @@ int	check_no_word(t_lexer *lst)
 		return (0);
 }
 
-
 void	ft_free_list_join(t_parser *list)
 {
 	int			i;

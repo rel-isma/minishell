@@ -40,7 +40,7 @@ void	ft_creat_cmd_arg(t_parser **lst, t_cmd *cmd, char str)
 		}
 		if ((*lst) && (*lst)->type == WHITE_SPACE)
 		{
-			cmd->type = WHITE_SPACE; 
+			cmd->type = WHITE_SPACE;
 			(*lst) = (*lst)->next;
 		}
 		ft_open_all(lst, cmd, str);
@@ -70,7 +70,7 @@ t_list	*ft_join_cmd(t_parser *lst, t_expand *env, char str)
 	cmd = NULL;
 	while (lst)
 	{
-		cmd =  malloc(sizeof(t_cmd)); 
+		cmd = malloc(sizeof(t_cmd));
 		cmd_init(cmd, env);
 		cmd->argms = malloc((ft_len(lst) + 1) * sizeof(char *));
 		if (!cmd->argms)

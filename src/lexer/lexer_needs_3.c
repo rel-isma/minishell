@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 20:34:00 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/09 18:43:43 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/15 08:01:40 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,6 @@ void	special_variables_1(t_lexer **tokenlist, char *line, int *i,
 void	special_variables_2(t_lexer **tokenlist, char *line, int *i,
 		t_status *s)
 {
-	// if (line[*i] == '$' && (line[*i + 1] == '\"' || line[*i + 1] == '\''))
-	// {
-	// 	ft_lexeradd_back(tokenlist, ft_lexernew("", *s, ENV));
-	// 	(*i) += 1;
-	// }
 	if (line[*i] == '$' && line[*i + 1] == '!')
 	{
 		ft_lexeradd_back(tokenlist, ft_lexernew("$!", *s, ENV));

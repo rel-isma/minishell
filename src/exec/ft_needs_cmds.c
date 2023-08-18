@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 11:57:30 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/09 12:48:55 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/18 23:13:58 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ char    *ft_getenv(char *path, t_expand *env, t_list *cmd)
 char    *ft_get_path(t_list *cmd)
 {
     char       **paths;
-    char        *path;
     char        *cmd_path;
     char        *cmd_path1;
     int         i;
@@ -42,7 +41,7 @@ char    *ft_get_path(t_list *cmd)
     i = 0;
   
     if (cmd_str[0] == '/' || (ft_strnstr(cmd_str, "/", ft_strlen(cmd_str))) || !ft_getenv("PATH", (tl(cmd->content))->envl, cmd) || ft_check_builting(cmd))
-        return cmd_str;
+        return ft_strdup(cmd_str);
     paths = ft_split(ft_getenv("PATH", (tl(cmd->content))->envl, cmd), ':');
     if (!paths)
         return NULL;
@@ -53,9 +52,8 @@ char    *ft_get_path(t_list *cmd)
         if (access(cmd_path, F_OK | X_OK) == 0)
         {
             free(cmd_path1);
-            path = cmd_path;
             ft_free_tab(paths);
-            return (path);
+            return (cmd_path);
         }
         i++;
         free(cmd_path);
