@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:16:01 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/11 23:36:31 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/17 20:00:39 by yoel-bas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ int	main(int ac, char *av[], char **env)
 	t_list		*commands;
 	t_expand	*envl;
 	t_expand	*mini;
-	// int lvl = 1;
 
 	rl_catch_signals = 0;
 	signal(SIGINT, sig_handler);

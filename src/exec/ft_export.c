@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 23:51:42 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/11 16:43:25 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/18 18:49:04 by yoel-bas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	add_env_help(int *flg1, t_list *tmp, int i)
 		if (flg)
 			exp_e.len1 += 1;
 		exp_e.vl = ft_substr((tl(tmp->content))->argms[i], exp_e.len1 + 1,
-			exp_e.len2);
+				exp_e.len2);
 	}
 	if (!ft_check_duble(exp_e.key, exp_e.vl, (tl(tmp->content))->envl, flg))
 		ft_lexeradd_back_expnd(&(tl(tmp->content))->envl,
@@ -57,10 +57,11 @@ int	ft_add_env(t_list *tmp, int *flg1)
 	}
 	return (0);
 }
-int	ft_export(t_list *tmp, int *flg1) // not finsh
+
+int	ft_export(t_list *tmp, int *flg1)
 {
-	int i;
-	t_expand *p;
+	int			i;
+	t_expand	*p;
 
 	i = 1;
 	p = (tl(tmp->content))->envl;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sort_list.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:43:49 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/08 21:40:13 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/18 18:50:31 by yoel-bas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 void	*sort_list(t_expand *pp)
 {
-	char *swap;
-	char *swap2;
+	char		*swap;
+	char		*swap2;
+	t_expand	*tmp;
 
-	t_expand *tmp;
 	tmp = pp;
 	while (pp->next)
 	{

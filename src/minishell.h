@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:18:02 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/11 16:45:04 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/18 18:44:05 by yoel-bas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ typedef struct s_cmd
 	t_expand		*envl;
 	int 			exit_status;
 	char*			pwd;
+	char*			pwd1;
 	int lvl;
 }					t_cmd;
 
@@ -206,4 +207,9 @@ int	ft_pwd();
 int	ft_echo(t_list *tmp);
 char    **ft_get_env_tab(t_list *cmd);
 char    *ft_get_path(t_list *cmd);
+int	ft_exit_builtin(t_list *tmp);
+void	pwd_old(char *pwd, char *old_pwd, t_list *tmp);
+int	valid_home(t_list *tmp);
+void	cd_home(t_list *tmp);
+int	cd_root(char *str);
 #endif

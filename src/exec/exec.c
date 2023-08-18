@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:43:44 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/11 23:34:01 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/18 18:49:45 by yoel-bas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	ft_check_builting(t_list *tmp)
 		return (1);
 	return (0);
 }
+
 void	ft_exec(t_list *tmp)
 {
 	t_list	*tp;
