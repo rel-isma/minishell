@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 10:46:45 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/10 16:22:38 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/18 23:16:09 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*ft_itoa(int n)
 	if (n == -2147483648)
 		return (ft_strdup("-2147483648"));
 	len = lenitoi(n);
-	str = malloc((len + 1) * sizeof(char));
+	str = malloc((len + 1) * sizeof(char)); // 
 	if (!str)
 		return (0);
 	str[len] = '\0';

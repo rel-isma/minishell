@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:43:39 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/18 22:43:15 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/18 23:16:56 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,24 +139,20 @@ int ft_exec_cmd(t_list *cmd, int *fd, int old_fd)
             g_minishell.exit_code = WEXITSTATUS(g_minishell.exit_code);
             
         }
-        if (WTERMSIG(g_minishell.exit_code))
+        else if (WTERMSIG(g_minishell.exit_code))
         {
             g_minishell.exit_code = 128 + WTERMSIG(g_minishell.exit_code);
             if (WTERMSIG(g_minishell.exit_code) == 2)
                 write(1, "\n", 1);
             else if (WTERMSIG(g_minishell.exit_code) == 3)
                 write(1, "Quit: 3\n", 8);
+         else if(g_minishell.exit_code == 11)
+            ft_putstr_fd("Segmentation fault : 11\n", 2);
+        else if(g_minishell.exit_code == 10)
+            ft_putstr_fd("bus error : 10\n", 2);
         }
     }
-    if(g_minishell.exit_code == 11)
-    {
-        ft_putstr_fd("Segmentation fault : 11\n", 2);
-    }
-    if(g_minishell.exit_code == 10)
-    {
-        ft_putstr_fd("bus error : 10\n", 2);
-    }
-
+    //close pipe
     if (cmd->next)
         close(fd[1]);
     if (old_fd != -1)

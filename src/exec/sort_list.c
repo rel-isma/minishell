@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:43:49 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/15 08:13:31 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/18 23:16:44 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,13 @@ void	*sort_list(t_expand* pp)
 	char *swap;
 	char *swap2;
 
+	if(pp->key == NULL && pp->value == NULL)	
+		return pp;
 	t_expand *tmp;
 	tmp = pp;
 	while(pp->next)
 	{
-		if(pp->next && pp->key[0] > pp->next->key[0])
+		if(pp->key[0] > pp->next->key[0])
 		{
 			swap = pp->key;
 			swap2 = pp->value;
