@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:43:25 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/19 02:43:27 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/19 15:55:58 by yoel-bas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,11 @@ int	cd(t_list *tmp, int *i)
 {
 	char	current_dir[PATH_MAX];
 
-	if (cd_root(((t_cmd *)(tmp->content))->argms[1]))
-		chdir("/");
-	else if (ft_strcmp(((t_cmd *)(tmp->content))->argms[1], "~") == 0
+	if (ft_strcmp(((t_cmd *)(tmp->content))->argms[1], "~") == 0
 		|| !((t_cmd *)(tmp->content))->argms[1])
 		cd_home(tmp);
+	else if (cd_root(((t_cmd *)(tmp->content))->argms[1]))
+		chdir("/");
 	else
 	{
 		if (chdir(((t_cmd *)(tmp->content))->argms[1]))

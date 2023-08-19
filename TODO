@@ -19,3 +19,5 @@ exit();
 
 // > test 
 /// $"USER" \\ USER
+
+when we unset ALL THE KEYS IN ENV EXPORT GIVE A BLANK LIST 
