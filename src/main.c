@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:16:01 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/19 05:32:24 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/19 20:48:49 by yoel-bas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,31 @@ void	close_all_fds(t_list *cmd)
 	}
 }
 
+void	SHLVL(t_expand *envl)
+{
+	t_expand	*mini;
+	int lvl = 0	;
+	mini = envl;
+	while(mini)
+	{
+		if(ft_strcmp(mini->key, "SHLVL") == 0)
+		{
+			if(ft_atoi(mini->value) < 0)
+				mini->value = ft_strdup(ft_itoa(0));
+			else if(ft_atoi(mini->value) == 999)
+				mini->value = ft_strdup("");
+			else if(mini->value == NULL)
+				mini->value = ft_strdup(ft_itoa(1));
+			else 
+				mini->value = ft_strdup(ft_itoa(ft_atoi(mini->value) + 1));
+			lvl++;
+		}
+		mini = mini->next;
+	}
+	if(!lvl)
+		ft_lexeradd_back_expnd(&envl, ft_lexernew_expnd("SHLVL", "1"));
+}
+
 int	main(int ac, char *av[], char **env)
 {
 	char		*line;
@@ -108,28 +133,7 @@ int	main(int ac, char *av[], char **env)
 	if (ft_check_argms(ac, av))
 		return (1);
 	envl = ft_init_expander(env);
-	mini = envl;
-	while (mini)
-	{
-		if (ft_strcmp(mini->key, "SHLVL") == 0)
-		{
-			if (mini->value == NULL)
-			{
-				it1 = ft_itoa(1);
-				free(mini->value);
-				mini->value = ft_strdup(it1);
-				free(it1);
-			}
-			else
-			{
-				it2 = ft_itoa(ft_atoi(mini->value) + 1) ;
-				free(mini->value);
-				mini->value = ft_strdup(it2);
-				free(it2);
-			}
-		}
-		mini = mini->next;
-	}
+	SHLVL(envl);
 	while (1)
 	{
 		if (g_minishell.stdin_backup != -1)

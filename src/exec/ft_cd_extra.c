@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd_extra.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 18:18:27 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/19 02:43:35 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/19 20:03:08 by yoel-bas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	valid_home(t_list *tmp)
 		{
 			home++;
 			if (chdir(((t_cmd *)(tmp->content))->envl->value))
-				return (1);
+				perror("minishell : ");
 		}
 		((t_cmd *)(tmp->content))->envl = ((t_cmd *)(tmp->content))->envl->next;
 	}
