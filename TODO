@@ -16,14 +16,6 @@ echo $_
 cd: home ~ ////
 
 exit();
-// minishell$ cat << $'t'est
-// > $test 
-// minishell$ cat << $'t'est
+
 // > test 
 /// $"USER" \\ USER
-if(!env) export SEGV
-
-export = // should give  `=': not a valid identifier
-cd with relative path
-minishell$ $asads // bash-3.2$ $dsd
-minishell: : command not found // bash-3.2$ 

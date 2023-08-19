@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-isma <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 13:39:51 by rel-isma          #+#    #+#             */
-/*   Updated: 2022/10/19 19:26:50 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/19 02:30:01 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 	while (src[i] && (i < (dstsize - lend - 1)))
 	{
 		dst[lend + i] = src[i];
-			i++;
+		i++;
 	}
 	dst[lend + i] = '\0';
 	return (lend + lens);

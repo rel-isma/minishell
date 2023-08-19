@@ -28,10 +28,9 @@ int	ft_line_word(char *str)
 	int	len;
 
 	len = 1;
-	while (str[len] && !white_space(str[len])
-		&& str[len] != '\"' && str[len] != '\''
-		&& str[len] != '>' && str[len] != '<' && str[len] != '|'
-		&& str[len] != 36)
+	while (str[len] && !white_space(str[len]) && str[len] != '\"'
+		&& str[len] != '\'' && str[len] != '>' && str[len] != '<'
+		&& str[len] != '|' && str[len] != 36)
 	{
 		len++;
 	}

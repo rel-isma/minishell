@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 08:08:24 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/15 08:09:11 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/19 02:06:23 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	ft_open_redir_out(t_parser **lst, t_cmd *cmd)
 			if (cmd->oufile != 1)
 				close(cmd->oufile);
 			cmd->oufile = open((*lst)->value, O_WRONLY | O_CREAT | O_TRUNC,
-				0644);
+					0644);
 			if (open((*lst)->value, O_WRONLY | O_CREAT | O_TRUNC, 0644) == -1)
 			{
 				ft_putstr_fd("minsihell :", 2);
@@ -74,7 +74,7 @@ void	ft_open_dredir_out(t_parser **lst, t_cmd *cmd)
 			if (cmd->oufile != 1)
 				close(cmd->oufile);
 			cmd->oufile = open((*lst)->value, O_WRONLY | O_CREAT | O_APPEND,
-				0644);
+					0644);
 			cmd->oufilename = (*lst)->value;
 			if ((*lst))
 				(*lst) = (*lst)->next;

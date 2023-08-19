@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 01:57:30 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/18 21:44:49 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/19 04:41:31 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,13 @@ void	ft_open_here_doc(t_parser **lst, t_cmd *cmd, char str1)
 	static int	i;
 	int			fd;
 	char		*str;
+	char		*itoa_str;
 
 	i = 1;
 	if ((*lst) && (*lst)->type == HERE_DOC)
 	{
-		str = ft_strjoin("/tmp/.heredoc>", ft_itoa(i));
-		// ft_itoa;
-		// return (perror("malloc"), exit(EXIT_FAILURE), NULL);
-		i++;
+		itoa_str = ft_itoa(i++);
+		str = ft_strjoin("/tmp/.heredoc>", itoa_str);
 		(*lst) = (*lst)->next;
 		if ((*lst) && (*lst)->type == WHITE_SPACE)
 			(*lst) = (*lst)->next;
@@ -71,10 +70,10 @@ void	ft_open_here_doc(t_parser **lst, t_cmd *cmd, char str1)
 			{
 				fd = open(str, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 				ft_delimiter(fd, (*lst), cmd->envl, str1);
-				cmd->infilename = str;
-				close(fd);
 				(*lst) = (*lst)->next;
+				return (cmd->infilename = str, close(fd), free(itoa_str));
 			}
 		}
+		free(itoa_str);
 	}
 }
