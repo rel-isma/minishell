@@ -6,38 +6,16 @@
 /*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:43:25 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/20 23:20:22 by yoel-bas         ###   ########.fr       */
+/*   Updated: 2023/08/21 00:11:41 by yoel-bas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	cd_error(t_list *tmp)
-{
-	if (access(((t_cmd *)(tmp->content))->argms[1], F_OK) == -1)
-	{
-		ft_putstr_fd("minishell: cd: ", 1);
-		perror(((t_cmd *)(tmp->content))->argms[1]);
-		return (1);
-	}
-	if (access(((t_cmd *)(tmp->content))->argms[1], R_OK) == -1
-		|| access(((t_cmd *)(tmp->content))->argms[1], X_OK) == -1)
-	{
-		ft_putstr_fd("minishell: cd: ", 1);
-		perror(((t_cmd *)(tmp->content))->argms[1]);
-	}
-	return (0);
-}
 
-void	change_env(t_list *tmp, int *i, int *j)
+void 	change_env_helper(t_list *tmp, int *i, int *j)
 {
-	char	current_dir[PATH_MAX];
 	char *tmp1;
-
-	if (getcwd(current_dir, sizeof(current_dir)))
-		g_minishell.str = ft_strdup(getcwd(current_dir, sizeof(current_dir)));
-	if (g_minishell.str)
-	{
 		if (*i)
 		{
 			pwd_old(g_minishell.str, ((t_cmd *)(tmp->content))->pwd, tmp);
@@ -57,6 +35,16 @@ void	change_env(t_list *tmp, int *i, int *j)
 				free(((t_cmd *)(tmp->content))->pwd1);
 			}	
 		}
+}
+void	change_env(t_list *tmp, int *i, int *j)
+{
+	char	current_dir[PATH_MAX];
+
+	if (getcwd(current_dir, sizeof(current_dir)))
+		g_minishell.str = ft_strdup(getcwd(current_dir, sizeof(current_dir)));
+	if (g_minishell.str)
+	{
+		change_env_helper(tmp, i, j);
 	}
 	else
 		pwd_old(getcwd(current_dir, sizeof(current_dir)), getcwd(current_dir,

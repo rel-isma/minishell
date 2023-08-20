@@ -6,7 +6,7 @@
 /*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:18:02 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/19 15:51:09 by yoel-bas         ###   ########.fr       */
+/*   Updated: 2023/08/21 00:11:28 by yoel-bas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,6 +218,7 @@ void				ft_exec_in_child(t_list *cmd, char **env, int *fd,
 						int old_fd);
 void				ft_free_tab(char **env);
 void				command_not_found(char *str);
-void	close_all_fds(t_list *cmd);
+void				close_all_fds(t_list *cmd);
+int					cd_error(t_list *tmp);
 
 #endif

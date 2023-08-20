@@ -6,7 +6,7 @@
 /*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 18:18:27 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/20 20:14:27 by yoel-bas         ###   ########.fr       */
+/*   Updated: 2023/08/21 00:11:03 by yoel-bas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,20 @@ int	cd_root(char *str)
 		i++;
 	}
 	return (1);
+}
+int	cd_error(t_list *tmp)
+{
+	if (access(((t_cmd *)(tmp->content))->argms[1], F_OK) == -1)
+	{
+		ft_putstr_fd("minishell: cd: ", 1);
+		perror(((t_cmd *)(tmp->content))->argms[1]);
+		return (1);
+	}
+	if (access(((t_cmd *)(tmp->content))->argms[1], R_OK) == -1
+		|| access(((t_cmd *)(tmp->content))->argms[1], X_OK) == -1)
+	{
+		ft_putstr_fd("minishell: cd: ", 1);
+		perror(((t_cmd *)(tmp->content))->argms[1]);
+	}
+	return (0);
 }
