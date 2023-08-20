@@ -6,7 +6,7 @@
 /*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:43:25 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/20 21:13:25 by yoel-bas         ###   ########.fr       */
+/*   Updated: 2023/08/20 23:20:22 by yoel-bas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,17 +62,28 @@ void	change_env(t_list *tmp, int *i, int *j)
 		pwd_old(getcwd(current_dir, sizeof(current_dir)), getcwd(current_dir,
 				sizeof(current_dir)), tmp);
 }
-
+int 	special_cases(t_list *tmp)
+{
+	if (ft_strcmp(((t_cmd *)(tmp->content))->argms[1], "~") == 0
+		|| !((t_cmd *)(tmp->content))->argms[1])
+		{
+		cd_home(tmp);
+		return(1);
+		}
+	else if (cd_root(((t_cmd *)(tmp->content))->argms[1]))
+	{
+		chdir("/");
+		return(1);
+	}
+	return(0);
+}
 int	cd(t_list *tmp, int *i)
 {
 	char	current_dir[PATH_MAX];
 	char	*str;
 
-	if (ft_strcmp(((t_cmd *)(tmp->content))->argms[1], "~") == 0
-		|| !((t_cmd *)(tmp->content))->argms[1])
-		cd_home(tmp);
-	else if (cd_root(((t_cmd *)(tmp->content))->argms[1]))
-		chdir("/");
+	if(special_cases(tmp))
+		return(0);
 	else
 	{
 		if (chdir(((t_cmd *)(tmp->content))->argms[1]))
