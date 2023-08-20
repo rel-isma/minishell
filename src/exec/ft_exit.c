@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 10:13:45 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/19 02:39:05 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/20 22:07:43 by yoel-bas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	syntax_exit(char *str)
 	i = 0;
 	while (str[i])
 	{
+		if(!ft_atoi(str))
+			return(1);
 		if ((str[0] != '+' && str[0] != '-') && !ft_isdigit(str[i]))
 			return (1);
 		i++;
@@ -55,12 +57,6 @@ int	ft_atoi_long(const char *str)
 
 int	failed_exit(t_list *tmp)
 {
-	if (((t_cmd *)(tmp->content))->argms[2])
-	{
-		write(1, "exit\n", 5);
-		write(2, "minishell: exit: too many arguments\n", 36);
-		return (1);
-	}
 	if (ft_atoi_long(((t_cmd *)(tmp->content))->argms[1])
 		|| syntax_exit(((t_cmd *)(tmp->content))->argms[1]))
 	{
@@ -69,6 +65,12 @@ int	failed_exit(t_list *tmp)
 			((t_cmd *)(tmp->content))->argms[1]);
 		g_minishell.exit_code = 255;
 		exit(g_minishell.exit_code);
+	}
+	if (((t_cmd *)(tmp->content))->argms[2])
+	{
+		write(1, "exit\n", 5);
+		write(2, "minishell: exit: too many arguments\n", 36);
+		return (1);
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:43:25 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/19 15:55:58 by yoel-bas         ###   ########.fr       */
+/*   Updated: 2023/08/20 21:13:25 by yoel-bas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,20 +32,30 @@ int	cd_error(t_list *tmp)
 void	change_env(t_list *tmp, int *i, int *j)
 {
 	char	current_dir[PATH_MAX];
+	char *tmp1;
 
 	if (getcwd(current_dir, sizeof(current_dir)))
 		g_minishell.str = ft_strdup(getcwd(current_dir, sizeof(current_dir)));
 	if (g_minishell.str)
 	{
 		if (*i)
+		{
 			pwd_old(g_minishell.str, ((t_cmd *)(tmp->content))->pwd, tmp);
+			free(((t_cmd *)(tmp->content))->pwd);
+		}
 		else
 		{
 			if (!*j)
-				pwd_old(g_minishell.str, ft_strjoin(g_minishell.str, "/.."),
-					tmp);
+			{
+				tmp1 = ft_strjoin(g_minishell.str, "/..");
+				pwd_old(g_minishell.str, tmp1, tmp);
+				free(tmp1);
+			}
 			else
+			{
 				pwd_old(g_minishell.str, ((t_cmd *)(tmp->content))->pwd1, tmp);
+				free(((t_cmd *)(tmp->content))->pwd1);
+			}	
 		}
 	}
 	else
@@ -56,6 +66,7 @@ void	change_env(t_list *tmp, int *i, int *j)
 int	cd(t_list *tmp, int *i)
 {
 	char	current_dir[PATH_MAX];
+	char	*str;
 
 	if (ft_strcmp(((t_cmd *)(tmp->content))->argms[1], "~") == 0
 		|| !((t_cmd *)(tmp->content))->argms[1])
@@ -70,9 +81,13 @@ int	cd(t_list *tmp, int *i)
 		if (getcwd(current_dir, sizeof(current_dir)) == NULL)
 		{
 			*i = 1;
+			printf("cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n");
 			((t_cmd *)(tmp->content))->pwd = ft_strdup(g_minishell.str);
-			g_minishell.str = ft_strjoin(g_minishell.str, "/..");
+			str = ft_strdup(g_minishell.str);
+			free(g_minishell.str);
+			g_minishell.str = ft_strjoin(str, "/..");
 			chdir(g_minishell.str);
+			free(str);
 		}
 	}
 	return (0);
@@ -95,5 +110,6 @@ int	ft_cd(t_list *tmp)
 	if (cd(tmp, &i))
 		return (1);
 	change_env(tmp, &i, &j);
+
 	return (0);
 }

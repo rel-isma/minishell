@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   needs_cmds1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 04:14:54 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/19 04:29:32 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/20 19:16:48 by yoel-bas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,5 @@ void	ft_free_tab(char **env)
 void	command_not_found(char *str)
 {
 	printf("minishell: %s: command not found\n", str);
+	g_minishell.exit_code =  127;
 }

@@ -3,15 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:43:30 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/19 02:39:05 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/20 20:08:42 by yoel-bas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+
+int	check_args(char *str)
+{
+	int i =1;
+
+	while(str[i])
+	{
+		if(str[0] != '-' || str[i] != 'n')
+			return(0);
+		else 
+			i++;
+	}
+	return(1);
+}
 void	new_line(t_list *tmp)
 {
 	int	j;
@@ -37,11 +51,11 @@ void	new_line(t_list *tmp)
 	}
 }
 
-void	no_new_line(t_list *tmp)
+void	no_new_line(t_list *tmp, int *i)
 {
-	int	j;
-
-	j = 2;
+	int j;
+	
+	j = *i;
 	while (((t_cmd *)(tmp->content))->argms[j])
 	{
 		write(((t_cmd *)(tmp->content))->oufile,
@@ -62,20 +76,17 @@ int	ft_echo(t_list *tmp)
 	i = 1;
 	if (!((t_cmd *)(tmp->content))->argms[1])
 	{
-		printf("\n");
+		ft_putstr_fd("\n", ((t_cmd *)(tmp->content))->oufile);
 		return (1);
 	}
-	if (((t_cmd *)(tmp->content))->argms[1][0] == '-'
-		&& ((t_cmd *)(tmp->content))->argms[1][1] == 'n')
+	else
 	{
-		while (((t_cmd *)(tmp->content))->argms[1][i] == 'n')
+		while(check_args(((t_cmd *)(tmp->content))->argms[i]))
 			i++;
-		if (((t_cmd *)(tmp->content))->argms[1][i] == '\0')
-			no_new_line(tm);
+		if(i > 1)
+			no_new_line(tmp, &i);
 		else
 			new_line(tm);
 	}
-	else
-		new_line(tm);
 	return (0);
 }

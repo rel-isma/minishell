@@ -6,7 +6,7 @@
 /*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:16:01 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/19 20:48:49 by yoel-bas         ###   ########.fr       */
+/*   Updated: 2023/08/20 21:11:52 by yoel-bas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void	ft_free_all_minishell(t_list *cmds)
 		free(cmds);
 		cmds = tmp;
 	}
+	// free(g_minishell.str);
 }
 
 void	close_all_fds(t_list *cmd)
@@ -102,7 +103,7 @@ void	SHLVL(t_expand *envl)
 				mini->value = ft_strdup("");
 			else if(mini->value == NULL)
 				mini->value = ft_strdup(ft_itoa(1));
-			else 
+			else
 				mini->value = ft_strdup(ft_itoa(ft_atoi(mini->value) + 1));
 			lvl++;
 		}
@@ -118,12 +119,9 @@ int	main(int ac, char *av[], char **env)
 	t_lexer		*cur;
 	t_list		*commands;
 	t_expand	*envl;
-	t_expand	*mini;
-	char		*it1;
-	char		*it2;
 
 	line = NULL;
-	// int lvl = 1;
+	g_minishell.str = ft_strdup("");
 	rl_catch_signals = 0;
 	g_minishell.heredoc_executing = 1;
 	g_minishell.stdin_backup = -1;
