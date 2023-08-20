@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/18 18:37:26 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/18 18:46:56 by yoel-bas         ###   ########.fr       */
+/*   Created: 2023/08/19 02:04:03 by rel-isma          #+#    #+#             */
+/*   Updated: 2023/08/19 02:47:01 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	syntax_unset(char *str)
 	}
 	while (str[j])
 	{
-		if (!ft_isalnum(str[j]) && str[j] != '_' )
+		if (!ft_isalnum(str[j]) && str[j] != '_')
 		{
 			printf("minishell: unset: `%s': not a valid identifier\n", str);
 			return (1);
@@ -38,7 +38,7 @@ void	delete(t_expand *cur, t_list *tmp, int *i)
 {
 	while (cur)
 	{
-		if (ft_strcmp(cur->key, (tl(tmp->content))->argms[*i]) == 0)
+		if (ft_strcmp(cur->key, ((t_cmd *)(tmp->content))->argms[*i]) == 0)
 		{
 			free(cur->key);
 			cur->key = NULL;
@@ -59,13 +59,13 @@ int	ft_unset(t_list *tmp)
 	i = 1;
 	next = NULL;
 	prev = NULL;
-	while ((tl(tmp->content))->argms[i])
+	while (((t_cmd *)(tmp->content))->argms[i])
 	{
-		cur = (tl(tmp->content))->envl;
-		if (syntax_unset((tl(tmp->content))->argms[i]))
+		cur = ((t_cmd *)(tmp->content))->envl;
+		if (syntax_unset(((t_cmd *)(tmp->content))->argms[i]))
 			return (1);
-		else 
-			delete(cur, tmp, &i);
+		else
+			delete (cur, tmp, &i);
 		i++;
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 16:41:16 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/12 13:48:31 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/20 01:29:25 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ t_parser	*ft_join_word(t_lexer *cur)
 {
 	t_parser	*new;
 	char		*str;
+	char		*tmp;
 	int			flg;
 
 	flg = 1;
@@ -36,20 +37,21 @@ t_parser	*ft_join_word(t_lexer *cur)
 	while (cur)
 	{
 		str = ft_strdup("");
-		g_minishell.env = 0;
-		if (cur && check_no_word(cur))
+		tmp = str;
+		while (cur && check_no_word(cur))
 		{
 			if (!*cur->value)
 				flg = 0;
-			if (cur->type == ENV && ft_strcmp(cur->value, "") == 0)
+			if (cur->type == ENV)
 				g_minishell.env = 5;
 			str = ft_strjoin(str, cur->value);
-			ft_parseradd_back(&new, ft_parsernew(str, flg, 1));
-			free(str);
+			free(tmp);
+			tmp = 0;
 			cur = cur->next;
 		}
-		else
-			ft_join_specail(&cur, &new);
+		ft_parseradd_back(&new, ft_parsernew(str, flg, 1));
+		free(str);
+		ft_join_specail(&cur, &new);
 	}
 	return (new);
 }

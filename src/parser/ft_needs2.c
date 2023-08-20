@@ -6,12 +6,11 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 21:41:38 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/03 11:05:46 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/19 01:14:05 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
 
 int	ft_len(t_parser *cur)
 {

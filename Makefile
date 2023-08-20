@@ -3,28 +3,27 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+         #
+#    By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/10 17:16:54 by rel-isma          #+#    #+#              #
-#    Updated: 2023/08/18 18:44:31 by yoel-bas         ###   ########.fr        #
+#    Updated: 2023/08/20 01:50:33 by rel-isma         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = gcc
-CFLAGS = -g -Wall -Wextra -Werror  -fsanitize=address
+CFLAGS =  -Wall -Wextra -Werror  -g #-fsanitize=address
 LIBS = -lreadline -L ~/.brew/opt/readline/lib
 
-SOURCES = src/main.c src/lexer/lexer.c src/lexer/lexer_needs.c  src/lexer/lexer_needs2.c \
+SOURCES = src/main.c  src/needs_main.c src/sig_handler.c src/lexer/lexer.c src/lexer/lexer_needs.c  src/lexer/lexer_needs2.c \
           src/lexer/ft_free_all.c  src/lexer/lexer_needs_3.c src/syntax_errors/ft_syntax_errors.c src/syntax_errors/ft_check_stx_pipe.c \
 		  src/syntax_errors/ft_check_stx_qoute.c src/syntax_errors/ft_check_stx_redir.c \
 		  src/expander/ft_expander.c src/expander/ft_needs_exp.c src/expander/ft_needs_exp2.c \
 		  src/parser/ft_join_argms.c  src/parser/ft_needs.c src/parser/ft_delele_dqu_qu.c src/parser/ft_join_cmd.c \
-		  src/parser/ft_needs2.c src/parser/ft_needs3.c \
+		  src/parser/ft_needs2.c src/parser/ft_needs3.c src/parser/ft_needs4.c \
 		  src/exec/builting.c src/exec/exec.c  src/exec/commands.c src/exec/sort_list.c src/exec/ft_export.c\
 		  src/exec/ft_cd.c src/exec/ft_env_pwd.c src/exec/ft_echo.c src/exec/ft_needs_cmds.c \
 		  src/exec/ft_unset.c src/exec/needs_export.c \
-		  src/exec/ft_exit.c src/exec/ft_cd_extra.c
-
+		  src/exec/ft_exit.c src/exec/ft_cd_extra.c src/exec/needs_cmds1.c 
 
 OBJECTS = $(SOURCES:%.c=obj/%.o)
 

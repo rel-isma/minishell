@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 04:24:23 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/10 16:10:13 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/20 03:45:30 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,9 +110,6 @@ void	handle_env(t_lexer **tokenlist, char *line, int *i, t_status *s)
 
 	if (line[*i] == '$' && line[*i + 1] != '$')
 	{
-		// printf("token == [[%s]]\n", line);
-		if (line[*i + 1] == '\"')
-			(*i) += 1;
 		len = ft_line_env(&line[*i]);
 		token = ft_substr(&line[*i], 0, len);
 		ft_lexeradd_back(tokenlist, ft_lexernew(token, *s, ENV));

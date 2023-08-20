@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd_extra.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 18:18:27 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/18 18:19:03 by yoel-bas         ###   ########.fr       */
+/*   Updated: 2023/08/20 01:26:27 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,21 @@
 
 void	pwd_old(char *pwd, char *old_pwd, t_list *tmp)
 {
-	while ((tl(tmp->content))->envl)
+	while (((t_cmd *)(tmp->content))->envl)
 	{
-		if (!ft_strcmp((tl(tmp->content))->envl->key, "PWD"))
+		if (!ft_strcmp(((t_cmd *)(tmp->content))->envl->key, "PWD"))
 		{
-			free((tl(tmp->content))->envl->value);
-			(tl(tmp->content))->envl->value = ft_strdup(pwd);
+			free(((t_cmd *)(tmp->content))->envl->value);
+			((t_cmd *)(tmp->content))->envl->value = ft_strdup(pwd);
 		}
-		if (!ft_strcmp((tl(tmp->content))->envl->key, "OLDPWD"))
+		if (!ft_strcmp(((t_cmd *)(tmp->content))->envl->key, "OLDPWD"))
 		{
-			free((tl(tmp->content))->envl->value);
+			free(((t_cmd *)(tmp->content))->envl->value);
 			if (old_pwd)
-				(tl(tmp->content))->envl->value = ft_strjoin("", old_pwd);
+				((t_cmd *)(tmp->content))->envl->value = ft_strjoin("",
+						old_pwd);
 		}
-		(tl(tmp->content))->envl = (tl(tmp->content))->envl->next;
+		((t_cmd *)(tmp->content))->envl = ((t_cmd *)(tmp->content))->envl->next;
 	}
 }
 
@@ -36,15 +37,15 @@ int	valid_home(t_list *tmp)
 	int	home;
 
 	home = 0;
-	while ((tl(tmp->content))->envl)
+	while (((t_cmd *)(tmp->content))->envl)
 	{
-		if (ft_strcmp((tl(tmp->content))->envl->key, "HOME") == 0)
+		if (ft_strcmp(((t_cmd *)(tmp->content))->envl->key, "HOME") == 0)
 		{
 			home++;
-			if (chdir((tl(tmp->content))->envl->value))
-				return (1);
+			if (chdir(((t_cmd *)(tmp->content))->envl->value))
+				return (-1);
 		}
-		(tl(tmp->content))->envl = (tl(tmp->content))->envl->next;
+		((t_cmd *)(tmp->content))->envl = ((t_cmd *)(tmp->content))->envl->next;
 	}
 	return (home);
 }
@@ -52,7 +53,13 @@ int	valid_home(t_list *tmp)
 void	cd_home(t_list *tmp)
 {
 	if (valid_home(tmp) == 0)
-		printf("HOME not set\n");
+		ft_putstr_fd("minishell: cd: HOME not set\n", 2);
+	else if (valid_home(tmp) == -1)
+	{
+		ft_putstr_fd("minishell: cd: " , 2);
+		ft_putstr_fd(((t_cmd *)(tmp->content))->envl->value, 2);
+		perror(" ");
+	}	
 }
 
 int	cd_root(char *str)

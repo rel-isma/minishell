@@ -19,3 +19,44 @@ exit();
 
 // > test 
 /// $"USER" \\ USER
+
+
+
+minishell$ echo -nnnnnnnnn -nnnn -nnnnn -no jksdvvdlsvds
+-nnnn -nnnnn -no jksdvvdlsvdsminishell$ 
+
+minishell$ export
+[1]    61274 segmentation fault  ./minishell
+
+minishell$ echo cd ~
+cd ~
+minishell$ 
+
+bash-3.2$ echo cd ~
+cd /Users/rel-isma
+bash-3.2$ 
+
+exit ++1                                                                   [FAIL] [FAIL]
+exit ++12560                                                               [FAIL] [FAIL]
+exit -----                                                                 [FAIL] [FAIL]
+exit ------                                                                [FAIL] [FAIL]
+exit -1                                                                    [FAIL] [    ]
+exit --1                                                                   [FAIL] [FAIL]
+exit -12560                                                                [FAIL] [    ]
+exit --12560
+
+exit A                                                                     [FAIL] [FAIL]
+exit A 2 3                                                                 [FAIL] [FAIL]
+exit "A"                                                                   [FAIL] [FAIL]
+exit "+++"                                                                 [FAIL] [FAIL]
+exit ++++3193912939
+
+exit +++000                                                                [FAIL] [FAIL]
+exit ++++000                                                               [FAIL] [FAIL]
+exit ---000                                                                [FAIL] [FAIL]
+exit ----000                                                               [FAIL] [FAIL]
+exit "something"                                                           [FAIL] [FAIL]
+exit x                                                                     [FAIL] [FAIL]
+exit echo                                                                  [FAIL] [FAIL]
+exit cd ..                                                                 [FAIL] [FAIL]
+exit exit  

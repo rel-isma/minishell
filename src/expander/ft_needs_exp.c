@@ -72,7 +72,7 @@ int	ft_strlen_env_befor(char *env)
 		if (env[j] == '=')
 		{
 			if (env[j] == '=' && env[j + 1] == '\0')
-				return 1;
+				return (1);
 			while (env[++j])
 				len++;
 		}

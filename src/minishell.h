@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:18:02 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/18 18:44:05 by yoel-bas         ###   ########.fr       */
+/*   Updated: 2023/08/20 01:41:44 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,15 @@
 # define MINISHELL_H
 
 # include "../libfc/libft.h"
-# include <sys/types.h>
-# include <sys/stat.h>
 # include <fcntl.h>
-#include <stdio.h>
-# include <string.h>
-# include <unistd.h>
 # include <limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
-
-# define tl (t_cmd *)
+# include <stdio.h>
+# include <string.h>
+# include <sys/stat.h>
+# include <sys/types.h>
+# include <unistd.h>
 
 typedef enum s_tokenstatus
 {
@@ -32,7 +30,6 @@ typedef enum s_tokenstatus
 	IN_QUOTE,
 	IN_DQUOTE,
 }					t_status;
-
 
 typedef enum s_tokentype
 {
@@ -81,34 +78,35 @@ typedef struct s_parser
 
 typedef struct s_global
 {
-	char	d_s;
-	int		www;
-	int		err;
-	int		env;
-	int		stop_exection;
-	int		stdin_backup;
-	int		heredoc_executing;
-	int		command_executing;
-	int		exit_code;
-	char	*str;
+	char			d_s;
+	int				www;
+	int				err;
+	int				env;
+	int				stop_exection;
+	int				stdin_backup;
+	int				heredoc_executing;
+	int				command_executing;
+	int				exit_code;
+	char			*str;
 }					t_global;
 
-t_global g_minishell;
+t_global			g_minishell;
 
 typedef struct s_cmd
 {
 	char			*cmd;
 	char			**argms;
 	int				type;
+	char			*path;
 	int				infile;
 	int				oufile;
-	char*			infilename;
-	char*			oufilename;
+	char			*infilename;
+	char			*oufilename;
 	t_expand		*envl;
-	int 			exit_status;
-	char*			pwd;
-	char*			pwd1;
-	int lvl;
+	int				exit_status;
+	char			*pwd;
+	char			*pwd1;
+	int				lvl;
 }					t_cmd;
 
 ///////////////////////// functions lexer /////////////////////////////////////
@@ -192,24 +190,41 @@ void				ft_free_list_join(t_parser *list);
 int					ft_builting(t_list *tmp);
 void				ft_exec(t_list *tmp);
 void				ft_commands(t_list *tmp);
-void				*sort_list(t_expand* pp);
-int					 ft_exec_cmd(t_list *cmd, int *fd, int old_fd);
+void				sort_list(t_expand *pp);
+int					ft_exec_cmd(t_list *cmd, int *fd, int old_fd);
 int					ft_check_builting(t_list *tmp);
 void				ft_free_tab(char **env);
-int	ft_check_duble(char *key, char *vl, t_expand *env, int flg);
-int	syntax_export(char *str);
-void	ft_print_export(t_list *tmp, int flg, t_expand *p);
-int	ft_export(t_list *tmp, int *flg1);
-int	ft_cd(t_list *tmp);
-int	ft_unset(t_list *tmp);
-int	ft_env(t_expand *pp, t_list *tmp);
-int	ft_pwd();
-int	ft_echo(t_list *tmp);
-char    **ft_get_env_tab(t_list *cmd);
-char    *ft_get_path(t_list *cmd);
-int	ft_exit_builtin(t_list *tmp);
-void	pwd_old(char *pwd, char *old_pwd, t_list *tmp);
-int	valid_home(t_list *tmp);
-void	cd_home(t_list *tmp);
-int	cd_root(char *str);
+int					ft_check_duble(char *key, char *vl, t_expand *env, int flg);
+int					syntax_export(char *str);
+void				ft_print_export(t_list *tmp, int flg, t_expand *p);
+int					ft_export(t_list *tmp, int *flg1);
+int					ft_cd(t_list *tmp);
+int					ft_unset(t_list *tmp);
+void				ft_env(t_expand *pp, t_list *tmp);
+int					ft_pwd(void);
+int					ft_echo(t_list *tmp);
+char				**ft_get_env_tab(t_list *cmd);
+char				*ft_get_path(t_list *cmd);
+int					ft_exit_builtin(t_list *tmp);
+void				pwd_old(char *pwd, char *old_pwd, t_list *tmp);
+int					valid_home(t_list *tmp);
+void				cd_home(t_list *tmp);
+int					cd_root(char *str);
+void				ft_open_redir_out(t_parser **lst, t_cmd *cmd);
+void				ft_open_redir_in(t_parser **lst, t_cmd *cmd);
+void				ft_open_dredir_out(t_parser **lst, t_cmd *cmd);
+void				ft_exeve_in_minishell(t_list *cmd, char **env);
+void				ft_exec_in_child(t_list *cmd, char **env, int *fd,
+						int old_fd);
+void				ft_free_tab(char **env);
+void				command_not_found(char *str);
+void	close_all_fds(t_list *cmd);
+t_expand    *copy_list(t_expand *head);
+void free_list(t_expand *head);
+int	ft_check_argms(int ac, char **av);
+void	ft_free_all_minishell(t_list *cmds);
+void	close_all_fds(t_list *cmd);
+void	sig_handler(int signum);
+void    ft_shlvl(t_expand *envl);
+
 #endif

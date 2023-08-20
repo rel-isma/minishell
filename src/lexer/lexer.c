@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 14:44:37 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/09 18:14:33 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/19 01:12:57 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 int	white_space(char str)
 {
-	if (str == ' ' || str == '\t' || str == '\n' || str == '\f' || str == '\r' || str == '\v')
+	if (str == ' ' || str == '\t' || str == '\n' || str == '\f' || str == '\r'
+		|| str == '\v')
 		return (1);
 	else
 		return (0);

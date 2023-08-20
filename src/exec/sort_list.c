@@ -3,37 +3,81 @@
 /*                                                        :::      ::::::::   */
 /*   sort_list.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:43:49 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/18 18:50:31 by yoel-bas         ###   ########.fr       */
+/*   Updated: 2023/08/20 01:06:51 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	*sort_list(t_expand *pp)
+void	free_list(t_expand *head)
 {
-	char		*swap;
-	char		*swap2;
-	t_expand	*tmp;
+	t_expand	*temp;
 
-	tmp = pp;
-	while (pp->next)
+	while (head != NULL)
 	{
-		if (pp->next && pp->key[0] > pp->next->key[0])
-		{
-			swap = pp->key;
-			swap2 = pp->value;
-			pp->key = pp->next->key;
-			pp->value = pp->next->value;
-			pp->next->key = swap;
-			pp->next->value = swap2;
-			pp = tmp;
-		}
-		else
-			pp = pp->next;
+		temp = head;
+		head = head->next;
+		free(temp->key);
+		free(temp->value);
+		free(temp);
 	}
-	pp = tmp;
-	return (pp);
+}
+
+t_expand	*copy_list(t_expand *head)
+{
+	t_expand	*new_head;
+	t_expand	*current;
+
+	new_head = NULL;
+	current = head;
+	while (current != NULL)
+	{
+		ft_lexeradd_back_expnd(&new_head, ft_lexernew_expnd(current->key,
+				current->value));
+		current = current->next;
+	}
+	return (new_head);
+}
+
+void	swap(t_expand *a, t_expand *b)
+{
+	char	*temp_key;
+	char	*temp_value;
+
+	temp_key = a->key;
+	temp_value = a->value;
+	a->key = b->key;
+	a->value = b->value;
+	b->key = temp_key;
+	b->value = temp_value;
+}
+
+void	sort_list(t_expand *head)
+{
+	int			swapped;
+	t_expand	*ptr1;
+	t_expand	*lptr;
+
+	lptr = NULL;
+	if (head == NULL)
+		return ;
+	swapped = 1;
+	while (swapped)
+	{
+		swapped = 0;
+		ptr1 = head;
+		while (ptr1->next != lptr)
+		{
+			if (ft_strcmp(ptr1->key, ptr1->next->key) > 0)
+			{
+				swap(ptr1, ptr1->next);
+				swapped = 1;
+			}
+			ptr1 = ptr1->next;
+		}
+		lptr = ptr1;
+	}
 }

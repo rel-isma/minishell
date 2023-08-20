@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 10:13:45 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/18 18:32:29 by yoel-bas         ###   ########.fr       */
+/*   Updated: 2023/08/19 02:39:05 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,18 +55,18 @@ int	ft_atoi_long(const char *str)
 
 int	failed_exit(t_list *tmp)
 {
-	if ((tl(tmp->content))->argms[2])
+	if (((t_cmd *)(tmp->content))->argms[2])
 	{
 		write(1, "exit\n", 5);
 		write(2, "minishell: exit: too many arguments\n", 36);
 		return (1);
 	}
-	if (ft_atoi_long((tl(tmp->content))->argms[1]) 
-		|| syntax_exit((tl(tmp->content))->argms[1]))
+	if (ft_atoi_long(((t_cmd *)(tmp->content))->argms[1])
+		|| syntax_exit(((t_cmd *)(tmp->content))->argms[1]))
 	{
 		printf("exit\n");
-		printf("minishell : exit: %s : numeric argument required\n", 
-			(tl(tmp->content))->argms[1]);
+		printf("minishell : exit: %s : numeric argument required\n",
+			((t_cmd *)(tmp->content))->argms[1]);
 		g_minishell.exit_code = 255;
 		exit(g_minishell.exit_code);
 	}
@@ -77,11 +77,11 @@ int	ft_exit_builtin(t_list *tmp)
 {
 	int	status;
 
-	if ((tl(tmp->content))->argms[1])
+	if (((t_cmd *)(tmp->content))->argms[1])
 	{
 		if (failed_exit(tmp))
-			exit (1);
-		status = ft_atoi((tl(tmp->content))->argms[1]);
+			exit(1);
+		status = ft_atoi(((t_cmd *)(tmp->content))->argms[1]);
 		if (status > 255)
 		{
 			status %= 256;

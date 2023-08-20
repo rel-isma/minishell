@@ -1,24 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstlast.c                                       :+:      :+:    :+:   */
+/*   sig_handler.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/19 02:26:41 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/19 02:26:48 by rel-isma         ###   ########.fr       */
+/*   Created: 2023/08/20 01:39:19 by rel-isma          #+#    #+#             */
+/*   Updated: 2023/08/20 01:39:44 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-t_list	*ft_lstlast(t_list *lst)
+void	sig_handler(int signum)
 {
-	while (lst)
+	if (signum == SIGINT)
 	{
-		if (lst->next == NULL)
-			return (lst);
-		lst = lst->next;
+		if (g_minishell.heredoc_executing)
+		{
+			g_minishell.stdin_backup = dup(STDIN_FILENO);
+			close(STDIN_FILENO);
+			g_minishell.stop_exection = 1;
+			return ;
+		}
+		if (!g_minishell.command_executing)
+		{
+			write(1, "\n", 1);
+			rl_on_new_line();
+			rl_replace_line("", 0);
+			rl_redisplay();
+		}
 	}
-	return (lst);
+	else if (signum == SIGQUIT)
+		return ;
 }
+
