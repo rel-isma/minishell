@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:43:39 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/20 03:29:15 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/21 17:29:45 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@ int	ft_helper_exe(t_list *cmd, int *fd, int old_fd, pid_t *pid)
 
 	if (ft_strcmp(((t_cmd *)(cmd->content))->cmd, "..") == 0
 			|| ft_strcmp(((t_cmd *)(cmd->content))->cmd, ".") == 0)
-		return (command_not_found(((t_cmd *)(cmd->content))->cmd),
-					g_minishell.exit_code = 127, 0);
+		return (command_not_found(((t_cmd *)(cmd->content))->cmd), 0);
 	((t_cmd *)(cmd->content))->path = ft_get_path(cmd);
 	env = ft_get_env_tab(cmd);
 	if (((t_cmd *)(cmd->content))->path == NULL)
@@ -27,7 +26,6 @@ int	ft_helper_exe(t_list *cmd, int *fd, int old_fd, pid_t *pid)
 		command_not_found(((t_cmd *)(cmd->content))->cmd);
 		free(((t_cmd *)(cmd->content))->path);
 		ft_free_tab(env);
-		g_minishell.exit_code = 127;
 		return (0);
 	}
 	*pid = fork();
@@ -42,13 +40,10 @@ int	ft_helper_exe(t_list *cmd, int *fd, int old_fd, pid_t *pid)
 
 int	ft_handel_cmd_not_found(t_list *cmd)
 {
-	if (((t_cmd *)(cmd->content))->cmd[0] == '\0'
-		&& ((t_cmd *)(cmd->content))->type != 0
-		&& ((t_cmd *)(cmd->content))->type != WHITE_SPACE
+	if (((t_cmd *)(cmd->content))->cmd[0] == '\0' && ((t_cmd *)(cmd->content))->type != 0 && ((t_cmd *)(cmd->content))->type != WHITE_SPACE
 		&& g_minishell.env != 5)
 	{
 		command_not_found(((t_cmd *)(cmd->content))->cmd);
-		g_minishell.exit_code = 127;
 		return (0);
 	}
 	return (1);
@@ -59,18 +54,6 @@ void	ft_wait_last_command(pid_t pid)
 	waitpid(pid, &g_minishell.exit_code, 0);
 	if (WIFEXITED(g_minishell.exit_code))
 		g_minishell.exit_code = WEXITSTATUS(g_minishell.exit_code);
-	else if (WTERMSIG(g_minishell.exit_code))
-	{
-		g_minishell.exit_code = 128 + WTERMSIG(g_minishell.exit_code);
-		if (WTERMSIG(g_minishell.exit_code) == 2)
-			write(1, "\n", 1);
-		else if (WTERMSIG(g_minishell.exit_code) == 3)
-			write(1, "Quit: 3\n", 8);
-		else if (WTERMSIG(g_minishell.exit_code) == 11)
-			ft_putstr_fd("Segmentation fault : 11\n", 2);
-		else if (WTERMSIG(g_minishell.exit_code) == 10)
-			ft_putstr_fd("bus error : 10\n", 2);
-	}
 }
 
 int	ft_exec_cmd(t_list *cmd, int *fd, int old_fd)

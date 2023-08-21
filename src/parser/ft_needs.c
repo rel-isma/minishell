@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 21:17:46 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/19 05:40:16 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/21 17:23:57 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_parser	*ft_parsernew(char *content, int flg, t_type type)
 {
 	t_parser	*node;
 
-	if (!*content && flg)
+	if (!*content && !flg)
 		return (NULL);
 	node = (t_parser *)malloc(sizeof(t_parser));
 	if (!node)

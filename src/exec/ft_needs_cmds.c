@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 11:57:30 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/19 03:06:37 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/21 02:00:48 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,8 @@ char	**ft_get_env_tab(t_list *cmd)
 	{
 		str = ft_strjoin(cur_size->key, "=");
 		env[len++] = ft_strjoin(str, cur_size->value);
-		cur_size = cur_size->next;
 		free(str);
+		cur_size = cur_size->next;
 	}
 	return (env[len] = NULL, env);
 }

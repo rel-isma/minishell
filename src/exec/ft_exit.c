@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 10:13:45 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/19 02:39:05 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/21 02:40:06 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ int	syntax_exit(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if ((str[0] != '+' && str[0] != '-') && !ft_isdigit(str[i]))
+		if (((str[0] != '+' && str[0] != '-') && !ft_isdigit(str[i]))
+			|| (str[1] == '+' || str[1] == '-'))
 			return (1);
 		i++;
 	}
@@ -28,9 +29,9 @@ int	syntax_exit(char *str)
 
 int	ft_atoi_long(const char *str)
 {
-	int		i;
-	size_t	r;
-	int		s;
+	int					i;
+	unsigned long long	r;
+	int					s;
 
 	i = 0;
 	r = 0;
@@ -55,13 +56,8 @@ int	ft_atoi_long(const char *str)
 
 int	failed_exit(t_list *tmp)
 {
-	if (((t_cmd *)(tmp->content))->argms[2])
-	{
-		write(1, "exit\n", 5);
-		write(2, "minishell: exit: too many arguments\n", 36);
-		return (1);
-	}
 	if (ft_atoi_long(((t_cmd *)(tmp->content))->argms[1])
+		|| ft_strlen((((t_cmd *)(tmp->content))->argms[1])) > 19
 		|| syntax_exit(((t_cmd *)(tmp->content))->argms[1]))
 	{
 		printf("exit\n");
@@ -69,6 +65,12 @@ int	failed_exit(t_list *tmp)
 			((t_cmd *)(tmp->content))->argms[1]);
 		g_minishell.exit_code = 255;
 		exit(g_minishell.exit_code);
+	}
+	if (((t_cmd *)(tmp->content))->argms[2])
+	{
+		write(1, "exit\n", 5);
+		write(2, "minishell: exit: too many arguments\n", 36);
+		return (1);
 	}
 	return (0);
 }
@@ -80,19 +82,16 @@ int	ft_exit_builtin(t_list *tmp)
 	if (((t_cmd *)(tmp->content))->argms[1])
 	{
 		if (failed_exit(tmp))
-			exit(1);
-		status = ft_atoi(((t_cmd *)(tmp->content))->argms[1]);
-		if (status > 255)
 		{
-			status %= 256;
-			g_minishell.exit_code = status;
+			g_minishell.exit_code = 1;
 		}
-		else if (status < 0)
-			g_minishell.exit_code = 156;
 		else
+		{
+			status = ft_atoi(((t_cmd *)(tmp->content))->argms[1]);
 			g_minishell.exit_code = status;
-		printf("exit\n");
-		exit(g_minishell.exit_code);
+			printf("exit \n");
+			exit(g_minishell.exit_code);
+		}
 	}
 	else
 		printf("exit\n");

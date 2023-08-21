@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 08:08:24 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/19 02:06:23 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/21 17:25:05 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,12 @@ void	ft_open_dredir_out(t_parser **lst, t_cmd *cmd)
 				close(cmd->oufile);
 			cmd->oufile = open((*lst)->value, O_WRONLY | O_CREAT | O_APPEND,
 					0644);
+			if (cmd->oufile < 0)
+			{
+				printf("minishell: %s: No such file or directory\n",
+					(*lst)->value);
+				g_minishell.exit_code = 1;
+			}
 			cmd->oufilename = (*lst)->value;
 			if ((*lst))
 				(*lst) = (*lst)->next;

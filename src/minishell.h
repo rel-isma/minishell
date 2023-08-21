@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:18:02 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/20 01:41:44 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/21 02:58:08 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,7 +200,7 @@ void				ft_print_export(t_list *tmp, int flg, t_expand *p);
 int					ft_export(t_list *tmp, int *flg1);
 int					ft_cd(t_list *tmp);
 int					ft_unset(t_list *tmp);
-void				ft_env(t_expand *pp, t_list *tmp);
+void				ft_env(t_expand *pp, t_list *tmp, int flg);
 int					ft_pwd(void);
 int					ft_echo(t_list *tmp);
 char				**ft_get_env_tab(t_list *cmd);
@@ -218,13 +218,14 @@ void				ft_exec_in_child(t_list *cmd, char **env, int *fd,
 						int old_fd);
 void				ft_free_tab(char **env);
 void				command_not_found(char *str);
-void	close_all_fds(t_list *cmd);
-t_expand    *copy_list(t_expand *head);
-void free_list(t_expand *head);
-int	ft_check_argms(int ac, char **av);
-void	ft_free_all_minishell(t_list *cmds);
-void	close_all_fds(t_list *cmd);
-void	sig_handler(int signum);
-void    ft_shlvl(t_expand *envl);
+void				close_all_fds(t_list *cmd);
+t_expand			*copy_list(t_expand *head);
+void				free_list(t_expand *head);
+int					ft_check_argms(int ac, char **av);
+void				ft_free_all_minishell(t_list *cmds);
+void				close_all_fds(t_list *cmd);
+void				sig_handler(int signum);
+void				ft_shlvl(t_expand *envl);
+int					cd_error(t_list *tmp);
 
 #endif

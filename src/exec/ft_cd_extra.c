@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 18:18:27 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/20 01:26:27 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/21 00:51:46 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,12 @@ void	pwd_old(char *pwd, char *old_pwd, t_list *tmp)
 		}
 		if (!ft_strcmp(((t_cmd *)(tmp->content))->envl->key, "OLDPWD"))
 		{
-			free(((t_cmd *)(tmp->content))->envl->value);
 			if (old_pwd)
+			{
+				free(((t_cmd *)(tmp->content))->envl->value);
 				((t_cmd *)(tmp->content))->envl->value = ft_strjoin("",
 						old_pwd);
+			}
 		}
 		((t_cmd *)(tmp->content))->envl = ((t_cmd *)(tmp->content))->envl->next;
 	}
@@ -43,7 +45,7 @@ int	valid_home(t_list *tmp)
 		{
 			home++;
 			if (chdir(((t_cmd *)(tmp->content))->envl->value))
-				return (-1);
+				perror("minishell : ");
 		}
 		((t_cmd *)(tmp->content))->envl = ((t_cmd *)(tmp->content))->envl->next;
 	}
@@ -53,13 +55,7 @@ int	valid_home(t_list *tmp)
 void	cd_home(t_list *tmp)
 {
 	if (valid_home(tmp) == 0)
-		ft_putstr_fd("minishell: cd: HOME not set\n", 2);
-	else if (valid_home(tmp) == -1)
-	{
-		ft_putstr_fd("minishell: cd: " , 2);
-		ft_putstr_fd(((t_cmd *)(tmp->content))->envl->value, 2);
-		perror(" ");
-	}	
+		printf("HOME not set\n");
 }
 
 int	cd_root(char *str)
@@ -74,4 +70,23 @@ int	cd_root(char *str)
 		i++;
 	}
 	return (1);
+}
+
+int	cd_error(t_list *tmp)
+{
+	if (access(((t_cmd *)(tmp->content))->argms[1], F_OK) == -1)
+	{
+		free(((t_cmd *)(tmp->content))->pwd1);
+		ft_putstr_fd("minishell: cd: ", 2);
+		perror(((t_cmd *)(tmp->content))->argms[1]);
+		return (1);
+	}
+	if (access(((t_cmd *)(tmp->content))->argms[1], R_OK) == -1
+		|| access(((t_cmd *)(tmp->content))->argms[1], X_OK) == -1)
+	{
+		free(((t_cmd *)(tmp->content))->pwd);
+		ft_putstr_fd("minishell: cd: ", 2);
+		perror(((t_cmd *)(tmp->content))->argms[1]);
+	}
+	return (0);
 }

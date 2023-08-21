@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 01:57:30 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/19 19:05:22 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/21 02:43:56 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,13 @@ void	ft_open_here_doc(t_parser **lst, t_cmd *cmd, char str1)
 	static int	i;
 	int			fd;
 	char		*str;
-	char		*itoa_str;
+	char		*ir;
 
 	i = 1;
 	if ((*lst) && (*lst)->type == HERE_DOC)
 	{
-		itoa_str = ft_itoa(i++);
-		str = ft_strjoin("/tmp/.heredoc>", itoa_str);
+		ir = ft_itoa(i++);
+		str = ft_strjoin("/tmp/.heredoc>", ir);
 		(*lst) = (*lst)->next;
 		if ((*lst) && (*lst)->type == WHITE_SPACE)
 			(*lst) = (*lst)->next;
@@ -71,9 +71,9 @@ void	ft_open_here_doc(t_parser **lst, t_cmd *cmd, char str1)
 				fd = open(str, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 				ft_delimiter(fd, (*lst), cmd->envl, str1);
 				(*lst) = (*lst)->next;
-				return (cmd->infilename = str, close(fd), free(itoa_str), free(str));
+				return (cmd->infilename = str, close(fd), free(ir), free(str));
 			}
 		}
-		return (free(itoa_str), free(str));
+		return (free(ir), free(str));
 	}
 }

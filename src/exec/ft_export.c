@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 23:51:42 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/19 02:46:10 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/21 01:27:56 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,7 @@ int	ft_add_env(t_list *tmp, int *flg1)
 		if (syntax_export(((t_cmd *)(tmp->content))->argms[i]))
 			return (1);
 		else
-		{
 			add_env_help(flg1, tmp, i);
-		}
 		i++;
 	}
 	return (0);

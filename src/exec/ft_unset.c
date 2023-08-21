@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 02:04:03 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/19 02:47:01 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/21 18:00:08 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,38 +34,45 @@ int	syntax_unset(char *str)
 	return (0);
 }
 
-void	delete(t_expand *cur, t_list *tmp, int *i)
+void	delete(t_expand **envl, char *key)
 {
-	while (cur)
+	t_expand	*current;
+	t_expand	*previous;
+
+	current = *envl;
+	previous = NULL;
+	while (current != NULL)
 	{
-		if (ft_strcmp(cur->key, ((t_cmd *)(tmp->content))->argms[*i]) == 0)
+		if (ft_strcmp(current->key, key) == 0)
 		{
-			free(cur->key);
-			cur->key = NULL;
-			free(cur->value);
-			cur->value = NULL;
+			if (previous == NULL)
+				*envl = current->next;
+			else
+				previous->next = current->next;
+			free(current->key);
+			current->key = NULL;
+			free(current->value);
+			current->value = NULL;
+			// free(current);
+			break ;
 		}
-		cur = cur->next;
+		previous = current;
+		current = current->next;
 	}
 }
 
 int	ft_unset(t_list *tmp)
 {
-	t_expand	*cur;
-	t_expand	*next;
-	t_expand	*prev;
-	int			i;
+	int	i;
 
 	i = 1;
-	next = NULL;
-	prev = NULL;
 	while (((t_cmd *)(tmp->content))->argms[i])
 	{
-		cur = ((t_cmd *)(tmp->content))->envl;
 		if (syntax_unset(((t_cmd *)(tmp->content))->argms[i]))
 			return (1);
 		else
-			delete (cur, tmp, &i);
+			delete (&((t_cmd *)(tmp->content))->envl,
+				((t_cmd *)(tmp->content))->argms[i]);
 		i++;
 	}
 	return (0);

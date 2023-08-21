@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 16:47:39 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/03 09:44:45 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/21 17:55:53 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ t_expand	*ft_lexernew_expnd(char *key_v, char *val)
 	node = (t_expand *)malloc(sizeof(t_expand));
 	if (!node)
 		return (NULL);
+	
 	node->key = ft_strdup(key_v);
 	node->value = ft_strdup(val);
 	node->next = NULL;

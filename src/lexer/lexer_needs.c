@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 14:44:06 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/20 03:57:15 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/21 02:42:29 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	ft_line_word(char *str)
 	while (str[len] && !white_space(str[len]) && str[len] != '\"'
 		&& str[len] != '\'' && str[len] != '>' && str[len] != '<'
 		&& str[len] != '|')
-			len++;
+		len++;
 	return (len);
 }
 
@@ -71,6 +71,7 @@ void	handle_word(t_lexer **tokenlist, char *line, int *i, t_status *s)
 {
 	char	*token;
 	int		len;
+
 	len = ft_line_word(&line[*i]);
 	token = ft_substr(&line[*i], 0, len);
 	ft_lexeradd_back(tokenlist, ft_lexernew(token, *s, WORD));

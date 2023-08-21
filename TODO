@@ -1,62 +1,30 @@
-ft_get_path()
-    if already a path return it
-        /dddd > path = /dddd        #execve
 
-    if access returned 1
-        ls > path = /bin/ls         #execve
-    else
-        lsss > path = NULL      #command not found
+minishell$ export " "d
+[1]    29194 segmentation fault  ./minishell
 
-heredoc close and open
+minishell$ export|awk '{print $3}'
+[1]    28232 segmentation fault  ./minishell
 
-
-
-//////////
-echo $_
-cd: home ~ ////
-
-exit();
-
-// > test 
-/// $"USER" \\ USER
+minishell$ ""a
+minishell(29327,0x10b126dc0) malloc: *** error for object 0x7ff6f97040f0: pointer being freed was not allocated
+minishell(29327,0x10b126dc0) malloc: *** set a breakpoint in malloc_error_break to debug
+[1]    29327 abort      ./minishell
 
 
+^Cminishell$ <<S cat
+> ss
+> S
 
-minishell$ echo -nnnnnnnnn -nnnn -nnnnn -no jksdvvdlsvds
--nnnn -nnnnn -no jksdvvdlsvdsminishell$ 
+minishell$ export s
+minishell: export: `s': not a valid identifier
+minishell$
 
-minishell$ export
-[1]    61274 segmentation fault  ./minishell
 
-minishell$ echo cd ~
-cd ~
-minishell$ 
 
-bash-3.2$ echo cd ~
-cd /Users/rel-isma
-bash-3.2$ 
-
-exit ++1                                                                   [FAIL] [FAIL]
-exit ++12560                                                               [FAIL] [FAIL]
-exit -----                                                                 [FAIL] [FAIL]
-exit ------                                                                [FAIL] [FAIL]
-exit -1                                                                    [FAIL] [    ]
-exit --1                                                                   [FAIL] [FAIL]
-exit -12560                                                                [FAIL] [    ]
-exit --12560
-
-exit A                                                                     [FAIL] [FAIL]
-exit A 2 3                                                                 [FAIL] [FAIL]
-exit "A"                                                                   [FAIL] [FAIL]
-exit "+++"                                                                 [FAIL] [FAIL]
-exit ++++3193912939
-
-exit +++000                                                                [FAIL] [FAIL]
-exit ++++000                                                               [FAIL] [FAIL]
-exit ---000                                                                [FAIL] [FAIL]
-exit ----000                                                               [FAIL] [FAIL]
-exit "something"                                                           [FAIL] [FAIL]
-exit x                                                                     [FAIL] [FAIL]
-exit echo                                                                  [FAIL] [FAIL]
-exit cd ..                                                                 [FAIL] [FAIL]
-exit exit  
+minishell$ export 
+declare -x PWD="/Users/rel-isma/Desktop/minishell"
+declare -x SHLVL="2"
+declare -x _="/usr/bin/env"
+minishell$ unset PWD SHLVL _
+minishell$ unset PWD SHLVL _
+[1]    30921 segmentation fault  env -i ./minishell

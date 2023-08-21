@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 16:41:16 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/20 01:29:25 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/21 17:24:26 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,41 +19,41 @@ void	ft_join_specail(t_lexer **cur, t_parser **new)
 	i = 0;
 	if (*cur && (!check_no_word(*cur)))
 	{
+		// printf("[[>>%s<<]]\n", (*cur)->value);
 		i = (*cur)->type;
 		ft_parseradd_back(new, ft_parsernew((*cur)->value, 0, i));
 		*cur = (*cur)->next;
 	}
 }
 
-t_parser	*ft_join_word(t_lexer *cur)
+t_parser *ft_join_word(t_lexer *cur)
 {
-	t_parser	*new;
-	char		*str;
-	char		*tmp;
-	int			flg;
+    t_parser *new;
+    char *str;
+    char *tmp;
+    int flg;
 
-	flg = 1;
-	new = NULL;
-	while (cur)
-	{
-		str = ft_strdup("");
-		tmp = str;
-		while (cur && check_no_word(cur))
-		{
-			if (!*cur->value)
-				flg = 0;
-			if (cur->type == ENV)
-				g_minishell.env = 5;
-			str = ft_strjoin(str, cur->value);
-			free(tmp);
-			tmp = 0;
-			cur = cur->next;
-		}
-		ft_parseradd_back(&new, ft_parsernew(str, flg, 1));
-		free(str);
-		ft_join_specail(&cur, &new);
-	}
-	return (new);
+    new = NULL;
+    while (cur)
+    {
+        flg = 0;
+        str = ft_strdup("");
+        tmp = str;
+        while (cur && check_no_word(cur))
+        {
+			flg = 1;
+            if (!*cur->value && cur->type == ENV)
+                g_minishell.env = 5;
+            str = ft_strjoin(str, cur->value);
+            cur = cur->next;
+        }
+        if (flg)
+            ft_parseradd_back(&new, ft_parsernew(str, 1, WORD));
+        else
+            free(str);
+        ft_join_specail(&cur, &new);
+    }
+    return new;
 }
 
 char	ft_get_after_here(t_lexer *lst)

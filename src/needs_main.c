@@ -6,35 +6,58 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 01:32:31 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/20 01:47:42 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/21 03:16:23 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    ft_shlvl(t_expand *envl)
+void	ft_helper_shlvl(t_expand *envl)
 {
-	int lvl;
+	char	*it2;
 
-    lvl = 0;
-	while(envl)
+	if (ft_atoi(envl->value) < 0)
 	{
-		if(ft_strcmp(envl->key, "SHLVL") == 0)
+		free(envl->value);
+		envl->value = ft_strdup("0");
+	}
+	else if (ft_atoi(envl->value) == 999)
+	{
+		free(envl->value);
+		envl->value = ft_strdup("");
+	}
+	else if (envl->value == NULL || ft_atoi(envl->value) >= 1000)
+	{
+		free(envl->value);
+		envl->value = ft_strdup("1");
+	}
+	else
+	{
+		it2 = ft_itoa(ft_atoi(envl->value) + 1);
+		free(envl->value);
+		envl->value = ft_strdup(it2);
+		free(it2);
+	}
+}
+
+void	ft_shlvl(t_expand *mini)
+{
+	int			lvl;
+	t_expand	*envl;
+
+	lvl = 0;
+	envl = mini;
+	while (envl)
+	{
+		if (ft_strcmp(envl->key, "SHLVL") == 0)
 		{
-			if(ft_atoi(envl->value) < 0)
-				envl->value = ft_strdup(ft_itoa(0));
-			else if(ft_atoi(envl->value) == 999)
-				envl->value = ft_strdup("");
-			else if(envl->value == NULL)
-				envl->value = ft_strdup(ft_itoa(1));
-			else 
-				envl->value = ft_strdup(ft_itoa(ft_atoi(envl->value) + 1));
+			ft_helper_shlvl(envl);
 			lvl++;
 		}
 		envl = envl->next;
 	}
-	if(!lvl)
-		ft_lexeradd_back_expnd(&envl, ft_lexernew_expnd("SHLVL", "1"));
+	if (!lvl)
+		ft_lexeradd_back_expnd(&mini, ft_lexernew_expnd("SHLVL", "1"));
 }
 
 int	ft_check_argms(int ac, char **av)
@@ -47,11 +70,6 @@ int	ft_check_argms(int ac, char **av)
 	}
 	else
 		return (0);
-}
-
-void	fu(void)
-{
-	system("leaks minishell");
 }
 
 void	ft_free_all_minishell(t_list *cmds)
