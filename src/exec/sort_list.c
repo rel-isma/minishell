@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sort_list.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:43:49 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/20 01:06:51 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/21 20:13:52 by yoel-bas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,13 @@ t_expand	*copy_list(t_expand *head)
 {
 	t_expand	*new_head;
 	t_expand	*current;
-
+	
+	
 	new_head = NULL;
 	current = head;
 	while (current != NULL)
 	{
+		if(current->flg)
 		ft_lexeradd_back_expnd(&new_head, ft_lexernew_expnd(current->key,
 				current->value));
 		current = current->next;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd_extra.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 18:18:27 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/21 00:51:46 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/21 21:16:42 by yoel-bas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,9 @@ int	cd_error(t_list *tmp)
 {
 	if (access(((t_cmd *)(tmp->content))->argms[1], F_OK) == -1)
 	{
-		free(((t_cmd *)(tmp->content))->pwd1);
+		// printf("%p\n", ((t_cmd *)(tmp->content))->pwd1);
+		if (((t_cmd *)(tmp->content))->pwd1)
+			free(((t_cmd *)(tmp->content))->pwd1);
 		ft_putstr_fd("minishell: cd: ", 2);
 		perror(((t_cmd *)(tmp->content))->argms[1]);
 		return (1);
@@ -84,7 +86,8 @@ int	cd_error(t_list *tmp)
 	if (access(((t_cmd *)(tmp->content))->argms[1], R_OK) == -1
 		|| access(((t_cmd *)(tmp->content))->argms[1], X_OK) == -1)
 	{
-		free(((t_cmd *)(tmp->content))->pwd);
+		if (((t_cmd *)(tmp->content))->pwd)
+			free(((t_cmd *)(tmp->content))->pwd);
 		ft_putstr_fd("minishell: cd: ", 2);
 		perror(((t_cmd *)(tmp->content))->argms[1]);
 	}

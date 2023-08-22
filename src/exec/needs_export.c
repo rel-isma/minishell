@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   needs_export.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 16:42:25 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/21 17:03:52 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/21 20:14:30 by yoel-bas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,20 +90,20 @@ void	ft_print_exp(t_expand *p, t_list *tmp, int flg)
 {
 	while (p)
 	{
-		if (p->key)
+		if (p->key && p->flg)
 		{
 			write(((t_cmd *)(tmp->content))->oufile, "declare -x ", 11);
 			write(((t_cmd *)(tmp->content))->oufile, p->key, ft_strlen(p->key));
 		}
 		if (((ft_strcmp(p->value, "") == 0 && flg) || ft_strcmp(p->value,
-					"") != 0) && p->value)
+					"") != 0) && p->value && p->flg)
 		{
 			write(((t_cmd *)(tmp->content))->oufile, "=\"", 2);
 			write(((t_cmd *)(tmp->content))->oufile, p->value,
 				ft_strlen(p->value));
 			write(((t_cmd *)(tmp->content))->oufile, "\"", 1);
 		}
-		if (p->key)
+		if (p->key && p->flg)
 			write(((t_cmd *)(tmp->content))->oufile, "\n", 1);
 		p = p->next;
 	}

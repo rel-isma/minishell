@@ -28,3 +28,15 @@ declare -x _="/usr/bin/env"
 minishell$ unset PWD SHLVL _
 minishell$ unset PWD SHLVL _
 [1]    30921 segmentation fault  env -i ./minishell
+
+------------------------------------------
+ls > ''
+
+error in herdoc --> << out cat 
+
+ls > y>>u >>i >i <<t <<y <<y <<y ---->>>> error in signal
+
+export a="a b c d" should be split it
+
+
+export a="-1"

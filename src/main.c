@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:16:01 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/21 15:57:42 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/21 21:16:24 by yoel-bas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ int	main(int ac, char *av[], char **env)
 		commands = ft_join_argms(&cur, envl);
 		if (commands)
 		{
+			(((t_cmd *)(commands->content))->pwd1) = NULL;
+			(((t_cmd *)(commands->content))->pwd) = NULL;
 			ft_exec(commands);
 			// ft_free_all_minishell(commands);
 		}
