@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:43:44 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/19 18:42:27 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/23 00:28:43 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	ft_check_builting(t_list *tmp)
 	return (0);
 }
 
-void	ft_exec(t_list *tmp)
+void	ft_exec(t_list *tmp, t_expand **envl)
 {
 	t_list	*tp;
 
@@ -39,8 +39,8 @@ void	ft_exec(t_list *tmp)
 	if (ft_check_builting(tmp) && !((t_cmd *)(tmp->next)))
 	{
 		if (((t_cmd *)(tmp->content))->infile != -1)
-			ft_builting(tmp);
+			ft_builting(tmp, envl);
 	}
 	else
-		ft_commands(tmp);
+		ft_commands(tmp, envl);
 }

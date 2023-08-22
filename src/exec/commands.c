@@ -6,35 +6,33 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:43:39 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/22 20:59:24 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/23 00:39:23 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_helper_exe(t_list *cmd, int *fd, int old_fd, pid_t *pid)
+int	ft_helper_exe(t_list *cmd, int *fd, int old_fd, pid_t *pid, t_expand **envl)
 {
-	char	**env;
-
 	if (ft_strcmp(((t_cmd *)(cmd->content))->cmd, "..") == 0
 			|| ft_strcmp(((t_cmd *)(cmd->content))->cmd, ".") == 0)
 		return (command_not_found(((t_cmd *)(cmd->content))->cmd), 0);
 	((t_cmd *)(cmd->content))->path = ft_get_path(cmd);
-	env = ft_get_env_tab(cmd);
+	g_minishell.env_ex = ft_get_env_tab(cmd);
 	if (((t_cmd *)(cmd->content))->path == NULL)
 	{
 		command_not_found(((t_cmd *)(cmd->content))->cmd);
 		free(((t_cmd *)(cmd->content))->path);
-		ft_free_tab(env);
+		ft_free_tab(g_minishell.env_ex);
 		return (0);
 	}
 	*pid = fork();
 	if (*pid == -1)
-		return (perror("fork"), ft_free_tab(env), -1);
+		return (perror("fork"), ft_free_tab(g_minishell.env_ex), -1);
 	else if (*pid == 0)
-		ft_exec_in_child(cmd, env, fd, old_fd);
+		ft_exec_in_child(cmd, fd, old_fd, envl);
 	free(((t_cmd *)(cmd->content))->path);
-	ft_free_tab(env);
+	ft_free_tab(g_minishell.env_ex);
 	return (0);
 }
 
@@ -58,7 +56,7 @@ void	ft_wait_last_command(pid_t pid)
 		g_minishell.exit_code = WEXITSTATUS(g_minishell.exit_code);
 }
 
-int	ft_exec_cmd(t_list *cmd, int *fd, int old_fd)
+int	ft_exec_cmd(t_list *cmd, int *fd, int old_fd, t_expand **envl)
 {
 	pid_t	pid;
 
@@ -67,7 +65,7 @@ int	ft_exec_cmd(t_list *cmd, int *fd, int old_fd)
 	if (((t_cmd *)(cmd->content))->argms[0]
 		&& ((t_cmd *)(cmd->content))->argms[0][0] != '\0'
 		&& ((t_cmd *)(cmd->content))->infile != -1)
-		if (ft_helper_exe(cmd, fd, old_fd, &pid) == -1)
+		if (ft_helper_exe(cmd, fd, old_fd, &pid, envl) == -1)
 			return (-1);
 	if (!cmd->next)
 		ft_wait_last_command(pid);
@@ -78,7 +76,7 @@ int	ft_exec_cmd(t_list *cmd, int *fd, int old_fd)
 	return (0);
 }
 
-void	ft_commands(t_list *commands)
+void	ft_commands(t_list *commands, t_expand **envl)
 {
 	t_list	*curr;
 	int		old_fd;
@@ -95,7 +93,7 @@ void	ft_commands(t_list *commands)
 		old_fd = fd[0];
 		if (curr->next)
 			pipe(fd);
-		if (ft_exec_cmd(curr, fd, old_fd) == -1)
+		if (ft_exec_cmd(curr, fd, old_fd, envl) == -1)
 			break ;
 		curr = curr->next;
 	}

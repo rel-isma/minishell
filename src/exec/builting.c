@@ -6,13 +6,13 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:43:37 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/21 02:39:18 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/23 00:25:00 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_builting(t_list *tmp)
+int	ft_builting(t_list *tmp, t_expand **envl)
 {
 	static int	flg = 0;
 
@@ -23,7 +23,7 @@ int	ft_builting(t_list *tmp)
 	else if (ft_strcmp(((t_cmd *)(tmp->content))->cmd, "cd") == 0)
 		return (g_minishell.exit_code = ft_cd(tmp), 1);
 	else if (ft_strcmp(((t_cmd *)(tmp->content))->cmd, "unset") == 0)
-		return (g_minishell.exit_code = ft_unset(tmp), 1);
+		return (g_minishell.exit_code = ft_unset(tmp, envl), 1);
 	else if (ft_strcmp(((t_cmd *)(tmp->content))->cmd, "env") == 0)
 		return (g_minishell.exit_code = 0,
 			ft_env(((t_cmd *)(tmp->content))->envl, tmp, flg), 1);

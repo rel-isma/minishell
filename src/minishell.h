@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:18:02 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/22 21:56:52 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/23 00:38:12 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ typedef struct s_global
 	int				command_executing;
 	int				exit_code;
 	char			*str;
+	char			**env_ex;
 }					t_global;
 
 t_global			g_minishell;
@@ -182,16 +183,16 @@ void				ft_open_all(t_parser **lst, t_cmd *cmd, char str);
 void				ft_open_redir_out(t_parser **lst, t_cmd *cmd);
 void				ft_open_redir_in(t_parser **lst, t_cmd *cmd);
 void				ft_open_dredir_out(t_parser **lst, t_cmd *cmd);
-void				ft_open_here_doc(t_parser **lst, t_cmd *cmd, char str);
+void				ft_open_here_doc(t_parser **lst, t_cmd *cmd, char str, char *ir);
 void				ft_free_list_join(t_parser *list);
 
 /////////////////// exec //////////////////////////////
 
-int					ft_builting(t_list *tmp);
-void				ft_exec(t_list *tmp);
-void				ft_commands(t_list *tmp);
+int					ft_builting(t_list *tmp, t_expand **envl);
+void				ft_exec(t_list *tmp, t_expand **envl);
+void				ft_commands(t_list *tmp, t_expand **envl);
 void				sort_list(t_expand *pp);
-int					ft_exec_cmd(t_list *cmd, int *fd, int old_fd);
+int					ft_exec_cmd(t_list *cmd, int *fd, int old_fd, t_expand **envl);
 int					ft_check_builting(t_list *tmp);
 void				ft_free_tab(char **env);
 int					ft_check_duble(char *key, char *vl, t_expand *env, int flg);
@@ -199,7 +200,7 @@ int					syntax_export(char *str);
 void				ft_print_export(t_list *tmp, int flg, t_expand *p);
 int					ft_export(t_list *tmp, int *flg1);
 int					ft_cd(t_list *tmp);
-int					ft_unset(t_list *tmp);
+int					ft_unset(t_list *tmp, t_expand **envl);
 void				ft_env(t_expand *pp, t_list *tmp, int flg);
 int					ft_pwd(void);
 int					ft_echo(t_list *tmp);
@@ -215,7 +216,7 @@ void				ft_open_redir_in(t_parser **lst, t_cmd *cmd);
 void				ft_open_dredir_out(t_parser **lst, t_cmd *cmd);
 void				ft_exeve_in_minishell(t_list *cmd, char **env);
 void				ft_exec_in_child(t_list *cmd, char **env, int *fd,
-						int old_fd);
+						int old_fd, t_expand **envl);
 void				ft_free_tab(char **env);
 void				command_not_found(char *str);
 void				close_all_fds(t_list *cmd);

@@ -1,7 +1,1 @@
 -------------------------------------
- 1 (16 bytes) ROOT LEAK: 0x7face0f040d0 [16]  length: 15  "/tmp/.heredoc>1"
-
-export a="a b c d" should be split it
-
-
-exit status in syntax error

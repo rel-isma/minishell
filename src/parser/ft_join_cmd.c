@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 13:23:56 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/21 17:24:47 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/22 23:57:16 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,15 @@
 
 void	ft_open_all(t_parser **lst, t_cmd *cmd, char str)
 {
+	char	*ir;
+
+	ir = NULL;
 	if (*lst && ((*lst)->type == REDIR_IN || (*lst)->type == REDIR_OUT
 			|| (*lst)->type == HERE_DOC || (*lst)->type == DREDIR_OUT))
 	{
 		ft_open_redir_out(lst, cmd);
 		ft_open_redir_in(lst, cmd);
-		ft_open_here_doc(lst, cmd, str);
+		ft_open_here_doc(lst, cmd, str, ir);
 		ft_open_dredir_out(lst, cmd);
 	}
 }

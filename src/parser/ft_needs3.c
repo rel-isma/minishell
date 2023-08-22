@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 01:57:30 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/22 03:16:17 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/22 23:00:21 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,12 @@ void	ft_delimiter(int fd, t_parser *delimiter, t_expand *env, char str)
 	g_minishell.heredoc_executing = 0;
 }
 
-void	ft_open_here_doc(t_parser **lst, t_cmd *cmd, char str1)
+void	ft_open_here_doc(t_parser **lst, t_cmd *cmd, char str1, char *ir)
 {
-	static int	i;
+	static int	i = 1;
 	int			fd;
 	char		*str;
-	char		*ir;
 
-	i = 1;
 	if ((*lst) && (*lst)->type == HERE_DOC)
 	{
 		(*lst) = (*lst)->next;
