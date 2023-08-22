@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:18:02 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/21 20:59:35 by yoel-bas         ###   ########.fr       */
+/*   Updated: 2023/08/22 21:56:52 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,6 @@ typedef struct s_expand
 	char			*key;
 	char			*value;
 	struct s_expand	*next;
-	int             flg;
-	int 			time;
 }					t_expand;
 
 typedef struct s_lexer
@@ -171,7 +169,7 @@ void				ft_check_after_here_doc(t_lexer **tmp);
 t_parser			*ft_parsernew(char *content, int flg, t_type type);
 void				ft_parseradd_back(t_parser **lst, t_parser *new);
 int					check_no_word(t_lexer *lst);
-t_parser			*ft_join_word(t_lexer *cur);
+t_parser			*ft_join_word(t_lexer *cur, int flg);
 t_list				*ft_join_argms(t_lexer **lst, t_expand *env);
 void				ft_delete_double_quote(t_lexer **lst);
 void				ft_delete_quote(t_lexer **lst);

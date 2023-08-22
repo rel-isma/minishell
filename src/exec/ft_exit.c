@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 10:13:45 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/22 02:55:31 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/22 21:03:29 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	ft_exit_builtin(t_list *tmp)
 	if (((t_cmd *)(tmp->content))->argms[1])
 	{
 		if (failed_exit(tmp))
-			return(1);
+			return (1);
 		else
 		{
 			status = ft_atoi(((t_cmd *)(tmp->content))->argms[1]);

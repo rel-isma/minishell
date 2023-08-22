@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:43:25 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/21 21:15:47 by yoel-bas         ###   ########.fr       */
+/*   Updated: 2023/08/22 21:44:01 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,7 @@ int	cd(t_list *tmp, int *i)
 		if (getcwd(current_dir, sizeof(current_dir)) == NULL)
 		{
 			*i = 1;
-			printf("cd: error retrieving current directory: getcwd: cannot access \
-				parent directories: No such file or directory\n");
+			printf("cd: error retrieving current directory\n");
 			((t_cmd *)(tmp->content))->pwd = ft_strdup(g_minishell.str);
 			str = ft_strdup(g_minishell.str);
 			free(g_minishell.str);

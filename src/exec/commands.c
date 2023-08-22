@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:43:39 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/21 17:29:45 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/22 20:59:24 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,9 @@ int	ft_helper_exe(t_list *cmd, int *fd, int old_fd, pid_t *pid)
 
 int	ft_handel_cmd_not_found(t_list *cmd)
 {
-	if (((t_cmd *)(cmd->content))->cmd[0] == '\0' && ((t_cmd *)(cmd->content))->type != 0 && ((t_cmd *)(cmd->content))->type != WHITE_SPACE
+	if (((t_cmd *)(cmd->content))->cmd[0] == '\0'
+		&& ((t_cmd *)(cmd->content))->type != 0
+		&& ((t_cmd *)(cmd->content))->type != WHITE_SPACE
 		&& g_minishell.env != 5)
 	{
 		command_not_found(((t_cmd *)(cmd->content))->cmd);

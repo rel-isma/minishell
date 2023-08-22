@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 04:14:54 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/21 00:31:44 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/22 21:28:47 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	ft_exeve_in_minishell(t_list *cmd, char **env)
 		write(STDERR_FILENO, "minishell: ", 11);
 		write(STDERR_FILENO, ((t_cmd *)(cmd->content))->path,
 			ft_strlen(((t_cmd *)(cmd->content))->path));
+		g_minishell.exit_code = 1;
 		perror(" ");
 		exit(127);
 	}

@@ -1,0 +1,32 @@
+total 248
+drwxr-xr-x  15 rel-isma  candidate     510 Aug 22 21:35 .
+drwxr-xr-x  17 rel-isma  candidate     578 Aug 22 18:33 ..
+-rw-r--r--@  1 rel-isma  candidate    6148 Aug 22 18:34 .DS_Store
+drwxr-xr-x  15 rel-isma  candidate     510 Aug 22 18:06 .git
+drwxr-xr-x   6 rel-isma  candidate     204 Aug 22 21:21 .idea
+drwxr-xr-x   3 rel-isma  candidate     102 Aug 22 01:41 .vscode
+-rw-r--r--   1 rel-isma  candidate    2951 Aug 22 20:46 Makefile
+-rw-r--r--   1 rel-isma  candidate     278 Aug 22 21:24 TODO
+-rwxr-xr-x   1 rel-isma  candidate      67 Aug 22 21:17 leaks.sh
+drwxr-xr-x  92 rel-isma  candidate    3128 Aug 22 21:28 libfc
+-rwxr-xr-x   1 rel-isma  candidate  105944 Aug 22 21:28 minishell
+drwxr-xr-x   3 rel-isma  candidate     102 Aug 22 21:28 obj
+-rw-r--r--   1 rel-isma  candidate       0 Aug 22 21:35 rel-isma
+drwxr-xr-x  11 rel-isma  candidate     374 Aug 22 21:04 src
+drwxr-xr-x   5 rel-isma  candidate     170 Aug 19 18:26 valgrind_for_new_infra
+total 256
+drwxr-xr-x  15 rel-isma  candidate     510 Aug 22 21:35 .
+drwxr-xr-x  17 rel-isma  candidate     578 Aug 22 18:33 ..
+-rw-r--r--@  1 rel-isma  candidate    6148 Aug 22 18:34 .DS_Store
+drwxr-xr-x  15 rel-isma  candidate     510 Aug 22 18:06 .git
+drwxr-xr-x   6 rel-isma  candidate     204 Aug 22 21:21 .idea
+drwxr-xr-x   3 rel-isma  candidate     102 Aug 22 01:41 .vscode
+-rw-r--r--   1 rel-isma  candidate    2951 Aug 22 20:46 Makefile
+-rw-r--r--   1 rel-isma  candidate     278 Aug 22 21:24 TODO
+-rwxr-xr-x   1 rel-isma  candidate      67 Aug 22 21:17 leaks.sh
+drwxr-xr-x  92 rel-isma  candidate    3128 Aug 22 21:28 libfc
+-rwxr-xr-x   1 rel-isma  candidate  105944 Aug 22 21:28 minishell
+drwxr-xr-x   3 rel-isma  candidate     102 Aug 22 21:28 obj
+-rw-r--r--   1 rel-isma  candidate     963 Aug 22 21:35 rel-isma
+drwxr-xr-x  11 rel-isma  candidate     374 Aug 22 21:04 src
+drwxr-xr-x   5 rel-isma  candidate     170 Aug 19 18:26 valgrind_for_new_infra

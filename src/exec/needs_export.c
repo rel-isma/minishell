@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 16:42:25 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/22 07:30:31 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/22 22:10:34 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ int	ft_check_duble(char *key, char *vl, t_expand *env, int flg)
 			{
 				if (flg)
 				{
+					free(env->value);
 					env->value = ft_strjoin(env->value, vl);
 					return (1);
 				}
@@ -90,20 +91,20 @@ void	ft_print_exp(t_expand *p, t_list *tmp, int flg)
 {
 	while (p)
 	{
-		if (p->key && p->flg)
+		if (p->key)
 		{
 			write(((t_cmd *)(tmp->content))->oufile, "declare -x ", 11);
 			write(((t_cmd *)(tmp->content))->oufile, p->key, ft_strlen(p->key));
 		}
 		if (((ft_strcmp(p->value, "") == 0 && flg) || ft_strcmp(p->value,
-					"") != 0) && p->value && p->flg)
+					"") != 0) && p->value)
 		{
 			write(((t_cmd *)(tmp->content))->oufile, "=\"", 2);
 			write(((t_cmd *)(tmp->content))->oufile, p->value,
 				ft_strlen(p->value));
 			write(((t_cmd *)(tmp->content))->oufile, "\"", 1);
 		}
-		if (p->key && p->flg)
+		if (p->key)
 			write(((t_cmd *)(tmp->content))->oufile, "\n", 1);
 		p = p->next;
 	}

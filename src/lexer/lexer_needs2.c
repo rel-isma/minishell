@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 04:24:23 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/22 03:05:06 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/22 21:16:14 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,19 @@ void	handle_special_characters(t_lexer **tokenlist, char *line, int *i,
 	ft_handle_white_space(tokenlist, line, i, *s);
 }
 
+// void	ft_hlper_here()
+// {
+
+// }
+
 void	handle_double_quote(t_lexer **tokenlist, char *line, int *i,
 		t_status *s)
 {
 	if (line[*i] == '\"')
 	{
-		if (line[*i] == '\"' && line[*i + 1] == '$' && line[*i + 2] == '\"' && *s == GENERAL)
+		// ft_hlper_here();
+		if (line[*i] == '\"' && line[*i + 1] == '$' && line[*i + 2] == '\"'
+			&& *s == GENERAL)
 		{
 			ft_lexeradd_back(tokenlist, ft_lexernew("$", GENERAL, WORD));
 			(*i) += 1;
@@ -107,4 +114,3 @@ void	handle_quote(t_lexer **tokenlist, char *line, int *i, t_status *s)
 		(*i) += 1;
 	}
 }
-

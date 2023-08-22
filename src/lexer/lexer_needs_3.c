@@ -45,7 +45,7 @@ void	special_variables_1(t_lexer **tokenlist, char *line, int *i,
 void	special_variables_2(t_lexer **tokenlist, char *line, int *i,
 		t_status *s)
 {
-	char *str;
+	char	*str;
 
 	if (line[*i] == '$' && (line[*i + 1] == '\"' || line[*i + 1] == '\''))
 		(*i) += 1;
@@ -68,7 +68,7 @@ void	special_variables_2(t_lexer **tokenlist, char *line, int *i,
 	{
 		str = ft_substr(&line[*i], 0, 2);
 		ft_lexeradd_back(tokenlist, ft_lexernew(str, *s, ENV));
-		return ((*i) += 2 , free(str));
+		return ((*i) += 2, free(str));
 	}
 }
 

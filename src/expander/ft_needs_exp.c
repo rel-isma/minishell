@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_needs_exp.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 16:47:39 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/21 20:12:52 by yoel-bas         ###   ########.fr       */
+/*   Updated: 2023/08/22 21:12:11 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ t_expand	*ft_lexernew_expnd(char *key_v, char *val)
 	node = (t_expand *)malloc(sizeof(t_expand));
 	if (!node)
 		return (NULL);
-	node->flg = 1;
 	node->key = ft_strdup(key_v);
 	node->value = ft_strdup(val);
 	node->next = NULL;
