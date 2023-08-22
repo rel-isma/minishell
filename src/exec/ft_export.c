@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 23:51:42 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/21 23:08:08 by yoel-bas         ###   ########.fr       */
+/*   Updated: 2023/08/22 07:31:42 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	ft_export(t_list *tmp, int *flg1)
 	i = 1;
 	p = ((t_cmd *)(tmp->content))->envl;
 	ft_print_export(tmp, *flg1, p);
-	if (((t_cmd *)(tmp->content))->argms[i])
+	if (((t_cmd *)(tmp->content))->argms[i] && ft_strcmp(((t_cmd *)(tmp->content))->argms[i], "") != 0 )
 	{
 		if (ft_add_env(tmp, flg1))
 			return (1);

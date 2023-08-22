@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 04:24:23 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/20 03:45:30 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/22 03:05:06 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,11 @@ void	handle_double_quote(t_lexer **tokenlist, char *line, int *i,
 {
 	if (line[*i] == '\"')
 	{
+		if (line[*i] == '\"' && line[*i + 1] == '$' && line[*i + 2] == '\"' && *s == GENERAL)
+		{
+			ft_lexeradd_back(tokenlist, ft_lexernew("$", GENERAL, WORD));
+			(*i) += 1;
+		}
 		if (line[*i] == '\"' && line[*i + 1] == '\"' && *s == GENERAL)
 		{
 			g_minishell.err = 1;
@@ -103,17 +108,3 @@ void	handle_quote(t_lexer **tokenlist, char *line, int *i, t_status *s)
 	}
 }
 
-void	handle_env(t_lexer **tokenlist, char *line, int *i, t_status *s)
-{
-	int		len;
-	char	*token;
-
-	if (line[*i] == '$' && line[*i + 1] != '$')
-	{
-		len = ft_line_env(&line[*i]);
-		token = ft_substr(&line[*i], 0, len);
-		ft_lexeradd_back(tokenlist, ft_lexernew(token, *s, ENV));
-		free(token);
-		(*i) += len;
-	}
-}

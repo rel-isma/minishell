@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   needs_export.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 16:42:25 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/21 20:14:30 by yoel-bas         ###   ########.fr       */
+/*   Updated: 2023/08/22 07:30:31 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	syntax_export(char *str)
 
 	flg = 0;
 	j = -1;
-	s = ft_substr(str, 0, ft_len_export(str) + 1);
+	s = ft_substr(str, 0, ft_len_export(str));
 	if (s[0] == '=' || ft_isdigit(s[0]))
 	{
 		printf("minishell: export: `%s': not a valid identifier\n", str);
@@ -121,6 +121,7 @@ void	ft_print_export(t_list *tmp, int flg, t_expand *p)
 		printf("bash: export: `': not a valid identifier\n");
 		g_minishell.err = 0;
 		g_minishell.exit_code = 1;
+		return ;
 	}
 	else if (((t_cmd *)(tmp->content))->argms[i] && g_minishell.www == 2
 		&& ft_strcmp(((t_cmd *)(tmp->content))->argms[i], "") == 0)

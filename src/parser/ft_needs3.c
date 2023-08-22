@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 01:57:30 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/21 02:43:56 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/22 03:16:17 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,7 @@ void	ft_delimiter(int fd, t_parser *delimiter, t_expand *env, char str)
 		g_minishell.heredoc_executing = 1;
 		line = readline("> ");
 		if (!line)
-		{
 			break ;
-		}
 		if (line && ft_strcmp(line, delimiter->value) == 0)
 		{
 			free(line);
@@ -59,8 +57,6 @@ void	ft_open_here_doc(t_parser **lst, t_cmd *cmd, char str1)
 	i = 1;
 	if ((*lst) && (*lst)->type == HERE_DOC)
 	{
-		ir = ft_itoa(i++);
-		str = ft_strjoin("/tmp/.heredoc>", ir);
 		(*lst) = (*lst)->next;
 		if ((*lst) && (*lst)->type == WHITE_SPACE)
 			(*lst) = (*lst)->next;
@@ -68,12 +64,14 @@ void	ft_open_here_doc(t_parser **lst, t_cmd *cmd, char str1)
 		{
 			if ((*lst)->value)
 			{
+				ir = ft_itoa(i++);
+				str = ft_strjoin("/tmp/.heredoc>", ir);
 				fd = open(str, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 				ft_delimiter(fd, (*lst), cmd->envl, str1);
+				cmd->infilename = ft_strdup(str);
 				(*lst) = (*lst)->next;
-				return (cmd->infilename = str, close(fd), free(ir), free(str));
+				return (close(fd), free(ir), free(str));
 			}
 		}
-		return (free(ir), free(str));
 	}
 }

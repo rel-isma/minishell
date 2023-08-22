@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 02:04:03 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/21 22:58:09 by yoel-bas         ###   ########.fr       */
+/*   Updated: 2023/08/22 17:53:26 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,39 +39,51 @@ int	syntax_unset(char *str)
 	return (0);
 }
 
-void	delete(t_expand **envl, char *key)
-{
-	t_expand	*current;
-	t_expand	*previous;
 
-	current = *envl;
-	previous = NULL;
-	if (syntax_unset(key))
-			return ;
-	while (current != NULL)
-	{
-		if (ft_strcmp(current->key, key) == 0)
-		{
-			free(current->key);
-			current->key = NULL;
-			free(current->value);
-			current->value = NULL;
-			current->flg = 0;
-		}
-		current = current->next;
-	}
+
+void delete(t_expand **envl, char *key)
+{
+    t_expand *current;
+    t_expand *previous;
+
+    current = *envl;
+    previous = NULL;
+    while (current != NULL)
+    {
+        if (ft_strcmp(current->key, key) == 0)
+        {
+            if (previous == NULL)
+            {
+                *envl = current->next;
+            }
+            else
+            {
+                previous->next = current->next;
+            }
+            free(current->key);
+            free(current->value);
+            t_expand *to_free = current;
+            current = current->next;
+            free(to_free);
+            break;
+        }
+        previous = current;
+        current = current->next;
+    }
 }
 
-int	ft_unset(t_list *tmp)
+int ft_unset(t_list *tmp)
 {
-	int	i;
+    int i;
 
-	i = 1;
-	while (((t_cmd *)(tmp->content))->argms[i])
-	{
-			delete (&((t_cmd *)(tmp->content))->envl,
-				((t_cmd *)(tmp->content))->argms[i]);
-		i++;
-	}
-	return (0);
+    i = 1;
+    while (((t_cmd *)(tmp->content))->argms[i])
+    {
+        if (syntax_unset(((t_cmd *)(tmp->content))->argms[i]))
+            return (1);
+        else
+            delete(&((t_cmd *)(tmp->content))->envl, ((t_cmd *)(tmp->content))->argms[i]);
+        i++;
+    }
+    return (0);
 }

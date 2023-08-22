@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 08:08:24 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/21 17:25:05 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/22 03:20:03 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,12 @@ void	ft_open_redir_out(t_parser **lst, t_cmd *cmd)
 				close(cmd->oufile);
 			cmd->oufile = open((*lst)->value, O_WRONLY | O_CREAT | O_TRUNC,
 					0644);
-			if (open((*lst)->value, O_WRONLY | O_CREAT | O_TRUNC, 0644) == -1)
+			if (cmd->oufile < 0)
 			{
-				ft_putstr_fd("minsihell :", 2);
-				perror((*lst)->value);
+				printf("minishell: %s: No such file or directory\n",
+					(*lst)->value);
+				g_minishell.exit_code = 1;
+				g_minishell.stop_exection = 1;
 			}
 			cmd->oufilename = (*lst)->value;
 			if ((*lst))
@@ -80,6 +82,7 @@ void	ft_open_dredir_out(t_parser **lst, t_cmd *cmd)
 				printf("minishell: %s: No such file or directory\n",
 					(*lst)->value);
 				g_minishell.exit_code = 1;
+				g_minishell.stop_exection = 1;
 			}
 			cmd->oufilename = (*lst)->value;
 			if ((*lst))

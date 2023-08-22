@@ -6,11 +6,27 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 14:44:37 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/19 01:12:57 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/22 03:08:31 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	handle_env(t_lexer **tokenlist, char *line, int *i, t_status *s)
+{
+	int		len;
+	char	*token;
+
+	if (line[*i] == '$' && line[*i + 1] != '$' && line[*i + 1] != '?')
+	{
+		printf("[[%s]]\n", &line[*i]);
+		len = ft_line_env(&line[*i]);
+		token = ft_substr(&line[*i], 0, len);
+		ft_lexeradd_back(tokenlist, ft_lexernew(token, *s, ENV));
+		free(token);
+		(*i) += len;
+	}
+}
 
 int	white_space(char str)
 {
