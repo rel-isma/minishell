@@ -6,12 +6,12 @@
 #    By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/10 17:16:54 by rel-isma          #+#    #+#              #
-#    Updated: 2023/08/22 22:11:11 by rel-isma         ###   ########.fr        #
+#    Updated: 2023/08/23 07:20:01 by rel-isma         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = gcc
-CFLAGS =  -Wall -Wextra -Werror  -g #-fsanitize=address
+CFLAGS =  -Wall -Wextra -Werror -g
 LIBS = -lreadline -L ~/.brew/opt/readline/lib
 
 SOURCES = src/main.c  src/needs_main.c src/sig_handler.c src/lexer/lexer.c src/lexer/lexer_needs.c  src/lexer/lexer_needs2.c \
@@ -60,10 +60,6 @@ fclean: clean
 	@printf "\033[0;31mCleaning executable...\033[0m\n"
 	@rm -f $(NAME)
 	@printf "\033[0;32mExecutable cleaned.\033[0m\n"
-push:
-	git add .
-	git commit -m "ok"
-	git push
 	
 re: fclean all
 

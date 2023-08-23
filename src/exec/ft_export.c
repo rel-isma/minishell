@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 23:51:42 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/23 02:14:00 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/23 08:17:53 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,8 @@ int	ft_add_env(t_list *tmp, int *flg1)
 	i = 1;
 	while (((t_cmd *)(tmp->content))->argms[i])
 	{
-		if (syntax_export(((t_cmd *)(tmp->content))->argms[i]))
-			return (1);
-		else
-			add_env_help(flg1, tmp, i);
+		syntax_export(((t_cmd *)(tmp->content))->argms[i]);
+		add_env_help(flg1, tmp, i);
 		i++;
 	}
 	return (0);
@@ -65,8 +63,7 @@ int	ft_export(t_list *tmp, int *flg1)
 	i = 1;
 	p = ((t_cmd *)(tmp->content))->envl;
 	ft_print_export(tmp, *flg1, p);
-	if (((t_cmd *)(tmp->content))->argms[i]
-		&& ft_strcmp(((t_cmd *)(tmp->content))->argms[i], "") != 0)
+	if (((t_cmd *)(tmp->content))->argms[i])
 	{
 		if (ft_add_env(tmp, flg1))
 			return (1);

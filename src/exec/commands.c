@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:43:39 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/23 02:41:53 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/23 08:09:59 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ int	ft_exec_cmd(t_list *cmd, int *fd, int old_fd)
 {
 	pid_t	pid;
 
+	pid = 0;
 	if (!ft_handel_cmd_not_found(cmd))
 		return (0);
 	if (((t_cmd *)(cmd->content))->argms[0]

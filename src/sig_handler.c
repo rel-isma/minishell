@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 01:39:19 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/21 02:44:13 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/23 08:08:00 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	sig_handler(int signum)
 			g_minishell.stdin_backup = dup(STDIN_FILENO);
 			close(STDIN_FILENO);
 			g_minishell.stop_exection = 1;
+			rl_replace_line("", 0);
+			rl_redisplay();
 			return ;
 		}
 		if (!g_minishell.command_executing)

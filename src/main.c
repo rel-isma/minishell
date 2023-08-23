@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:16:01 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/23 03:24:18 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/23 08:59:45 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ int	main(int ac, char *av[], char **env)
 	t_lexer	*cur;
 	t_list	*commands;
 
-	// atexit(fu);
 	rl_catch_signals = 0;
 	g_minishell.stdin_backup = -1;
 	cur = NULL;

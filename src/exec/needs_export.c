@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 16:42:25 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/23 02:44:51 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/23 08:25:00 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	ft_print_exp(t_expand *p, t_list *tmp, int flg)
 {
 	while (p)
 	{
-		if (p->key)
+		if (p->key && ft_strcmp(p->key, "") != 0)
 		{
 			write(((t_cmd *)(tmp->content))->oufile, "declare -x ", 11);
 			write(((t_cmd *)(tmp->content))->oufile, p->key, ft_strlen(p->key));
@@ -104,7 +104,7 @@ void	ft_print_exp(t_expand *p, t_list *tmp, int flg)
 				ft_strlen(p->value));
 			write(((t_cmd *)(tmp->content))->oufile, "\"", 1);
 		}
-		if (p->key)
+		if (p->key && ft_strcmp(p->key, "") != 0)
 			write(((t_cmd *)(tmp->content))->oufile, "\n", 1);
 		p = p->next;
 	}
