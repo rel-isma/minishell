@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 15:03:15 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/06/18 15:26:33 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/23 15:47:46 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	check_d_qoute(t_lexer *lst)
 	if (d % 2 != 0)
 	{
 		printf("minishell: syntax error near unexpected token `\"`\n");
+		g_minishell.exit_code = 258;
 		return (1);
 	}
 	return (0);
@@ -49,6 +50,7 @@ int	check_s_qoute(t_lexer *lst)
 	if (d % 2 != 0)
 	{
 		printf("minishell: syntax error near unexpected token `\'`\n");
+		g_minishell.exit_code = 258;
 		return (1);
 	}
 	return (0);

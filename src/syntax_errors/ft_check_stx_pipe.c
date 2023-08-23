@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 15:03:07 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/06/18 15:17:05 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/23 15:47:37 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ static int	ft_check_frist(t_lexer *lst)
 	if (lst && lst->type == PIPE_LINE && lst->status == GENERAL)
 	{
 		printf("minishell: syntax error near unexpected token `|`\n");
+		g_minishell.exit_code = 258;
 		return (1);
 	}
 	return (0);
@@ -36,6 +37,7 @@ static int	ft_check_frist(t_lexer *lst)
 int	printf_er(void)
 {
 	printf("minishell: syntax error near unexpected token `|`\n");
+	g_minishell.exit_code = 258;
 	return (1);
 }
 

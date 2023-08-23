@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 16:42:25 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/23 08:25:00 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/23 16:02:15 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,7 @@ int	syntax_export(char *str)
 	if (s[0] == '=' || ft_isdigit(s[0]))
 	{
 		printf("minishell: export: `%s': not a valid identifier\n", str);
-		g_minishell.exit_code = 1;
-		return (free(s), 1);
+		return (free(s), g_minishell.exit_code = 1, 1);
 	}
 	while (s[++j])
 	{
@@ -51,8 +50,7 @@ int	syntax_export(char *str)
 		else if (!ft_isalnum(s[j]) && s[j] != '_' && s[j] != '=' && !flg)
 		{
 			printf("minishell: export: `%s': not a valid identifier\n", str);
-			g_minishell.exit_code = 1;
-			return (free(s), 1);
+			return (free(s), g_minishell.exit_code = 1, 1);
 		}
 	}
 	return (free(s), 0);

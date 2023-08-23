@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:43:39 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/23 08:09:59 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/23 16:36:56 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	ft_helper_exe(t_list *cmd, int *fd, int old_fd, pid_t *pid)
 	}
 	*pid = fork();
 	if (*pid == -1)
-		return (perror("fork"), ft_free_tab(env), -1);
+		return (perror("fork"), free(((t_cmd *)(cmd->content))->path), ft_free_tab(env), -1);
 	else if (*pid == 0)
 		ft_exec_in_child(cmd, env, fd, old_fd);
 	free(((t_cmd *)(cmd->content))->path);

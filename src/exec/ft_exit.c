@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 10:13:45 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/22 21:03:29 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/23 17:11:21 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	failed_exit(t_list *tmp)
 	}
 	if (((t_cmd *)(tmp->content))->argms[2])
 	{
-		write(1, "exit\n", 5);
+		write(2, "exit\n", 5);
 		write(2, "minishell: exit: too many arguments\n", 36);
 		return (1);
 	}
@@ -86,12 +86,12 @@ int	ft_exit_builtin(t_list *tmp)
 		{
 			status = ft_atoi(((t_cmd *)(tmp->content))->argms[1]);
 			g_minishell.exit_code = status;
-			printf("exit \n");
+			write(2, "exit\n", 5);
 			exit(g_minishell.exit_code);
 		}
 	}
 	else
-		printf("exit\n");
+		write(2, "exit\n", 5);
 	exit(g_minishell.exit_code);
 	return (1);
 }

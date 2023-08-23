@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:18:02 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/23 08:58:06 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/23 17:46:01 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ typedef struct s_global
 	int				exit_code;
 	char			**here;
 	char			*str;
+	char 			*cmd;
 }					t_global;
 
 t_global			g_minishell;
@@ -205,7 +206,7 @@ int					ft_export(t_list *tmp, int *flg1);
 int					ft_cd(t_list *tmp);
 int					ft_unset(t_list *tmp);
 void				ft_env(t_expand *pp, t_list *tmp, int flg);
-int					ft_pwd(void);
+int					ft_pwd(t_list *tmp);
 int					ft_echo(t_list *tmp);
 char				**ft_get_env_tab(t_list *cmd);
 char				*ft_get_path(t_list *cmd);
