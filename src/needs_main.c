@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 01:32:31 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/22 22:44:42 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/23 02:49:53 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	ft_shlvl(t_expand *mini)
 		envl = envl->next;
 	}
 	if (!lvl)
-		ft_lexeradd_back_expnd(&mini, ft_lexernew_expnd("SHLVL", "1"));
+		ft_l_back_expnd(&mini, ft_lexernew_expnd("SHLVL", "1"));
 }
 
 int	ft_check_argms(int ac, char **av)
@@ -65,7 +65,7 @@ int	ft_check_argms(int ac, char **av)
 	(void)av;
 	if (ac != 1)
 	{
-		printf("Error : just like this please \n\t 👉👉 ./minishell 👈👈\n");
+		printf("Error : just like this please 😅😅😅\n\t 👉👉 ./minishell 👈👈\n");
 		return (1);
 	}
 	else
@@ -79,6 +79,10 @@ void	ft_free_all_minishell(t_list *cmds)
 
 	while (cmds)
 	{
+		if (((t_cmd *)(cmds->content))->infilename
+			&& (ft_strncmp("/tmp/.heredoc>",
+			((t_cmd *)(cmds->content))->infilename, 14) == 0))
+			free(((t_cmd *)(cmds->content))->infilename);
 		tmp = cmds->next;
 		i = 0;
 		while (((t_cmd *)(cmds->content))->argms[i])

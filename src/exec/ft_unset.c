@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 02:04:03 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/23 00:27:20 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/23 00:48:09 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	delete(t_expand **envl, char *key)
 	}
 }
 
-int	ft_unset(t_list *tmp, t_expand **envl)
+int	ft_unset(t_list *tmp)
 {
 	int	i;
 
@@ -77,7 +77,7 @@ int	ft_unset(t_list *tmp, t_expand **envl)
 		if (syntax_unset(((t_cmd *)(tmp->content))->argms[i]))
 			return (1);
 		else
-			delete (envl, ((t_cmd *)(tmp->content))->argms[i]);
+			delete (&g_minishell.envl, ((t_cmd *)(tmp->content))->argms[i]);
 		i++;
 	}
 	return (0);

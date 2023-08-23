@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 23:51:42 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/22 21:00:59 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/23 02:14:00 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	add_env_help(int *flg1, t_list *tmp, int i)
 	}
 	if (!ft_check_duble(exp_e.key, exp_e.vl, ((t_cmd *)(tmp->content))->envl,
 		flg))
-		ft_lexeradd_back_expnd(&((t_cmd *)(tmp->content))->envl,
+		ft_l_back_expnd(&((t_cmd *)(tmp->content))->envl,
 			ft_lexernew_expnd(exp_e.key, exp_e.vl));
 	return (free(exp_e.key), free(exp_e.vl));
 }

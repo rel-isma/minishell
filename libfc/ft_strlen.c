@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 22:13:42 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/21 17:59:15 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/23 02:53:09 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ size_t	ft_strlen(const char *s)
 
 	i = 0;
 	if (!s)
-		return 0;
+		return (0);
 	while (s[i])
 	{
 		i++;

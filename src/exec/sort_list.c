@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:43:49 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/22 21:19:03 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/23 02:42:08 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ t_expand	*copy_list(t_expand *head)
 	current = head;
 	while (current != NULL)
 	{
-			ft_lexeradd_back_expnd(&new_head, ft_lexernew_expnd(current->key,
-					current->value));
+		ft_l_back_expnd(&new_head, ft_lexernew_expnd(current->key,
+				current->value));
 		current = current->next;
 	}
 	return (new_head);

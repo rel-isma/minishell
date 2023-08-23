@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 14:44:06 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/22 22:20:42 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/23 02:14:00 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_lexer	*ft_lexernew(char *content, t_status status, t_type type)
 	return (node);
 }
 
-void	ft_lexeradd_back(t_lexer **lst, t_lexer *new)
+void	ft_l_back(t_lexer **lst, t_lexer *new)
 {
 	t_lexer	*last;
 
@@ -74,7 +74,7 @@ void	handle_word(t_lexer **tokenlist, char *line, int *i, t_status *s)
 
 	len = ft_line_word(&line[*i]);
 	token = ft_substr(&line[*i], 0, len);
-	ft_lexeradd_back(tokenlist, ft_lexernew(token, *s, WORD));
+	ft_l_back(tokenlist, ft_lexernew(token, *s, WORD));
 	free(token);
 	(*i) += len;
 }

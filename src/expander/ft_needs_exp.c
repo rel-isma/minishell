@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 16:47:39 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/22 21:12:11 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/23 02:14:00 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_expand	*ft_lexernew_expnd(char *key_v, char *val)
 	return (node);
 }
 
-void	ft_lexeradd_back_expnd(t_expand **lst, t_expand *new)
+void	ft_l_back_expnd(t_expand **lst, t_expand *new)
 {
 	t_expand	*last;
 

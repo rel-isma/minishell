@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 16:42:25 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/22 23:38:06 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/23 02:44:51 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,6 @@ void	ft_print_export(t_list *tmp, int flg, t_expand *p)
 	{
 		cur = copy_list(p);
 		sort_list(cur);
-		ft_print_exp(cur, tmp, flg);
-		free_list(cur);
+		return (ft_print_exp(cur, tmp, flg), free_list(cur));
 	}
 }

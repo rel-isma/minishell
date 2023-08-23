@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:16:01 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/23 00:23:46 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/23 03:24:18 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	ft_main_helper(t_lexer *cur, t_list *commands, t_expand **envl)
 	{
 		(((t_cmd *)(commands->content))->pwd1) = NULL;
 		(((t_cmd *)(commands->content))->pwd) = NULL;
-		ft_exec(commands, envl);
+		ft_exec(commands);
 		ft_free_all_minishell(commands);
 	}
 }
@@ -50,17 +50,12 @@ void	signals_minishell(void)
 	}
 }
 
-void	fu(void)
-{
-	system("leaks minishell");
-}
 int	main(int ac, char *av[], char **env)
 {
-	// char		*line;
-	t_lexer		*cur;
-	t_list		*commands;
-	t_expand	*envl;
+	t_lexer	*cur;
+	t_list	*commands;
 
+	// atexit(fu);
 	rl_catch_signals = 0;
 	g_minishell.stdin_backup = -1;
 	cur = NULL;
@@ -70,13 +65,13 @@ int	main(int ac, char *av[], char **env)
 	signal(SIGTSTP, SIG_IGN);
 	if (ft_check_argms(ac, av))
 		return (1);
-	envl = ft_init_expander(env);
-	ft_shlvl(envl);
+	g_minishell.envl = ft_init_expander(env);
+	ft_shlvl(g_minishell.envl);
 	while (1)
 	{
 		signals_minishell();
 		g_minishell.stop_exection = 0;
-		ft_main_helper(cur, commands, &envl);		
+		ft_main_helper(cur, commands, &g_minishell.envl);
 	}
 	return (0);
 }

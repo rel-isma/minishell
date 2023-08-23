@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 04:14:54 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/23 00:40:26 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/23 00:45:46 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	ft_exeve_in_minishell(t_list *cmd, char **env)
 	}
 }
 
-void	ft_exec_in_child(t_list *cmd, int *fd, int old_fd, t_expand **envl)
+void	ft_exec_in_child(t_list *cmd, char **env, int *fd, int old_fd)
 {
 	if (cmd->next)
 	{
@@ -59,9 +59,9 @@ void	ft_exec_in_child(t_list *cmd, int *fd, int old_fd, t_expand **envl)
 		dup2(((t_cmd *)(cmd->content))->infile, STDIN_FILENO);
 	}
 	if (ft_check_builting(cmd))
-		return (g_minishell.exit_code = ft_builting(cmd, envl),
+		return (g_minishell.exit_code = ft_builting(cmd),
 			exit(g_minishell.exit_code));
-	ft_exeve_in_minishell(cmd, g_minishell.env_ex);
+	ft_exeve_in_minishell(cmd, env);
 }
 
 void	ft_free_tab(char **env)

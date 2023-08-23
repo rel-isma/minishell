@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 14:44:37 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/22 22:16:37 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/23 02:14:00 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	handle_env(t_lexer **tokenlist, char *line, int *i, t_status *s)
 	{
 		len = ft_line_env(&line[*i]);
 		token = ft_substr(&line[*i], 0, len);
-		ft_lexeradd_back(tokenlist, ft_lexernew(token, *s, ENV));
+		ft_l_back(tokenlist, ft_lexernew(token, *s, ENV));
 		free(token);
 		(*i) += len;
 	}

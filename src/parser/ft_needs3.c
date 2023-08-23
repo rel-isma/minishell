@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 01:57:30 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/22 23:00:21 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/23 02:33:25 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	ft_open_here_doc(t_parser **lst, t_cmd *cmd, char str1, char *ir)
 				str = ft_strjoin("/tmp/.heredoc>", ir);
 				fd = open(str, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 				ft_delimiter(fd, (*lst), cmd->envl, str1);
+				free(cmd->infilename);
 				cmd->infilename = ft_strdup(str);
 				(*lst) = (*lst)->next;
 				return (close(fd), free(ir), free(str));
