@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_needs4.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 08:08:24 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/22 03:20:03 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/23 18:17:19 by yoel-bas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ void	ft_open_redir_out(t_parser **lst, t_cmd *cmd)
 					0644);
 			if (cmd->oufile < 0)
 			{
-				printf("minishell: %s: No such file or directory\n",
-					(*lst)->value);
+				printf_msg((*lst)->value, " ");
 				g_minishell.exit_code = 1;
 				g_minishell.stop_exection = 1;
 			}
@@ -53,8 +52,7 @@ void	ft_open_redir_in(t_parser **lst, t_cmd *cmd)
 			cmd->infile = open((*lst)->value, O_RDONLY);
 			if (cmd->infile < 0)
 			{
-				printf("minishell: %s: No such file or directory\n",
-					(*lst)->value);
+				printf_msg((*lst)->value, " ");
 				g_minishell.exit_code = 1;
 			}
 			cmd->infilename = (*lst)->value;
@@ -79,8 +77,7 @@ void	ft_open_dredir_out(t_parser **lst, t_cmd *cmd)
 					0644);
 			if (cmd->oufile < 0)
 			{
-				printf("minishell: %s: No such file or directory\n",
-					(*lst)->value);
+				printf_msg((*lst)->value, " ");
 				g_minishell.exit_code = 1;
 				g_minishell.stop_exection = 1;
 			}

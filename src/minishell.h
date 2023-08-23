@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:18:02 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/23 17:46:01 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/23 18:14:19 by yoel-bas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,5 +232,5 @@ void				close_all_fds(t_list *cmd);
 void				sig_handler(int signum);
 void				ft_shlvl(t_expand *envl);
 int					cd_error(t_list *tmp);
-
+void				printf_msg(char *str, char *cmd);
 #endif

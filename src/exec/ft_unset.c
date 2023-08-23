@@ -3,15 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 02:04:03 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/23 00:48:09 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/23 18:14:49 by yoel-bas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+
+void	printf_msg(char *str, char *cmd)
+{
+		ft_putstr_fd("minishell :", 2);
+		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd(": not a valid identifier\n", 2);
+}
 int	syntax_unset(char *str)
 {
 	int	j;
@@ -19,19 +27,19 @@ int	syntax_unset(char *str)
 	j = 0;
 	if (ft_strlen(str) == 0)
 	{
-		printf("minishell: unset: `%s': not a valid identifier\n", str);
+		printf_msg(str, "unset :");
 		return (1);
 	}
 	if (ft_isdigit(str[0]))
 	{
-		printf("minishell: unset: `%s': not a valid identifier\n", str);
+		printf_msg(str, " unset :");
 		return (1);
 	}
 	while (str[j])
 	{
 		if (!ft_isalnum(str[j]) && str[j] != '_')
 		{
-			printf("minishell: unset: `%s': not a valid identifier\n", str);
+			printf_msg(str, "unset : ");
 			return (1);
 		}
 		j++;

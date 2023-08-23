@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_check_stx_redir.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 15:04:34 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/23 16:03:47 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/23 18:19:37 by yoel-bas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	ft_check_stx_redir_out(t_lexer *cur)
 			lst = lst->next;
 		if (ft_check_herd(lst, flg))
 		{
-			printf("minishell: syntax error near unexpected token `>`\n");
+			ft_putstr_fd("minishell: syntax error near unexpected token `>`\n", 2);
 			return (g_minishell.exit_code = 258, 1);
 		}
 		else if (flg)
@@ -67,7 +67,7 @@ int	ft_check_stx_redir_in(t_lexer *cur)
 			lst = lst->next;
 		if (ft_check_herd(lst, flg))
 		{
-			printf("minishell: syntax error near unexpected token `<`\n");
+			ft_putstr_fd("minishell: syntax error near unexpected token `<`\n", 2);
 			return (g_minishell.exit_code = 258, 1);
 		}
 		else if (flg)
@@ -96,7 +96,7 @@ int	ft_check_stx_apend(t_lexer *cur)
 			lst = lst->next;
 		if (ft_check_herd(lst, flg))
 		{
-			printf("minishell: syntax error near unexpected token `>>`\n");
+			ft_putstr_fd("minishell: syntax error near unexpected token `>>`\n", 2);
 			return (g_minishell.exit_code = 258, 1);
 		}
 		else if (flg)
@@ -125,7 +125,7 @@ int	ft_check_stx_heredoc(t_lexer *cur)
 			lst = lst->next;
 		if (ft_check_herd(lst, flg))
 		{
-			printf("minishell: syntax error near unexpected token `<<`\n");
+			ft_putstr_fd("minishell: syntax error near unexpected token `<<`\n", 2);
 			return (g_minishell.exit_code = 258, 1);
 		}
 		else if (flg)

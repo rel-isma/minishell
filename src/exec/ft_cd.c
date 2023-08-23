@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:43:25 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/22 21:44:01 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/23 18:05:00 by yoel-bas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	cd(t_list *tmp, int *i)
 		if (getcwd(current_dir, sizeof(current_dir)) == NULL)
 		{
 			*i = 1;
-			printf("cd: error retrieving current directory\n");
+			write(2, "cd: error retrieving current directory\n", 39);
 			((t_cmd *)(tmp->content))->pwd = ft_strdup(g_minishell.str);
 			str = ft_strdup(g_minishell.str);
 			free(g_minishell.str);

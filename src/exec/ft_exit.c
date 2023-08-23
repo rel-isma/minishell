@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 10:13:45 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/23 17:11:21 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/23 18:08:58 by yoel-bas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,15 +60,16 @@ int	failed_exit(t_list *tmp)
 		|| ft_strlen((((t_cmd *)(tmp->content))->argms[1])) > 19
 		|| syntax_exit(((t_cmd *)(tmp->content))->argms[1]))
 	{
-		printf("exit\n");
-		printf("minishell : exit: %s : numeric argument required\n",
-			((t_cmd *)(tmp->content))->argms[1]);
+		write(2, "exit\n", 5);
+		ft_putstr_fd("minishell : exit: ", 2);
+		ft_putstr_fd(((t_cmd *)(tmp->content))->argms[1], 2);
+		ft_putstr_fd("numeric argument required\n", 2);
 		exit(255);
 	}
 	if (((t_cmd *)(tmp->content))->argms[2])
 	{
 		write(2, "exit\n", 5);
-		write(2, "minishell: exit: too many arguments\n", 36);
+		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 		return (1);
 	}
 	return (0);

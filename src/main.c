@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:16:01 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/23 17:52:26 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/23 18:02:47 by yoel-bas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	main_helper(char *line, t_lexer *cur, t_list *commands, t_expand *envl)
 	if (!line)
 		{
 			free_list(envl);
-			printf("exit\n");
+			write(2, "exit\n", 2);
 			exit(g_minishell.exit_code);
 		}
 		add_history(line);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_check_stx_pipe.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 15:03:07 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/23 15:47:37 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/23 18:17:54 by yoel-bas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	ft_check_frist(t_lexer *lst)
 		lst = lst->next;
 	if (lst && lst->type == PIPE_LINE && lst->status == GENERAL)
 	{
-		printf("minishell: syntax error near unexpected token `|`\n");
+		ft_putstr_fd("minishell: syntax error near unexpected token `|`\n", 2);
 		g_minishell.exit_code = 258;
 		return (1);
 	}
@@ -36,7 +36,7 @@ static int	ft_check_frist(t_lexer *lst)
 
 int	printf_er(void)
 {
-	printf("minishell: syntax error near unexpected token `|`\n");
+	ft_putstr_fd("minishell: syntax error near unexpected token `|`\n", 2);
 	g_minishell.exit_code = 258;
 	return (1);
 }

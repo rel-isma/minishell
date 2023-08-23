@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   needs_cmds1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 04:14:54 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/23 00:45:46 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/23 18:12:37 by yoel-bas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,9 @@ void	ft_exeve_in_minishell(t_list *cmd, char **env)
 		((t_cmd *)(cmd->content))->argms, env);
 	if (stat(((t_cmd *)(cmd->content))->path, &file_info) == 0)
 	{
-		printf("minishell: %s: is a directory\n",
-			((t_cmd *)(cmd->content))->path);
+		ft_putstr_fd("minishell ", 2);
+		ft_putstr_fd(((t_cmd *)(cmd->content))->path, 2);
+		ft_putstr_fd(": is a directory\n", 2);
 		exit(126);
 	}
 	else
