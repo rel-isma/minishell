@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 20:34:00 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/23 02:28:28 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/23 19:04:21 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,22 @@ void	special_variables_1(t_lexer **tokenlist, char *line, int *i,
 	}
 }
 
+void	ft_help_var(char *line, int *i)
+{
+	if (line[*i] == '$' && (line[*i + 1] == '\"'
+			|| line[*i + 1] == '\"') && line[*i - 1] != '\"')
+		(*i) += 1;
+	else if (line[*i] == '$' && (line[*i + 1] == '\''
+			|| line[*i + 1] == '\'') && line[*i - 1] != '\'')
+		(*i) += 1;
+}
+
 void	special_variables_2(t_lexer **tokenlist, char *line, int *i,
 		t_status *s)
 {
 	char	*str;
 
-	if (line[*i] == '$' && (line[*i + 1] == '\"' || line[*i + 1] == '\''))
-		(*i) += 1;
+	ft_help_var(line, i);
 	if (line[*i] == '$' && line[*i + 1] == '!')
 	{
 		ft_l_back(tokenlist, ft_lexernew("$!", *s, ENV));

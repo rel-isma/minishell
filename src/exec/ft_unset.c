@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 02:04:03 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/23 18:14:49 by yoel-bas         ###   ########.fr       */
+/*   Updated: 2023/08/23 19:03:36 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-
 void	printf_msg(char *str, char *cmd)
 {
-		ft_putstr_fd("minishell :", 2);
-		ft_putstr_fd(cmd, 2);
-		ft_putstr_fd(str, 2);
-		ft_putstr_fd(": not a valid identifier\n", 2);
+	ft_putstr_fd("minishell :", 2);
+	ft_putstr_fd(cmd, 2);
+	ft_putstr_fd(str, 2);
+	ft_putstr_fd(": not a valid identifier\n", 2);
 }
+
 int	syntax_unset(char *str)
 {
 	int	j;

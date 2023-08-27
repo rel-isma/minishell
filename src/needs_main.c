@@ -81,7 +81,7 @@ void	ft_free_all_minishell(t_list *cmds)
 	{
 		if (((t_cmd *)(cmds->content))->infilename
 			&& (ft_strncmp("/tmp/.heredoc>",
-			((t_cmd *)(cmds->content))->infilename, 14) == 0))
+					((t_cmd *)(cmds->content))->infilename, 14) == 0))
 			free(((t_cmd *)(cmds->content))->infilename);
 		tmp = cmds->next;
 		i = 0;

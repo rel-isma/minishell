@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 01:39:19 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/23 08:08:00 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/27 18:54:17 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	sig_handler(int signum)
 			g_minishell.stop_exection = 1;
 			rl_replace_line("", 0);
 			rl_redisplay();
+			g_minishell.exit_code = 1;
 			return ;
 		}
 		if (!g_minishell.command_executing)
@@ -31,6 +32,7 @@ void	sig_handler(int signum)
 			rl_on_new_line();
 			rl_replace_line("", 0);
 			rl_redisplay();
+			g_minishell.exit_code = 1;
 		}
 	}
 	else if (signum == SIGQUIT)

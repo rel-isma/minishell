@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_needs4.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 08:08:24 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/23 18:17:19 by yoel-bas         ###   ########.fr       */
+/*   Updated: 2023/08/27 14:18:35 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ void	ft_open_redir_out(t_parser **lst, t_cmd *cmd)
 					0644);
 			if (cmd->oufile < 0)
 			{
-				printf_msg((*lst)->value, " ");
 				g_minishell.exit_code = 1;
 				g_minishell.stop_exection = 1;
+				perror("minishell :");
 			}
 			cmd->oufilename = (*lst)->value;
 			if ((*lst))
@@ -52,8 +52,9 @@ void	ft_open_redir_in(t_parser **lst, t_cmd *cmd)
 			cmd->infile = open((*lst)->value, O_RDONLY);
 			if (cmd->infile < 0)
 			{
-				printf_msg((*lst)->value, " ");
 				g_minishell.exit_code = 1;
+				g_minishell.stop_exection = 1;
+				perror("minishell :");
 			}
 			cmd->infilename = (*lst)->value;
 			if ((*lst))
@@ -77,9 +78,9 @@ void	ft_open_dredir_out(t_parser **lst, t_cmd *cmd)
 					0644);
 			if (cmd->oufile < 0)
 			{
-				printf_msg((*lst)->value, " ");
 				g_minishell.exit_code = 1;
 				g_minishell.stop_exection = 1;
+				perror("minishell :");
 			}
 			cmd->oufilename = (*lst)->value;
 			if ((*lst))

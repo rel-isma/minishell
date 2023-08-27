@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd_extra.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 18:18:27 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/23 18:24:29 by yoel-bas         ###   ########.fr       */
+/*   Updated: 2023/08/23 18:51:20 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	valid_home(t_list *tmp)
 void	cd_home(t_list *tmp)
 {
 	if (valid_home(tmp) == 0)
-		ft_putstr_fd("HOME not set\n");
+		ft_putstr_fd("HOME not set\n", 2);
 }
 
 int	cd_root(char *str)

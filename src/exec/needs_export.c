@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   needs_export.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 16:42:25 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/23 18:15:40 by yoel-bas         ###   ########.fr       */
+/*   Updated: 2023/08/27 18:55:46 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	syntax_export(char *str)
 	flg = 0;
 	j = -1;
 	s = ft_substr(str, 0, ft_len_export(str));
-	if (s[0] == '=' || ft_isdigit(s[0]))
+	if (s[0] == '+' || s[0] == '=' || ft_isdigit(s[0]))
 	{
 		printf_msg(str, " export : ");
 		return (free(s), g_minishell.exit_code = 1, 1);
