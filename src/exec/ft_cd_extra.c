@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd_extra.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 18:18:27 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/23 18:51:20 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/27 19:36:21 by yoel-bas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int	cd_root(char *str)
 
 int	cd_error(t_list *tmp)
 {
+	puts("here");
 	if (access(((t_cmd *)(tmp->content))->argms[1], F_OK) == -1)
 	{
 		if (((t_cmd *)(tmp->content))->pwd1)
