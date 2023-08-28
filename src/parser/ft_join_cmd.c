@@ -6,13 +6,13 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 13:23:56 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/23 22:05:43 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/28 07:35:14 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_open_all(t_parser **lst, t_cmd *cmd, char str)
+int	ft_open_all(t_parser **lst, t_cmd *cmd, char str)
 {
 	char	*ir;
 
@@ -20,14 +20,19 @@ void	ft_open_all(t_parser **lst, t_cmd *cmd, char str)
 	if (*lst && ((*lst)->type == REDIR_IN || (*lst)->type == REDIR_OUT
 			|| (*lst)->type == HERE_DOC || (*lst)->type == DREDIR_OUT))
 	{
-		ft_open_redir_out(lst, cmd);
-		ft_open_redir_in(lst, cmd);
-		ft_open_here_doc(lst, cmd, str, ir);
-		ft_open_dredir_out(lst, cmd);
+		if (!ft_open_redir_out(lst, cmd))
+			return (0);
+		if (!ft_open_redir_in(lst, cmd))
+			return (0);
+		if (!ft_open_here_doc(lst, cmd, str, ir))
+			return (1);
+		if (!ft_open_dredir_out(lst, cmd))
+			return (0);
 	}
+	return (1);
 }
 
-void	ft_creat_cmd_arg(t_parser **lst, t_cmd *cmd, char str)
+int	ft_creat_cmd_arg(t_parser **lst, t_cmd *cmd, char str)
 {
 	int	i;
 
@@ -46,9 +51,11 @@ void	ft_creat_cmd_arg(t_parser **lst, t_cmd *cmd, char str)
 			cmd->type = WHITE_SPACE;
 			(*lst) = (*lst)->next;
 		}
-		ft_open_all(lst, cmd, str);
+		if (!ft_open_all(lst, cmd, str))
+			return (0);
 	}
 	cmd->argms[i] = NULL;
+	return (1);
 }
 
 void	cmd_init(t_cmd *cmd, t_expand *env)
@@ -63,7 +70,6 @@ void	cmd_init(t_cmd *cmd, t_expand *env)
 	cmd->oufilename = NULL;
 	cmd->envl = env;
 }
-
 t_list	*ft_join_cmd(t_parser *lst, t_expand *env, char str)
 {
 	t_list	*list;
@@ -78,7 +84,12 @@ t_list	*ft_join_cmd(t_parser *lst, t_expand *env, char str)
 		cmd->argms = malloc((ft_len(lst) + 1) * sizeof(char *));
 		if (!cmd->argms)
 			return (perror("malloc"), NULL);
-		ft_creat_cmd_arg(&lst, cmd, str);
+		if (!ft_creat_cmd_arg(&lst, cmd, str))
+		{
+			free(cmd->argms);
+			free(cmd);
+			return (NULL);
+		}
 		if (!*(cmd->argms))
 			cmd->cmd = ft_strdup("");
 		else

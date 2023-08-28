@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 01:57:30 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/23 08:59:54 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/28 08:29:33 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	ft_print_in_file(t_lexer *cur, int fd)
 	write(fd, "\n", 1);
 }
 
-void	ft_delimiter(int fd, t_parser *delimiter, t_expand *env, char str)
+int	ft_delimiter(int fd, t_parser *delimiter, t_expand *env, char str)
 {
 	char	*line;
 	t_lexer	*tmp;
@@ -34,22 +34,23 @@ void	ft_delimiter(int fd, t_parser *delimiter, t_expand *env, char str)
 		g_minishell.heredoc_executing = 1;
 		line = readline("> ");
 		if (!line)
-			break ;
+			return (0);
 		if (line && ft_strcmp(line, delimiter->value) == 0)
 		{
 			free(line);
-			break ;
+			return (0);
 		}
 		tmp = ft_lexer(line);
-		if (str != '\"' && str != '\'')
+		if (str != '\"')
 			ft_expander(tmp, env, 0);
 		ft_print_in_file(tmp, fd);
 		ft_free_lexer(tmp);
 	}
 	g_minishell.heredoc_executing = 0;
+	return (0);
 }
 
-void	ft_open_here_doc(t_parser **lst, t_cmd *cmd, char str1, char *ir)
+int	ft_open_here_doc(t_parser **lst, t_cmd *cmd, char str1, char *ir)
 {
 	static int	i = 1;
 	int			fd;
@@ -71,8 +72,9 @@ void	ft_open_here_doc(t_parser **lst, t_cmd *cmd, char str1, char *ir)
 				free(cmd->infilename);
 				cmd->infilename = ft_strdup(str);
 				(*lst) = (*lst)->next;
-				return (close(fd), free(ir), free(str));
+				return (close(fd), free(ir), free(str), 0);
 			}
 		}
 	}
+	return (1);
 }

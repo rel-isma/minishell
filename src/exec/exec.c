@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:43:44 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/23 00:43:23 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/28 08:08:38 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,9 @@ void	ft_exec(t_list *tmp)
 	t_list	*tp;
 
 	tp = tmp;
-	if (ft_check_builting(tmp) && !((t_cmd *)(tmp->next)))
+
+	if (ft_check_builting(tmp) && !((t_cmd *)(tmp->next))
+			&& g_minishell.stop_exection != 1)
 	{
 		if (((t_cmd *)(tmp->content))->infile != -1)
 			ft_builting(tmp);

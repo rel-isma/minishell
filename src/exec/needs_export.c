@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 16:42:25 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/27 18:55:46 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/28 03:40:25 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,25 +58,23 @@ int	syntax_export(char *str)
 
 int	ft_check_duble(char *key, char *vl, t_expand *env, int flg)
 {
+	char	*str;
+
 	while (env)
 	{
 		if (ft_strcmp(env->key, key) == 0)
 		{
-			if (ft_strcmp(env->value, vl) != 0 || ft_strcmp(env->value,
-					vl) == 0)
+			if ((ft_strcmp(env->value, vl) != 0 || ft_strcmp(env->value, vl) == 0)
+				&& ft_strcmp(vl, "") != 0)
 			{
 				if (flg)
 				{
-					free(env->value);
+					str = env->value;
 					env->value = ft_strjoin(env->value, vl);
-					return (1);
+					return (free(str), 1);
 				}
 				else
-				{
-					free(env->value);
-					env->value = ft_strdup(vl);
-					return (1);
-				}
+					return (free(env->value), env->value = ft_strdup(vl), 1);
 			}
 			return (1);
 		}

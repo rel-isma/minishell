@@ -6,12 +6,12 @@
 #    By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/10 17:16:54 by rel-isma          #+#    #+#              #
-#    Updated: 2023/08/28 00:11:18 by rel-isma         ###   ########.fr        #
+#    Updated: 2023/08/28 08:31:21 by rel-isma         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = gcc
-CFLAGS =  -Wall -Wextra -Werror
+CFLAGS =  -Wall -Wextra -Werror -g #-fsanitize=address
 
 LIBS = -lreadline -L ~/.brew/opt/readline/lib
 

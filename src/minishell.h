@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:18:02 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/27 19:07:01 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/28 02:41:43 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,11 +182,11 @@ t_list				*ft_join_cmd(t_parser *lst, t_expand *env, char str);
 t_cmd				*ft_cmdnew(char *cmd, char **args, int infile, int oufile);
 void				ft_cmdadd_back(t_cmd **lst, t_cmd *new);
 int					ft_len(t_parser *cur);
-void				ft_open_all(t_parser **lst, t_cmd *cmd, char str);
-void				ft_open_redir_out(t_parser **lst, t_cmd *cmd);
-void				ft_open_redir_in(t_parser **lst, t_cmd *cmd);
-void				ft_open_dredir_out(t_parser **lst, t_cmd *cmd);
-void				ft_open_here_doc(t_parser **lst, t_cmd *cmd, char str,
+int				ft_open_all(t_parser **lst, t_cmd *cmd, char str);
+int				ft_open_redir_out(t_parser **lst, t_cmd *cmd);
+int				ft_open_redir_in(t_parser **lst, t_cmd *cmd);
+int				ft_open_dredir_out(t_parser **lst, t_cmd *cmd);
+int				ft_open_here_doc(t_parser **lst, t_cmd *cmd, char str,
 						char *ir);
 void				ft_free_list_join(t_parser *list);
 
@@ -215,9 +215,9 @@ void				pwd_old(char *pwd, char *old_pwd, t_list *tmp);
 int					valid_home(t_list *tmp);
 void				cd_home(t_list *tmp);
 int					cd_root(char *str);
-void				ft_open_redir_out(t_parser **lst, t_cmd *cmd);
-void				ft_open_redir_in(t_parser **lst, t_cmd *cmd);
-void				ft_open_dredir_out(t_parser **lst, t_cmd *cmd);
+int				ft_open_redir_out(t_parser **lst, t_cmd *cmd);
+int				ft_open_redir_in(t_parser **lst, t_cmd *cmd);
+int				ft_open_dredir_out(t_parser **lst, t_cmd *cmd);
 void				ft_exeve_in_minishell(t_list *cmd, char **env);
 void				ft_exec_in_child(t_list *cmd, char **env, int *fd,
 						int old_fd);

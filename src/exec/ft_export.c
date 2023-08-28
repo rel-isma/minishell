@@ -6,12 +6,34 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 23:51:42 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/23 15:57:26 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/28 05:01:32 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+void ft_helper_add(t_list *tmp, int flg, t_exp exp_e)
+{
+	if (!ft_check_duble(exp_e.key, exp_e.vl, ((t_cmd *)(tmp->content))->envl,
+		flg))
+	{
+		int len = 0;
+		t_expand  *cur_size = ((t_cmd *)(tmp->content))->envl;
+		while (cur_size)
+		{
+			len++;
+			cur_size = cur_size->next;
+		}
+		if (len == 0)
+		{
+			ft_l_back_expnd(&g_minishell.envl,
+				ft_lexernew_expnd(exp_e.key, exp_e.vl));
+		}
+		else
+			ft_l_back_expnd(&((t_cmd *)(tmp->content))->envl,
+				ft_lexernew_expnd(exp_e.key, exp_e.vl));
+	}
+}
 void	add_env_help(int *flg1, t_list *tmp, int i)
 {
 	int		flg;
@@ -34,10 +56,7 @@ void	add_env_help(int *flg1, t_list *tmp, int i)
 		exp_e.vl = ft_substr(((t_cmd *)(tmp->content))->argms[i], exp_e.len1
 				+ 1, exp_e.len2);
 	}
-	if (!ft_check_duble(exp_e.key, exp_e.vl, ((t_cmd *)(tmp->content))->envl,
-		flg))
-		ft_l_back_expnd(&((t_cmd *)(tmp->content))->envl,
-			ft_lexernew_expnd(exp_e.key, exp_e.vl));
+	ft_helper_add(tmp, flg, exp_e);
 	return (free(exp_e.key), free(exp_e.vl));
 }
 

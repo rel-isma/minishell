@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 10:13:45 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/23 18:08:58 by yoel-bas         ###   ########.fr       */
+/*   Updated: 2023/08/28 05:25:52 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ int	failed_exit(t_list *tmp)
 {
 	if (ft_atoi_long(((t_cmd *)(tmp->content))->argms[1])
 		|| ft_strlen((((t_cmd *)(tmp->content))->argms[1])) > 19
-		|| syntax_exit(((t_cmd *)(tmp->content))->argms[1]))
+		|| syntax_exit(((t_cmd *)(tmp->content))->argms[1])
+		|| ft_strlen(((t_cmd *)(tmp->content))->argms[1]) == 0)
 	{
 		write(2, "exit\n", 5);
 		ft_putstr_fd("minishell : exit: ", 2);
@@ -87,7 +88,7 @@ int	ft_exit_builtin(t_list *tmp)
 		{
 			status = ft_atoi(((t_cmd *)(tmp->content))->argms[1]);
 			g_minishell.exit_code = status;
-			write(2, "exit\n", 5);
+			write(2 , "exit\n", 5);
 			exit(g_minishell.exit_code);
 		}
 	}

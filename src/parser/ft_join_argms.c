@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 16:41:16 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/23 06:44:38 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/28 08:28:58 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,20 @@ char	ft_get_after_here(t_lexer *lst)
 			if (lst && lst->type == WHITE_SPACE)
 				lst = lst->next;
 			if (lst)
-				return (lst->value[0]);
+			{
+				while (lst && lst->type != WHITE_SPACE && lst->type != PIPE_LINE
+					&& lst->type != REDIR_IN && lst->type != REDIR_OUT
+					&& lst->type != DREDIR_OUT)
+				{
+					if (lst->type == DOUBLE_QUOTE || lst->type == QOUTE)
+						return ('\"');
+					lst = lst->next;
+				}
+				
+			}
 		}
-		lst = lst->next;
+		if (lst)
+			lst = lst->next;
 	}
 	return ('\0');
 }
@@ -85,6 +96,8 @@ t_list	*ft_join_argms(t_lexer **lst, t_expand *env)
 	tok_new = ft_join_word(*lst, flg);
 	ft_free_lexer(*lst);
 	cmd = ft_join_cmd(tok_new, env, str);
+	if (!cmd)
+		return (ft_free_list_join(tok_new), NULL);
 	ft_free_list_join(tok_new);
 	return (cmd);
 }

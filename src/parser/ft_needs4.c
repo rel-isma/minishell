@@ -6,13 +6,13 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 08:08:24 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/28 02:25:15 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/28 07:48:39 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_open_redir_out(t_parser **lst, t_cmd *cmd)
+int	ft_open_redir_out(t_parser **lst, t_cmd *cmd)
 {
 	if ((*lst) && (*lst)->type == REDIR_OUT)
 	{
@@ -30,15 +30,17 @@ void	ft_open_redir_out(t_parser **lst, t_cmd *cmd)
 				g_minishell.exit_code = 1;
 				g_minishell.stop_exection = 1;
 				perror("minishell :");
+				return (0);
 			}
 			cmd->oufilename = (*lst)->value;
 			if ((*lst))
 				(*lst) = (*lst)->next;
 		}
 	}
+	return (1);
 }
 
-void	ft_open_redir_in(t_parser **lst, t_cmd *cmd)
+int	ft_open_redir_in(t_parser **lst, t_cmd *cmd)
 {
 	if ((*lst) && (*lst)->type == REDIR_IN)
 	{
@@ -54,16 +56,21 @@ void	ft_open_redir_in(t_parser **lst, t_cmd *cmd)
 			{
 				g_minishell.exit_code = 1;
 				g_minishell.stop_exection = 1;
-				perror("miniiiiiishell :");
+				perror("minishell :");
+				(*lst) = (*lst)->next;
+				return (1);
 			}
+			if (cmd->infilename && ft_strncmp(cmd->infilename, "/tmp/.heredoc>", 14) == 0)
+				free(cmd->infilename);
 			cmd->infilename = (*lst)->value;
 			if ((*lst))
 				(*lst) = (*lst)->next;
 		}
 	}
+	return (1);
 }
 
-void	ft_open_dredir_out(t_parser **lst, t_cmd *cmd)
+int	ft_open_dredir_out(t_parser **lst, t_cmd *cmd)
 {
 	if ((*lst) && (*lst)->type == DREDIR_OUT)
 	{
@@ -81,10 +88,12 @@ void	ft_open_dredir_out(t_parser **lst, t_cmd *cmd)
 				g_minishell.exit_code = 1;
 				g_minishell.stop_exection = 1;
 				perror("minishell :");
+				return (0);
 			}
 			cmd->oufilename = (*lst)->value;
 			if ((*lst))
 				(*lst) = (*lst)->next;
 		}
 	}
+	return (1);
 }
