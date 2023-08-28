@@ -88,7 +88,7 @@ int	ft_exit_builtin(t_list *tmp)
 		{
 			status = ft_atoi(((t_cmd *)(tmp->content))->argms[1]);
 			g_minishell.exit_code = status;
-			write(2 , "exit\n", 5);
+			write(2, "exit\n", 5);
 			exit(g_minishell.exit_code);
 		}
 	}

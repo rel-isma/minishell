@@ -64,8 +64,8 @@ int	ft_check_duble(char *key, char *vl, t_expand *env, int flg)
 	{
 		if (ft_strcmp(env->key, key) == 0)
 		{
-			if ((ft_strcmp(env->value, vl) != 0 || ft_strcmp(env->value, vl) == 0)
-				&& ft_strcmp(vl, "") != 0)
+			if ((ft_strcmp(env->value, vl) != 0 || ft_strcmp(env->value,
+						vl) == 0) && ft_strcmp(vl, "") != 0)
 			{
 				if (flg)
 				{

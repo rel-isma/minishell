@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 18:18:27 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/27 21:43:28 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/28 16:01:19 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	pwd_old(char *pwd, char *old_pwd, t_list *tmp)
 			{
 				free(((t_cmd *)(tmp->content))->envl->value);
 				((t_cmd *)(tmp->content))->envl->value = ft_strjoin("",
-						old_pwd);
+					old_pwd);
 			}
 		}
 		((t_cmd *)(tmp->content))->envl = ((t_cmd *)(tmp->content))->envl->next;
@@ -77,7 +77,10 @@ int	cd_error(t_list *tmp)
 	if (access(((t_cmd *)(tmp->content))->argms[1], F_OK) == -1)
 	{
 		if (((t_cmd *)(tmp->content))->pwd1)
+		{
 			free(((t_cmd *)(tmp->content))->pwd1);
+			((t_cmd *)(tmp->content))->pwd1 = NULL;
+		}
 		ft_putstr_fd("minishell: cd: ", 2);
 		perror(((t_cmd *)(tmp->content))->argms[1]);
 		return (1);

@@ -6,13 +6,13 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 08:08:24 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/28 07:48:39 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/28 15:54:20 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_open_redir_out(t_parser **lst, t_cmd *cmd)
+int	ft_open_redir_out(t_parser **lst, t_cmd *cmd, char **p_erro)
 {
 	if ((*lst) && (*lst)->type == REDIR_OUT)
 	{
@@ -25,12 +25,14 @@ int	ft_open_redir_out(t_parser **lst, t_cmd *cmd)
 				close(cmd->oufile);
 			cmd->oufile = open((*lst)->value, O_WRONLY | O_CREAT | O_TRUNC,
 					0644);
-			if (cmd->oufile < 0)
+			if (cmd->oufile < 0 && g_minishell.stop_exection == 0)
 			{
 				g_minishell.exit_code = 1;
-				g_minishell.stop_exection = 1;
-				perror("minishell :");
-				return (0);
+				cmd->check_ero = 1;
+				if (!*p_erro)
+					*p_erro = (*lst)->value;
+				(*lst) = (*lst)->next;
+				return (1);
 			}
 			cmd->oufilename = (*lst)->value;
 			if ((*lst))
@@ -40,7 +42,7 @@ int	ft_open_redir_out(t_parser **lst, t_cmd *cmd)
 	return (1);
 }
 
-int	ft_open_redir_in(t_parser **lst, t_cmd *cmd)
+int	ft_open_redir_in(t_parser **lst, t_cmd *cmd, char **p_erro)
 {
 	if ((*lst) && (*lst)->type == REDIR_IN)
 	{
@@ -55,8 +57,9 @@ int	ft_open_redir_in(t_parser **lst, t_cmd *cmd)
 			if (cmd->infile < 0 && g_minishell.stop_exection == 0)
 			{
 				g_minishell.exit_code = 1;
-				g_minishell.stop_exection = 1;
-				perror("minishell :");
+				cmd->check_ero = 1;
+				if (!*p_erro)
+					*p_erro = (*lst)->value;
 				(*lst) = (*lst)->next;
 				return (1);
 			}
@@ -70,7 +73,7 @@ int	ft_open_redir_in(t_parser **lst, t_cmd *cmd)
 	return (1);
 }
 
-int	ft_open_dredir_out(t_parser **lst, t_cmd *cmd)
+int	ft_open_dredir_out(t_parser **lst, t_cmd *cmd, char **p_erro)
 {
 	if ((*lst) && (*lst)->type == DREDIR_OUT)
 	{
@@ -86,9 +89,11 @@ int	ft_open_dredir_out(t_parser **lst, t_cmd *cmd)
 			if (cmd->oufile < 0)
 			{
 				g_minishell.exit_code = 1;
-				g_minishell.stop_exection = 1;
-				perror("minishell :");
-				return (0);
+				cmd->check_ero = 1;
+				if (!*p_erro)
+					*p_erro = (*lst)->value;
+				(*lst) = (*lst)->next;
+				return (1);
 			}
 			cmd->oufilename = (*lst)->value;
 			if ((*lst))

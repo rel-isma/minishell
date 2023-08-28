@@ -6,11 +6,13 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:16:01 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/28 05:50:06 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/28 15:30:01 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_global g_minishell = {0}; 
 
 void	ft_main_helper(t_lexer *cur, t_list *commands, t_expand **envl)
 {
@@ -25,7 +27,8 @@ void	ft_main_helper(t_lexer *cur, t_list *commands, t_expand **envl)
 		printf("exit\n");
 		exit(g_minishell.exit_code);
 	}
-	add_history(line);
+	if (*line)
+		add_history(line);
 	cur = ft_lexer(line);
 	if (ft_syntax_errors(cur))
 		return (ft_free_lexer(cur));

@@ -36,9 +36,8 @@ void	ft_exec(t_list *tmp)
 	t_list	*tp;
 
 	tp = tmp;
-
 	if (ft_check_builting(tmp) && !((t_cmd *)(tmp->next))
-			&& g_minishell.stop_exection != 1)
+		&& g_minishell.stop_exection != 1)
 	{
 		if (((t_cmd *)(tmp->content))->infile != -1)
 			ft_builting(tmp);

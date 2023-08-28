@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 16:41:16 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/28 08:28:58 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/28 15:35:35 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,11 @@ t_parser	*ft_join_word(t_lexer *cur, int flg)
 		{
 			flg = 1;
 			if (!*cur->value && cur->type == ENV)
+			{
 				g_minishell.env = 5;
+				cur = cur->next;
+				continue;
+			}
 			tmp = str;
 			str = ft_strjoin(str, cur->value);
 			free(tmp);

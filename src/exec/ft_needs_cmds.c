@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 11:57:30 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/21 02:00:48 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/28 15:33:22 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,22 @@ char	*ft_get_path(t_list *cmd)
 	int		i;
 
 	i = 0;
-	if (((t_cmd *)(cmd->content))->cmd[0] == '/'
-		|| (ft_strnstr(((t_cmd *)(cmd->content))->cmd, "/",
-		ft_strlen(((t_cmd *)(cmd->content))->cmd))) || !ft_getenv("PATH",
-		((t_cmd *)(cmd->content))->envl, cmd) || ft_check_builting(cmd))
-		return (ft_strdup(((t_cmd *)(cmd->content))->cmd));
+	if (((t_cmd *)(cmd->content))->argms[g_minishell.i_exex][0] == '/'
+		|| (ft_strnstr(((t_cmd *)(cmd->content))->argms[g_minishell.i_exex],
+				"/",
+				ft_strlen(((t_cmd *)(cmd->content))->argms[g_minishell.i_exex])))
+		|| !ft_getenv("PATH", ((t_cmd *)(cmd->content))->envl, cmd)
+		|| ft_check_builting(cmd))
+		return (ft_strdup(((t_cmd *)(cmd->content))->argms[g_minishell.i_exex]));
 	paths = ft_split(ft_getenv("PATH", ((t_cmd *)(cmd->content))->envl, cmd),
-			':');
+		':');
 	if (!paths)
 		return (NULL);
 	while (paths[i])
 	{
 		cmd_path[0] = ft_strjoin(paths[i], "/");
-		cmd_path[1] = ft_strjoin(cmd_path[0], ((t_cmd *)(cmd->content))->cmd);
+		cmd_path[1] = ft_strjoin(cmd_path[0],
+			((t_cmd *)(cmd->content))->argms[g_minishell.i_exex]);
 		if (access(cmd_path[1], F_OK | X_OK) == 0)
 			return (free(cmd_path[0]), ft_free_tab(paths), cmd_path[1]);
 		i++;

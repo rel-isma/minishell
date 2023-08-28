@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:43:30 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/23 22:33:13 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/28 13:47:22 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	ft_echo(t_list *tmp)
 	if (!((t_cmd *)(tmp->content))->argms[1])
 	{
 		ft_putstr_fd("\n", ((t_cmd *)(tmp->content))->oufile);
-		return (1);
+		return (0);
 	}
 	else
 	{

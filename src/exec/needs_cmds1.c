@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 04:14:54 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/28 02:15:20 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/28 15:38:25 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_exeve_in_minishell(t_list *cmd, char **env)
 	struct stat	file_info;
 
 	execve(((t_cmd *)(cmd->content))->path,
-		((t_cmd *)(cmd->content))->argms, env);
+		&((t_cmd *)(cmd->content))->argms[g_minishell.i_exex], env);
 	if (stat(((t_cmd *)(cmd->content))->path, &file_info) == 0)
 	{
 		if (S_ISDIR(file_info.st_mode))
@@ -58,10 +58,10 @@ void	ft_exec_in_child(t_list *cmd, char **env, int *fd, int old_fd)
 	}
 	if (((t_cmd *)(cmd->content))->infilename)
 	{
-		if ((ft_strncmp("/tmp/.heredoc>",
-					((t_cmd *)(cmd->content))->infilename, 14) == 0))
-			((t_cmd *)(cmd->content))->infile
-				= open(((t_cmd *)(cmd->content))->infilename, O_RDONLY);
+		if ((ft_strncmp("/tmp/.heredoc>", ((t_cmd *)(cmd->content))->infilename,
+					14) == 0))
+			((t_cmd *)(cmd->content))->infile = open(((t_cmd *)(cmd->content))->infilename,
+				O_RDONLY);
 		dup2(((t_cmd *)(cmd->content))->infile, STDIN_FILENO);
 	}
 	if (ft_check_builting(cmd))
