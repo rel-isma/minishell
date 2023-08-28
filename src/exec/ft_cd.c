@@ -3,31 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:43:25 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/28 17:40:21 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/28 17:54:09 by yoel-bas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	change_env_helper(t_list *tmp, int *i, int *j)
+void	change_env_extra(t_list *tmp, int *j)
 {
-	char	*tmp1;
-
-	if (*i)
-	{
-		pwd_old(g_minishell.str, ((t_cmd *)(tmp->content))->pwd, tmp);
-		free(((t_cmd *)(tmp->content))->pwd);
-		if (((t_cmd *)(tmp->content))->pwd1)
-		{
-			free(((t_cmd *)(tmp->content))->pwd1);
-			((t_cmd *)(tmp->content))->pwd1 = NULL;
-		}
-	}
-	else
-	{
+		char	*tmp1;
 		if (!*j)
 		{
 			tmp1 = ft_strjoin(g_minishell.str, "/..");
@@ -40,7 +27,23 @@ void	change_env_helper(t_list *tmp, int *i, int *j)
 			free(((t_cmd *)(tmp->content))->pwd1);
 			((t_cmd *)(tmp->content))->pwd1 = NULL;
 		}
+}
+void	change_env_helper(t_list *tmp, int *i, int *j)
+{
+
+
+	if (*i)
+	{
+		pwd_old(g_minishell.str, ((t_cmd *)(tmp->content))->pwd, tmp);
+		free(((t_cmd *)(tmp->content))->pwd);
+		if (((t_cmd *)(tmp->content))->pwd1)
+		{
+			free(((t_cmd *)(tmp->content))->pwd1);
+			((t_cmd *)(tmp->content))->pwd1 = NULL;
+		}
 	}
+	else
+		change_env_extra(tmp, j);
 }
 
 void	change_env(t_list *tmp, int *i, int *j)
@@ -80,21 +83,10 @@ int	special_cases(t_list *tmp)
 	return (0);
 }
 
-int	cd(t_list *tmp, int *i)
+void	ft_cd_helper(t_list *tmp, int *i)
 {
-	char	current_dir[PATH_MAX];
-	char	*str;
-
-	if (special_cases(tmp))
-		return (0);
-	else
-	{
-		if (chdir(((t_cmd *)(tmp->content))->argms[1]))
-			if (cd_error(tmp))
-				return (1);
-		if (getcwd(current_dir, sizeof(current_dir)) == NULL)
-		{
-			*i = 1;
+	char *str;
+	*i = 1;
 			perror("minishell cd: ");
 			((t_cmd *)(tmp->content))->pwd = ft_strdup(g_minishell.str);
 			str = ft_strdup(g_minishell.str);
@@ -109,7 +101,20 @@ int	cd(t_list *tmp, int *i)
 				chdir(g_minishell.str);
 			}
 			free(str);
-		}
+}
+int	cd(t_list *tmp, int *i)
+{
+	char	current_dir[PATH_MAX];
+
+	if (special_cases(tmp))
+		return (0);
+	else
+	{
+		if (chdir(((t_cmd *)(tmp->content))->argms[1]))
+			if (cd_error(tmp))
+				return (1);
+		if (getcwd(current_dir, sizeof(current_dir)) == NULL)
+			ft_cd_helper(tmp, i);
 	}
 	return (0);
 }
