@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 04:14:54 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/27 14:45:54 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/28 02:15:20 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,14 @@ void	ft_exeve_in_minishell(t_list *cmd, char **env)
 		((t_cmd *)(cmd->content))->argms, env);
 	if (stat(((t_cmd *)(cmd->content))->path, &file_info) == 0)
 	{
-		ft_putstr_fd("minishell ", 2);
-		ft_putstr_fd(((t_cmd *)(cmd->content))->path, 2);
-		ft_putstr_fd(": is a directory\n", 2);
+		if (S_ISDIR(file_info.st_mode))
+		{
+			ft_putstr_fd("minishell ", 2);
+			ft_putstr_fd(((t_cmd *)(cmd->content))->path, 2);
+			ft_putstr_fd(": is a directory\n", 2);
+		}
+		else
+			perror("minishell :");
 		exit(126);
 	}
 	else

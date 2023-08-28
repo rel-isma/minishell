@@ -6,14 +6,14 @@
 #    By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/11 21:21:45 by rel-isma          #+#    #+#              #
-#    Updated: 2023/08/23 19:22:32 by rel-isma         ###   ########.fr        #
+#    Updated: 2023/08/27 21:37:27 by rel-isma         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror 
 AR = ar -rc
 
 FILE  = ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c \
@@ -28,6 +28,7 @@ OBJECTS		= 	$(FILE:c=o)
 
 %.o: %.c libft.h
 	@$(CC) $(CFLAGS) -c $<
+	@printf "\033[0;36mCompiling $<\033[0m\n"
 
 all: $(NAME)
 

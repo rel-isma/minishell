@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+         #
+#    By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/10 17:16:54 by rel-isma          #+#    #+#              #
-#    Updated: 2023/08/27 19:39:22 by yoel-bas         ###   ########.fr        #
+#    Updated: 2023/08/28 00:11:18 by rel-isma         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = gcc
 CFLAGS =  -Wall -Wextra -Werror
-# MAKEFLAGS += -s
+
 LIBS = -lreadline -L ~/.brew/opt/readline/lib
 
 SOURCES = src/main.c  src/needs_main.c src/sig_handler.c src/lexer/lexer.c src/lexer/lexer_needs.c  src/lexer/lexer_needs2.c \

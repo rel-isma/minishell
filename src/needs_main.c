@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 01:32:31 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/23 02:49:53 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/28 00:58:42 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ void	ft_free_all_minishell(t_list *cmds)
 		}
 		free(((t_cmd *)(cmds->content))->argms);
 		free(((t_cmd *)(cmds->content))->cmd);
+		unlink(((t_cmd *)(cmds->content))->oufilename);
 		free(((t_cmd *)(cmds->content)));
 		free(cmds);
 		cmds = tmp;

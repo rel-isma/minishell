@@ -6,7 +6,7 @@
 /*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 08:08:24 by rel-isma          #+#    #+#             */
-/*   Updated: 2023/08/27 14:18:35 by rel-isma         ###   ########.fr       */
+/*   Updated: 2023/08/28 02:25:15 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,11 @@ void	ft_open_redir_in(t_parser **lst, t_cmd *cmd)
 			if (cmd->infile != 0)
 				close(cmd->infile);
 			cmd->infile = open((*lst)->value, O_RDONLY);
-			if (cmd->infile < 0)
+			if (cmd->infile < 0 && g_minishell.stop_exection == 0)
 			{
 				g_minishell.exit_code = 1;
 				g_minishell.stop_exection = 1;
-				perror("minishell :");
+				perror("miniiiiiishell :");
 			}
 			cmd->infilename = (*lst)->value;
 			if ((*lst))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoel-bas <yoel-bas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rel-isma <rel-isma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:43:25 by yoel-bas          #+#    #+#             */
-/*   Updated: 2023/08/27 20:12:16 by yoel-bas         ###   ########.fr       */
+/*   Updated: 2023/08/28 00:12:52 by rel-isma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	change_env_helper(t_list *tmp, int *i, int *j)
 	{
 		pwd_old(g_minishell.str, ((t_cmd *)(tmp->content))->pwd, tmp);
 		free(((t_cmd *)(tmp->content))->pwd);
+		if (((t_cmd *)(tmp->content))->pwd1)
+			free(((t_cmd *)(tmp->content))->pwd1);
 	}
 	else
 	{
@@ -47,9 +49,7 @@ void	change_env(t_list *tmp, int *i, int *j)
 		g_minishell.str = ft_strdup(getcwd(current_dir, sizeof(current_dir)));
 	}
 	if (g_minishell.str)
-	{
 		change_env_helper(tmp, i, j);
-	}
 	else
 		pwd_old(getcwd(current_dir, sizeof(current_dir)), getcwd(current_dir,
 				sizeof(current_dir)), tmp);
@@ -81,33 +81,17 @@ int	cd(t_list *tmp, int *i)
 	else
 	{
 		if (chdir(((t_cmd *)(tmp->content))->argms[1]))
-		{
 			if (cd_error(tmp))
 				return (1);
-		}
 		if (getcwd(current_dir, sizeof(current_dir)) == NULL)
 		{
 			*i = 1;
-			// write(2, "cd: error retrieving current directory\n", 39);
-			perror("minishell :cd ");
+			perror("minishell cd: ");
 			((t_cmd *)(tmp->content))->pwd = ft_strdup(g_minishell.str);
 			str = ft_strdup(g_minishell.str);
-			if(g_minishell.str)
-			{
-				free(g_minishell.str);
-				g_minishell.str = NULL;
-			}
-			if (access(((t_cmd *)(tmp->content))->argms[1], R_OK) == -1
-				|| access(((t_cmd *)(tmp->content))->argms[1], X_OK) == -1)
-				{
-					chdir(str);
-				}
-			else
-			{
-				puts("here");
-				g_minishell.str = ft_strjoin(str, "/..");
-				chdir(g_minishell.str);
-			}
+			free(g_minishell.str);
+			g_minishell.str = ft_strjoin(str, "/..");
+			chdir(g_minishell.str);
 			free(str);
 		}
 	}
@@ -129,7 +113,11 @@ int	ft_cd(t_list *tmp)
 					sizeof(current_dir)));
 	}
 	if (cd(tmp, &i))
+	{
+		if (((t_cmd *)(tmp->content))->pwd1)
+			free(((t_cmd *)(tmp->content))->pwd1);
 		return (1);
+	}
 	change_env(tmp, &i, &j);
 	return (0);
 }
